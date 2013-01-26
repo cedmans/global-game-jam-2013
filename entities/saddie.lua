@@ -11,7 +11,8 @@ end)
 
 function Saddie:update(dt)
    self:moveUp(10 * dt);
-   self:addHealth(-5 * dt);
+   self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
+   print(self.health);
 end
 
 function Saddie:moveRight(amount)
