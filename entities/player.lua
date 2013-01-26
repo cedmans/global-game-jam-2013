@@ -2,7 +2,7 @@ local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
 
-local playerImage = love.graphics.newImage("assets/images/peter.png")
+local playerImage = love.graphics.newImage("assets/images/avatarside_frame1.png")
 
 local Player = Class(function(self)
    self.position = Vector(400, 400)
@@ -39,7 +39,8 @@ function Player:moveUp(amount)
 end
 
 function Player:draw(dt)
-   love.graphics.draw(playerImage, self.position.x, self.position.y)
+   love.graphics.draw(playerImage, self.position.x - Constants.PLAYER_WIDTH/2,
+    self.position.y - Constants.PLAYER_HEIGHT/2)
 end
 
 return Player
