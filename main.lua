@@ -5,39 +5,32 @@ local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
 
-
-
-
-local counter = 0
-local player = {}
-local saddies = {}
-local deadSaddies = {}
-local action = nil
-local time = 0
-local startTime
+local counter, player, saddies, deadSaddies, time, startTime, action,
+      newSpawnTime
 
 local mouth = {}
 local activeItem = {}
 
 function love.load()
    reset()   
-   counter = 0
    r, g, b, a = love.graphics.getColor()
-   
 end
 
 function reset()
    startTime = love.timer.getTime()
    time = 0
-   
+   newSpawnTime = nextSpawnTime()
+   counter = 0
 
    player = Player()
-
    saddies = {}
+   deadSaddies = {}
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
+   
+   action = nil
 
    mouth = Mouth()
    mouth:toggleActive() --set true
@@ -54,12 +47,14 @@ end
 
 function love.update(dt)
    time = time + dt
+   
+   addSaddies()
 
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
-         table.remove(saddies,i)
          table.insert(deadSaddies, DeadSaddie(saddie))
+         table.remove(saddies,i)
       end
    end
    for i, saddie in ipairs(deadSaddies) do
@@ -121,6 +116,22 @@ function love.keypressed(key, unicode)
       -- action = RAction()
       reset()
    end
+end
+
+-- Potentially add some number of new saddies, dependent on game conditions.
+function addSaddies()
+   if time > newSpawnTime then
+      -- Simple difficulty scaling dependent on time elapsed.
+      for i = 1, math.floor(time / 5) do
+         table.insert(saddies, Saddie(randomPoint()))
+      end
+      newSpawnTime = nextSpawnTime()
+   end
+end
+
+-- Determine the next time we want to spawn saddies.
+function nextSpawnTime()
+   return time + 5
 end
 
 -- Generic perform action function. We probably want to expand this to do
