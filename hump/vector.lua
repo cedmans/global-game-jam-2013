@@ -87,8 +87,8 @@ end
 -- This is an approximate equality.
 -- @author JP
 function vector:equals(other)
-   return (math.floor(self.x) == math.floor(other.x)
-      and  math.floor(self.y) == math.floor(other.y))
+   return (math.floor(math.abs(self.x - other.x)) == 0
+      and  math.floor(math.abs(self.y - other.y)) == 0)
 end
 
 function vector.__lt(a,b)
