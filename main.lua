@@ -3,10 +3,11 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
+local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
 
 local counter, player, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, gameEnded
+      newSpawnTime, lives, gameEnded, toolbar
 
 local mouth = {}
 local activeItem = {}
@@ -37,6 +38,8 @@ function reset()
    mouth = Mouth()
    mouth:toggleActive() --set true
    activeItem = mouth;
+
+   toolbar = Toolbar()
 end
 
 function endGame()
@@ -107,6 +110,8 @@ function love.draw()
          Constants.SCREEN_WIDTH / 2,
          Constants.SCREEN_HEIGHT / 2)
    end
+
+   toolbar:draw()
 
    love.graphics.print(math.floor(time), 50, 50)
    love.graphics.print(math.floor(lives), 50, 70)
