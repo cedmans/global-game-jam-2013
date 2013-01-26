@@ -3,9 +3,8 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
-local saddieImage = love.graphics.newImage("assets/images/saddie.png")
-
 local Saddie = Class(function(self, position)
+   self.image = love.graphics.newImage("assets/images/saddie.png")
    self.position = position
    self.targetpos = position
    self.speed = 0.0
@@ -70,7 +69,7 @@ end
 function Saddie:draw(time)
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
-   love.graphics.draw(saddieImage, self.position.x - Constants.SADDIE_WIDTH/2,
+   love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
     self.position.y - Constants.SADDIE_HEIGHT/2)
 
    local red, green, blue = self:calculateSadnessBarColors()
