@@ -1,5 +1,7 @@
 local Constants = {}
 
+Constants.DEBUG = false
+
 Constants.SCREEN_WIDTH = 1024
 Constants.SCREEN_HEIGHT = 720
 Constants.SPAWN_RADIUS = 210 -- minimum spawn distance of NPC's.
