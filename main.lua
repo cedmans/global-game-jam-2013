@@ -6,14 +6,12 @@ local Saddie = require "entities.saddie"
 local counter = 0
 local player = {}
 local saddies = {}
-
+spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
 
 function love.load()
-   reset()
-   spriteDim = Vector.new(100, 100, 0, 0)
+   reset()   
    counter = 0
    r, g, b, a = love.graphics.getColor()
-   pos = randomPoint(spriteDim)
    
 end
 
@@ -26,7 +24,7 @@ function reset()
    saddies = {}
 
    for i = 1, 5 do
-      table.insert(saddies, Saddie(Vector(i * 125, i * 100)))
+      table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
 end
 
@@ -46,15 +44,11 @@ function love.update(dt)
          saddies[i] = nil
       end
    end
-
-   player:update(dt)
-   timeElapsed = math.floor(love.timer.getTime() - startTime)
-
-   if(love.keyboard.isDown('r')) then
-	  pos = randomPoint(spriteDim)
-	--
+   if(love.keyboard.isDown('c')) then
+      table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
-      
+   player:update(dt)
+   timeElapsed = math.floor(love.timer.getTime() - startTime)      
 end
 
 function love.draw()
@@ -65,7 +59,6 @@ function love.draw()
    player:draw()
 
    love.graphics.print(timeElapsed, 50, 50)
-   love.graphics.print( "( " .. pos.x .. ", " .. pos.y .. ")", 200,200)
 end
 
 -- x: Mouse x position.
@@ -103,15 +96,22 @@ function performAction(point)
 end
 
 function randomPoint(spriteSize)
-      local randomX,randomY = 0,0
-	  local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
+   local randomX,randomY = 0,0
+	local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
+   randomX = math.random(0,1024)
+   randomY = math.random(0,720)
+   while(randomX > (boundaries.x-spriteSize.x) or 
+   randomY > (boundaries.y-spriteSize.y) or 
+   checkSpawn(randomX,randomY)) do 
       randomX = math.random(0,1024)
       randomY = math.random(0,720)
-      while(randomX > (boundaries.x-spriteSize.x) or randomY > (boundaries.y-spriteSize.y)) do 
-         randomX = math.random(0,1024)
-         randomY = math.random(0,720)
-      end
-      randomVector = Vector.new(randomX,randomY)
+   end
+   randomVector = Vector.new(randomX,randomY)
 
-      return randomVector
+   return randomVector
+end
+
+function checkSpawn(x,y)
+   return (((x-player.position.x)^2+(y-player.position.y)^2)^.5 < Constants.SPAWN_RADIUS) 
+   --checks is spawn point farther than [RADIUS]px 
 end

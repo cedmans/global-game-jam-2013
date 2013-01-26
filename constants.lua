@@ -2,7 +2,7 @@ local Constants = {}
 
 Constants.SCREEN_WIDTH = 1024
 Constants.SCREEN_HEIGHT = 720
-
+Constants.SPAWN_RADIUS = 210 -- minimum spawn distance of NPC's.
 Constants.MIN_X = 0
 Constants.MAX_X = Constants.SCREEN_WIDTH
 Constants.MIN_Y = 0
