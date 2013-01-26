@@ -6,6 +6,7 @@ local Saddie = require "entities.saddie"
 local counter = 0
 local player = {}
 local saddies = {}
+local action = nil
 
 function love.load()
    reset()
@@ -51,6 +52,9 @@ function love.draw()
    end
 
    player:draw()
+   if action != nil then
+      action.draw()
+   end
 
    love.graphics.print(timeElapsed, 50, 50)
 end
@@ -62,8 +66,24 @@ function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
       player.targetpos = Vector(x, y)
+      action = nil
    elseif button == "l" then
-      performAction(Vector(x, y))
+      if action != nil then
+         action.perform()
+         action = nil
+      end
+   end
+end
+
+function love.keypressed(key, unicode)
+   if key == 'q' then
+      -- action = QAction()
+   elseif key == 'w' then
+      -- action = WAction()
+   elseif key == 'e' then
+      -- action = EAction()
+   elseif key == 'r' then
+      -- action = RAction()
    end
 end
 
@@ -77,14 +97,4 @@ function getAllSaddiesInRadiusFromPoint(point, radius)
    end
 
    return closeSaddies
-end
-
--- Generic perform action function. We probably want to expand this to do
--- different things depending on our current "item".
-function performAction(point)
-   local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
-
-   for i, saddie in ipairs(affectedSaddies) do
-      saddie:changeDirection()
-   end
 end
