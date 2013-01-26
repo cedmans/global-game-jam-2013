@@ -6,7 +6,7 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 
 local Saddie = Class(function(self, position)
    self.position = position
-   self.health = 100
+   self.health = 20 -- Reduced for easier testing.  Preferably 100.
 end)
 
 function Saddie:update(dt)
@@ -39,6 +39,12 @@ function Saddie:draw(dt)
       self.position.y - Constants.SADNESS_BAR_OFFSET,
       self.health,
       Constants.SADNESS_BAR_OFFSET)
+   if self.health < Constants.CRITICAL_SADNESS then
+      love.graphics.print(
+         math.ceil(self.health),
+         self.position.x - Constants.SADNESS_ALERT_OFFSET,
+         self.position.y)
+   end
 end
 
 return Saddie
