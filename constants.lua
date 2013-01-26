@@ -5,10 +5,14 @@ Constants.DEBUG = true
 Constants.SCREEN_WIDTH = 1024
 Constants.SCREEN_HEIGHT = 720
 Constants.SPAWN_RADIUS = 210 -- minimum spawn distance of NPC's.
+Constants.TOOLBAR_ITEM_WIDTH = 100
+Constants.TOOLBAR_ITEM_HEIGHT = 100
+
 Constants.MIN_X = 0
-Constants.MAX_X = Constants.SCREEN_WIDTH
+Constants.MAX_X = Constants.SCREEN_WIDTH - Constants.TOOLBAR_ITEM_WIDTH;
 Constants.MIN_Y = 0
 Constants.MAX_Y = Constants.SCREEN_HEIGHT
+
 
 Constants.PLAYER_WIDTH = 35
 Constants.PLAYER_HEIGHT = 85

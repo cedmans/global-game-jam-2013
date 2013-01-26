@@ -3,7 +3,9 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
+local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
+<<<<<<< HEAD
 local Hud = require "entities.hud"
 
 
@@ -15,34 +17,54 @@ local action = nil
 local time = 0
 local startTime
 local hud = {}
+=======
+
+local counter, player, saddies, deadSaddies, time, startTime, action,
+      newSpawnTime, lives, gameEnded, toolbar
+>>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
 
 local mouth = {}
 local activeItem = {}
 
 function love.load()
    reset()   
-   counter = 0
    r, g, b, a = love.graphics.getColor()
-   
 end
 
 function reset()
+   gameEnded = false
    startTime = love.timer.getTime()
    time = 0
-   
+   newSpawnTime = nextSpawnTime()
+   counter = 0
+   lives = 1
 
    player = Player()
+<<<<<<< HEAD
    hud = Hud()
 
+=======
+>>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
    saddies = {}
+   deadSaddies = {}
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
+   
+   action = nil
 
    mouth = Mouth()
    mouth:toggleActive() --set true
    activeItem = mouth;
+
+   toolbar = Toolbar()
+end
+
+function endGame()
+   gameEnded = true
+   saddies = {}
+   deadSaddies = {}
 end
 
 function calcMousePlayerAngle()
@@ -54,13 +76,21 @@ end
 
 
 function love.update(dt)
+   -- Stop doing most things when the game is done.
+   if gameEnded then
+      return
+   end
+
    time = time + dt
+   
+   addSaddies()
 
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
-         table.remove(saddies,i)
          table.insert(deadSaddies, DeadSaddie(saddie))
+         table.remove(saddies,i)
+         lives = lives - 1
       end
    end
    for i, saddie in ipairs(deadSaddies) do
@@ -70,6 +100,10 @@ function love.update(dt)
       end
    end
    player:update(dt)
+   
+   if math.floor(lives) <= 0 then
+      endGame()
+   end
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -90,8 +124,22 @@ function love.draw()
    if action ~= nil then
       action.draw(time)
    end
-
    
+   if gameEnded then
+      love.graphics.print(
+         "Game Over",
+         Constants.SCREEN_WIDTH / 2,
+         Constants.SCREEN_HEIGHT / 2)
+   end
+
+   toolbar:draw()
+
+<<<<<<< HEAD
+   
+=======
+   love.graphics.print(math.floor(time), 50, 50)
+   love.graphics.print(math.floor(lives), 50, 70)
+>>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
 end
 
 -- x: Mouse x position.
@@ -124,6 +172,23 @@ function love.keypressed(key, unicode)
       -- action = RAction()
       reset()
    end
+end
+
+-- Potentially add some number of new saddies, dependent on game conditions.
+function addSaddies()
+   if time > newSpawnTime then
+      -- Simple difficulty scaling dependent on time elapsed.
+      for i = 1, math.floor(time / 5) do
+         table.insert(saddies, Saddie(randomPoint()))
+      end
+      newSpawnTime = nextSpawnTime()
+      lives = lives + 0.25
+   end
+end
+
+-- Determine the next time we want to spawn saddies.
+function nextSpawnTime()
+   return time + 5
 end
 
 -- Generic perform action function. We probably want to expand this to do
