@@ -1,3 +1,8 @@
+local minX = 0
+local maxX = 1024
+local minY = 0
+local maxY = 720
+
 local counter = 0
 local posX = 0
 local posY = 0
@@ -13,18 +18,30 @@ function love.update(dt)
 
    if (love.keyboard.isDown('w')) then
       posY = posY - 200 * dt
+      if posY < minY then
+         posY = minY
+      end
    end
 
    if (love.keyboard.isDown('s')) then
       posY = posY + 200 * dt
+      if posY > maxY then
+         posY = maxY
+      end
    end
 
    if (love.keyboard.isDown('a')) then
       posX = posX - 200 * dt
+      if posX < minX then
+         posX = minX
+      end
    end
 
    if (love.keyboard.isDown('d')) then
       posX = posX + 200 * dt
+      if posX > maxX then
+         posX = maxX
+      end
    end
 end
 
