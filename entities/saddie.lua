@@ -9,6 +9,7 @@ local scoreFont = love.graphics.newFont("assets/fonts/arialbd.ttf", 18)
 
 local Saddie = Class(function(self, position)
    self.image = love.graphics.newImage("assets/images/saddie.png")
+   self.heart = love.graphics.newImage("assets/images/heart_whole.png")
    self.position = position
    self.targetpos = position
    self.speed = 0.0
@@ -17,6 +18,7 @@ local Saddie = Class(function(self, position)
    self.isHappy = false
    self.happyDuration = 0
    self.healthIncrease = 0
+   self.happinessLoopProgress = 0
 end)
 
 function Saddie:update(dt)
@@ -39,6 +41,8 @@ function Saddie:update(dt)
    if (self.isHappy) then
       self:addHealth(self.healthIncrease * dt)
       self.happyDuration = self.happyDuration - dt
+      self.happinessLoopProgress = (self.happinessLoopProgress - dt) %
+         Constants.HEART_LOOP_LENGTH
    else
       self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
    end
@@ -68,6 +72,7 @@ function Saddie:giveHappiness(health, duration)
    self.isHappy = true
    self.happyDuration = duration
    self.healthIncrease = health
+   self.happinessLoopProgress = Constants.HEART_LOOP_LENGTH
 end
 
 function Saddie:draw(time)
@@ -98,6 +103,30 @@ function Saddie:draw(time)
          self.position.y)
    end
    
+   if self.isHappy then
+      self:drawHappiness()
+   end
+end
+
+-- If you're happy and you know it show the world!
+function Saddie:drawHappiness()
+   local percentageProgress, opacity, yOffset
+   -- Store colors for later resetting.
+   r, g, b, a = love.graphics.getColor()
+
+   percentageProgress = self.happinessLoopProgress / Constants.HEART_LOOP_LENGTH
+   -- Start at full opacity and fade out.
+   opacity = percentageProgress * 255
+   love.graphics.setColor(r, g, b, opacity)
+   -- Move away from the saddie.
+   yOffset = (((1 - percentageProgress) * Constants.HEART_REACH)
+              + Constants.HEART_OFFSET)
+   love.graphics.draw(
+      self.heart,
+      self.position.x - Constants.SADDIE_WIDTH/2,
+      self.position.y - Constants.SADDIE_HEIGHT/2 - yOffset)
+
+   love.graphics.setColor(r, g, b, a)
 end
 
 function Saddie:getPosition()
