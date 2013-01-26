@@ -1,33 +1,22 @@
+local Player = require "entities.player"
+
 local counter = 0
 local posX = 0
 local posY = 0
+local player = {}
 
-function love.init()
+function love.load()
    counter = 0
    posX = 400
    posY = 400
+
+   player = Player()
 end
 
 function love.update(dt)
-   counter = (counter + 1) % 100
-
-   if (love.keyboard.isDown('w')) then
-      posY = posY - 200 * dt
-   end
-
-   if (love.keyboard.isDown('s')) then
-      posY = posY + 200 * dt
-   end
-
-   if (love.keyboard.isDown('a')) then
-      posX = posX - 200 * dt
-   end
-
-   if (love.keyboard.isDown('d')) then
-      posX = posX + 200 * dt
-   end
+   player:update(dt)
 end
 
 function love.draw()
-   love.graphics.print(counter, posX, posY)
+   player:draw(dt)
 end
