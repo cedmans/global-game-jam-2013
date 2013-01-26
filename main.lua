@@ -87,7 +87,6 @@ end
 -- y: Mouse y position.
 -- button: http://www.love2d.org/wiki/MouseConstant
 function love.mousepressed(x, y, button)
-   -- For now, reset the game on right-click.
    if button == "r" then
       player.targetpos = Vector(x, y)
       action = nil
@@ -108,6 +107,7 @@ function love.keypressed(key, unicode)
       -- action = EAction()
    elseif key == 'r' then
       -- action = RAction()
+      reset()
    end
 end
 

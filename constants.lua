@@ -1,6 +1,6 @@
 local Constants = {}
 
-Constants.DEBUG = false
+Constants.DEBUG = true
 
 Constants.SCREEN_WIDTH = 1024
 Constants.SCREEN_HEIGHT = 720
