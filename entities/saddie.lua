@@ -15,9 +15,12 @@ end)
 function Saddie:update(dt)
    self.position = self.position + (self.targetpos - self.position):normalized() * 10 * dt
    if self.position.dist(self.position, self.targetpos) < 2 then
-      dir = math.random()*2*math.pi
-      vec = Vector(math.cos(dir), math.sin(dir))
-      self.targetpos = self.position + Constants.SADDIE_SPEED*vec
+      while true do
+         dir = math.random()*2*math.pi
+         vec = Vector(math.cos(dir), math.sin(dir))
+         self.targetpos = self.position + Constants.SADDIE_SPEED*vec
+         if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
+      end
    end
    self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
 end
