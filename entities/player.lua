@@ -27,14 +27,6 @@ function Player:update(dt)
    if not self.position:equals(self.targetpos) then
       self.position = self.position + (self.targetpos - self.position):normalized() * Constants.PLAYER_SPEED * dt
    end
-   if Constants.DEBUG then
-      print("----")
-      print("Movement delta: "
-         ..(self.targetpos - self.position):normalized():__tostring())
-      print("Previously: "..self.previousPosition:__tostring())
-      print("Now: "..self.position:__tostring())
-      print("Target: "..self.targetpos:__tostring())
-   end
 end
 
 function Player:draw(time)

@@ -29,8 +29,10 @@ function Mouth:getAffectedSaddies(center,saddies)
                           right = saddieCenter.x + Constants.SADDIE_WIDTH / 2,
                           top = saddieCenter.y - Constants.SADDIE_HEIGHT / 2,
                           bottom = saddieCenter.y + Constants.SADDIE_HEIGHT / 2}
+      saddieRect.width = saddieRect.right - saddieRect.left;
+      saddieRect.height = saddieRect.bottom - saddieRect.top;
       
-      if (intersects(center, saddieRect)) then
+      if (intersects(center, saddieRect) == true) then
          table.insert(affectedSaddies, saddie);
       end
    end
@@ -38,28 +40,17 @@ function Mouth:getAffectedSaddies(center,saddies)
    return affectedSaddies;
 end
 
-function intersects(center, saddieRect)
-   local r = Constants.MOUTH_EFFECTIVE_RADIUS
-   
-   local circleDistance = Vector(math.abs((center.x - r/2) - saddieRect.left), math.abs((center.y - r/2) - saddieRect.top));
+function intersects(circleCenter, rect)
+   r = Constants.MOUTH_EFFECTIVE_RADIUS
+   circleDistance = Vector(math.abs((circleCenter.x - r/2) - rect.left), math.abs((circleCenter.y - r/2) - rect.top))
 
-   if (circleDistance.x > ((saddieRect.right - saddieRect.left) / 2 + r)) then
-      return false
-   end
-   if (circleDistance.y > ((saddieRect.bottom-saddieRect.top) / 2 + r)) then
-      return false
-   end
-   if (circleDistance.x <= ((saddieRect.right - saddieRect.left) / 2)) then
-      return true
-   end
-   if (circleDistance.y <= ((saddieRect.bottom-saddieRect.top) / 2)) then
-      return true
-   end
+   if (circleDistance.x > (rect.width / 2 + r)) then return false end
+   if (circleDistance.y > (rect.height / 2 + r)) then return false end
+   if (circleDistance.x <= (rect.width / 2)) then return true end
+   if (circleDistance.y <= (rect.height / 2)) then return true end
 
-   cornerDistance_sq = (circleDistance.x - (saddieRect.right - saddieRect.left) / 2) ^ 2 +
-                       (circleDistance.y - (saddieRect.bottom-saddieRect.top) / 2) ^ 2;
-
-   return (cornerDistance_sq <= (r ^ 2));
+   cornerDistance_sq = (circleDistance.x - rect.width / 2) ^ 2 + (circleDistance.y - rect.height / 2) ^2
+   return (cornerDistance_sq <= (r ^ 2))
 end
 
 return Mouth

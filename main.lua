@@ -2,6 +2,7 @@ local Constants = require "constants"
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
+local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
 
 
@@ -10,6 +11,7 @@ local Mouth = require "entities.mouth"
 local counter = 0
 local player = {}
 local saddies = {}
+local deadSaddies = {}
 local action = nil
 local time = 0
 local startTime
@@ -55,14 +57,18 @@ function love.update(dt)
 
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
-      -- There's probably a better way to do this. -JP
       if saddie.health < 0 then
          saddies[i] = nil
+         table.insert(deadSaddies, DeadSaddie(saddie))
+      end
+   end
+   for i, saddie in ipairs(deadSaddies) do
+      saddie:update(dt)
+      if saddie:finishedDying() then
+         deadSaddies[i] = nil
       end
    end
    player:update(dt)
-
-   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -71,6 +77,9 @@ function love.draw()
    mouth:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
+      saddie:draw(time)
+   end
+   for i, saddie in ipairs(deadSaddies) do
       saddie:draw(time)
    end
 
@@ -90,9 +99,10 @@ function love.mousepressed(x, y, button)
       player.targetpos = Vector(x, y)
       action = nil
    elseif button == "l" then
-      if action ~= nil then
-         action.perform()
-         action = nil
+      affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+
+      for i, saddie in ipairs(affectedSaddies) do
+         saddie:giveHappiness(5, 5)
       end
    end
 end
@@ -113,23 +123,10 @@ function love.keypressed(key, unicode)
    end
 end
 
-function getAllSaddiesInRadiusFromPoint(point, radius)
-   local closeSaddies = {}
-
-   for i, saddie in ipairs(saddies) do
-      if point:dist(saddie.position) < radius then
-         table.insert(closeSaddies, saddie)
-      end
-   end
-
-   return closeSaddies
-end
-
 -- Generic perform action function. We probably want to expand this to do
 -- different things depending on our current "item".
 function performAction(point)
    local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
-   print(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:changeDirection()
