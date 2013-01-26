@@ -6,40 +6,16 @@ local playerImage = love.graphics.newImage("assets/images/avatarside_frame1.png"
 
 local Player = Class(function(self)
    self.position = Vector(400, 400)
+   self.targetpos = Vector(400, 400)
 end)
 
 function Player:update(dt)
-   if (love.keyboard.isDown('w')) then
-      self:moveUp(dt * 200)
-   end
-
-   if (love.keyboard.isDown('s')) then
-      self:moveUp(-dt * 200)
-   end
-
-   if (love.keyboard.isDown('a')) then
-      self:moveRight(-dt * 200)
-   end
-
-   if (love.keyboard.isDown('d')) then
-      self:moveRight(dt * 200)
-   end
-end
-
-function Player:moveRight(amount)
-   self.position.x = self.position.x + amount
-
-   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
-end
-
-function Player:moveUp(amount)
-   self.position.y = self.position.y - amount
-
-   self.position.y = math.max(math.min(self.position.y, Constants.MAX_Y), Constants.MIN_Y)
+   self.position = self.position + (self.targetpos - self.position):normalized() * 100 * dt
 end
 
 function Player:draw(dt)
-   love.graphics.draw(playerImage, self.position.x, self.position.y)
+   love.graphics.draw(playerImage, self.position.x - Constants.PLAYER_WIDTH/2,
+    self.position.y - Constants.PLAYER_HEIGHT/2)
 end
 
 return Player

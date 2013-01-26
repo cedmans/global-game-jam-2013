@@ -6,6 +6,7 @@ local Saddie = require "entities.saddie"
 local counter = 0
 local player = {}
 local saddies = {}
+local action = nil
 
 function love.load()
    reset()
@@ -24,6 +25,14 @@ function reset()
    end
 end
 
+function calcMousePlayerAngle()
+   mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
+   mousedelta = mousedelta - player.position
+   mousedelta.y = - mousedelta.y
+   return math.atan2(mousedelta.y, mousedelta.x)
+end
+
+
 function love.update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
@@ -35,11 +44,6 @@ function love.update(dt)
 
    player:update(dt)
    timeElapsed = math.floor(love.timer.getTime() - startTime)
-
-   mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
-   mousedelta = mousedelta - player.position
-   mousedelta.y = - mousedelta.y
-   mouseangle = math.atan2(mousedelta.y, mousedelta.x)
 end
 
 function love.draw()
@@ -48,6 +52,9 @@ function love.draw()
    end
 
    player:draw()
+   if action != nil then
+      action.draw()
+   end
 
    love.graphics.print(timeElapsed, 50, 50)
 end
@@ -58,6 +65,36 @@ end
 function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
-      reset()
+      player.targetpos = Vector(x, y)
+      action = nil
+   elseif button == "l" then
+      if action != nil then
+         action.perform()
+         action = nil
+      end
    end
+end
+
+function love.keypressed(key, unicode)
+   if key == 'q' then
+      -- action = QAction()
+   elseif key == 'w' then
+      -- action = WAction()
+   elseif key == 'e' then
+      -- action = EAction()
+   elseif key == 'r' then
+      -- action = RAction()
+   end
+end
+
+function getAllSaddiesInRadiusFromPoint(point, radius)
+   local closeSaddies = {}
+
+   for i, saddie in ipairs(saddies) do
+      if point:dist(saddie.position) < radius then
+         table.insert(closeSaddies, saddie)
+      end
+   end
+
+   return closeSaddies
 end
