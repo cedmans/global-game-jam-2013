@@ -7,6 +7,8 @@ local counter = 0
 local player = {}
 local saddies = {}
 local action = nil
+local time = 0
+local timeElapsed = 0
 
 function love.load()
    reset()
@@ -14,6 +16,7 @@ end
 
 function reset()
    startTime = love.timer.getTime()
+   time = 0
    timeElapsed = 0
 
    player = Player()
@@ -34,6 +37,8 @@ end
 
 
 function love.update(dt)
+   time = time + dt
+
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       -- There's probably a better way to do this. -JP
@@ -43,17 +48,17 @@ function love.update(dt)
    end
 
    player:update(dt)
-   timeElapsed = math.floor(love.timer.getTime() - startTime)
+   timeElapsed = math.floor(time)
 end
 
 function love.draw()
    for i, saddie in ipairs(saddies) do
-      saddie:draw()
+      saddie:draw(time)
    end
 
    player:draw()
    if action != nil then
-      action.draw()
+      action.draw(time)
    end
 
    love.graphics.print(timeElapsed, 50, 50)

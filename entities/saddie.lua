@@ -33,7 +33,7 @@ function Saddie:addHealth(dh)
    self.health = self.health + dh
 end
 
-function Saddie:draw(dt)
+function Saddie:draw(time)
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
    love.graphics.draw(saddieImage, self.position.x - Constants.SADDIE_WIDTH/2,
