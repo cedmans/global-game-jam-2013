@@ -17,6 +17,7 @@ Constants.SADDIE_HEIGHT = 102
 Constants.SADDIE_HEALTH_REDUCTION = -5 -- Units per second
 
 Constants.SADNESS_BAR_OFFSET = 20
+Constants.PERFECT_SADNESS = 100
 Constants.WARNING_SADNESS = 30
 Constants.CRITICAL_SADNESS = 10
 Constants.SADNESS_ALERT_OFFSET = 18
