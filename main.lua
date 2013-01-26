@@ -64,10 +64,6 @@ function love.update(dt)
    player:update(dt)
 
    affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
-   --count items
-   local count = 0
-   for _ in pairs(affectedSaddies) do count = count + 1 end
-   print("Number in radius: " .. count)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -141,13 +137,13 @@ end
 function randomPoint(spriteSize)
    local randomX,randomY = 0,0
 	local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
-   randomX = math.random(0,1024)
-   randomY = math.random(0,720)
+   randomX = math.random(0,boundaries.x)
+   randomY = math.random(0,boundaries.y)
    while(randomX > (boundaries.x-spriteSize.x) or 
-   randomY > (boundaries.y-spriteSize.y) or 
-   checkSpawn(randomX,randomY)) do 
-      randomX = math.random(0,1024)
-      randomY = math.random(0,720)
+    randomY > (boundaries.y-spriteSize.y) or 
+    checkSpawn(randomX,randomY)) do 
+      randomX = math.random(0,boundaries.x)
+      randomY = math.random(0,boundaries.y)
    end
    randomVector = Vector.new(randomX,randomY)
 
