@@ -1,11 +1,6 @@
 local Class = require "hump.class"
 local Vector = require "hump.vector"
-
--- TODO: Move to a constants file.
-local minX = 0
-local maxX = 1024
-local minY = 0
-local maxY = 720
+local Constants = require "constants"
 
 local playerImage = love.graphics.newImage("assets/images/peter.png")
 
@@ -34,13 +29,13 @@ end
 function Player:moveRight(amount)
    self.position.x = self.position.x + amount
 
-   self.position.x = math.max(math.min(self.position.x, maxX), minX)
+   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
 end
 
 function Player:moveUp(amount)
    self.position.y = self.position.y - amount
 
-   self.position.y = math.max(math.min(self.position.y, maxY), minY)
+   self.position.y = math.max(math.min(self.position.y, Constants.MAX_Y), Constants.MIN_Y)
 end
 
 function Player:draw(dt)
