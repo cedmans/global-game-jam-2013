@@ -19,7 +19,7 @@ local Player = Class(function(self)
 end)
 
 function Player:update(dt)
-   self.position = self.position + (self.targetpos - self.position):normalized() * 100 * dt
+   self.position = self.position + (self.targetpos - self.position):normalized() * Constants.PLAYER_SPEED * dt
 end
 
 function Player:draw(time)

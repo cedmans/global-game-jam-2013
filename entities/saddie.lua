@@ -17,7 +17,7 @@ function Saddie:update(dt)
    if self.position.dist(self.position, self.targetpos) < 2 then
       dir = math.random()*2*math.pi
       vec = Vector(math.cos(dir), math.sin(dir))
-      self.targetpos = self.targetpos + 50*vec
+      self.targetpos = self.position + Constants.SADDIE_SPEED*vec
    end
    self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
 end
