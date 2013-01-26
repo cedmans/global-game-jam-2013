@@ -56,7 +56,7 @@ function love.update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
-         saddies[i] = nil
+         table.remove(saddies,i)
          table.insert(deadSaddies, DeadSaddie(saddie))
       end
    end
