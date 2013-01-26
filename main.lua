@@ -3,13 +3,18 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 
+local Mouth = require "entities.mouth"
+
 local counter = 0
 local player = {}
 local saddies = {}
 spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
 local action = nil
 local time = 0
-local timeElapsed = 0
+local startTime
+
+local mouth = {}
+local activeItem = {}
 
 function love.load()
    reset()   
@@ -21,7 +26,6 @@ end
 function reset()
    startTime = love.timer.getTime()
    time = 0
-   timeElapsed = 0
 
    player = Player()
 
@@ -30,6 +34,10 @@ function reset()
    for i = 1, 5 do
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
+
+   mouth = Mouth()
+   mouth:toggleActive() --set true
+   activeItem = mouth;
 end
 
 function calcMousePlayerAngle()
@@ -55,28 +63,30 @@ function love.update(dt)
    end
    player:update(dt)
 
-   timeElapsed = math.floor(love.timer.getTime() - startTime)      
-   timeElapsed = math.floor(time)
+   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+
+   timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
 function love.draw()
+   mouth:drawEffectiveArea(player:getPosition());
+
    for i, saddie in ipairs(saddies) do
       saddie:draw(time)
    end
 
-   player:draw()
+   player:draw(time)
    if action ~= nil then
       action.draw(time)
    end
 
-   love.graphics.print(timeElapsed, 50, 50)
+   love.graphics.print(math.floor(time), 50, 50)
 end
 
 -- x: Mouse x position.
 -- y: Mouse y position.
 -- button: http://www.love2d.org/wiki/MouseConstant
 function love.mousepressed(x, y, button)
-   -- For now, reset the game on right-click.
    if button == "r" then
       player.targetpos = Vector(x, y)
       action = nil
@@ -97,6 +107,7 @@ function love.keypressed(key, unicode)
       -- action = EAction()
    elseif key == 'r' then
       -- action = RAction()
+      reset()
    end
 end
 
@@ -116,6 +127,7 @@ end
 -- different things depending on our current "item".
 function performAction(point)
    local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
+   print(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:changeDirection()
@@ -125,13 +137,13 @@ end
 function randomPoint(spriteSize)
    local randomX,randomY = 0,0
 	local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
-   randomX = math.random(0,1024)
-   randomY = math.random(0,720)
+   randomX = math.random(0,boundaries.x)
+   randomY = math.random(0,boundaries.y)
    while(randomX > (boundaries.x-spriteSize.x) or 
-   randomY > (boundaries.y-spriteSize.y) or 
-   checkSpawn(randomX,randomY)) do 
-      randomX = math.random(0,1024)
-      randomY = math.random(0,720)
+    randomY > (boundaries.y-spriteSize.y) or 
+    checkSpawn(randomX,randomY)) do 
+      randomX = math.random(0,boundaries.x)
+      randomY = math.random(0,boundaries.y)
    end
    randomVector = Vector.new(randomX,randomY)
 

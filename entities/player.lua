@@ -2,6 +2,8 @@ local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
 
+local staticPlayerImage =
+   love.graphics.newImage("assets/images/avatarside_frameidle.png")
 local playerImages = {
    love.graphics.newImage("assets/images/avatarside_frame1.png"),
    love.graphics.newImage("assets/images/avatarside_frame2.png"),
@@ -15,40 +17,40 @@ local playerImages = {
 
 local Player = Class(function(self)
    self.position = Vector(400, 400)
+   self.previousPosition = self.position
    self.targetpos = Vector(400, 400)
 end)
 
 function Player:update(dt)
-   if (love.keyboard.isDown('w')) then
-      self:moveUp(dt * 200)
+   self.previousPosition = self.position
+   -- equals() is a little bit fuzzy, so this allows us to avoid jitter.
+   if not self.position:equals(self.targetpos) then
+      self.position = self.position + (self.targetpos - self.position):normalized() * Constants.PLAYER_SPEED * dt
    end
-
-   if (love.keyboard.isDown('s')) then
-      self:moveUp(-dt * 200)
+   if Constants.DEBUG then
+      print("----")
+      print("Movement delta: "
+         ..(self.targetpos - self.position):normalized():__tostring())
+      print("Previously: "..self.previousPosition:__tostring())
+      print("Now: "..self.position:__tostring())
+      print("Target: "..self.targetpos:__tostring())
    end
-
-   if (love.keyboard.isDown('a')) then
-      self:moveRight(-dt * 200)
-   end
-   if (love.keyboard.isDown('d')) then
-      self:moveRight(dt * 200)
-   end
-   
-end
-
-function Player:moveRight(amount)
-   self.position.x = self.position.x + amount
-
-   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
-
-   self.position = self.position + (self.targetpos - self.position):normalized() * 100 * dt
 end
 
 function Player:draw(time)
-   local image = playerImages[math.floor(time * 5) % 8 + 1]
+   local image
+   if self.position:equals(self.previousPosition) then
+      image = staticPlayerImage
+   else
+      image = playerImages[math.floor(time * 5) % 8 + 1]
+   end
 
    love.graphics.draw(image, self.position.x - Constants.PLAYER_WIDTH/2,
     self.position.y - Constants.PLAYER_HEIGHT/2)
+end
+
+function Player:getPosition()
+   return self.position
 end
 
 return Player

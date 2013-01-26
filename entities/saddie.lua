@@ -1,20 +1,28 @@
 local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
+local Util = require "util"
 
 local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 
 local Saddie = Class(function(self, position)
    self.position = position
-   self.health = 40 -- Reduced for easier testing.  Preferably 100.
+   self.targetpos = position
    self.direction = false
+   self.health = Constants.PERFECT_SADNESS
 end)
 
 function Saddie:update(dt)
-   local amount = self.direction and 10 or -10
-   self:moveUp(amount * dt)
+   self.position = self.position + (self.targetpos - self.position):normalized() * 10 * dt
+   if self.position.dist(self.position, self.targetpos) < 2 then
+      while true do
+         dir = math.random()*2*math.pi
+         vec = Vector(math.cos(dir), math.sin(dir))
+         self.targetpos = self.position + Constants.SADDIE_SPEED*vec
+         if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
+      end
+   end
    self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
-   print(self.health);
 end
 
 function Saddie:moveRight(amount)
@@ -39,13 +47,8 @@ function Saddie:draw(time)
    love.graphics.draw(saddieImage, self.position.x - Constants.SADDIE_WIDTH/2,
     self.position.y - Constants.SADDIE_HEIGHT/2)
 
-   if self.health < Constants.CRITICAL_SADNESS then
-      love.graphics.setColor(255, 0, 0)
-   elseif self.health < Constants.WARNING_SADNESS then
-      love.graphics.setColor(255, 255, 0)
-   else
-      love.graphics.setColor(0, 255, 0)
-   end
+   local red, green, blue = self:calculateSadnessBarColors()
+   love.graphics.setColor(red, green, blue)
    love.graphics.rectangle(
       "fill",
       self.position.x - Constants.SADDIE_WIDTH/2,
@@ -62,19 +65,61 @@ function Saddie:draw(time)
    end
 end
 
-function Saddie.getPosition()
+function Saddie:getPosition()
    return self.position
-end
-
-function Saddie.getDimensions()
-   --TODO: Get real dimensions
-   return Vector.new(0,0)
 end
 
 -- Changes the directions that this saddie is moving in. Mainly just a
 -- dummy function to demonstrate that they are being affected.
 function Saddie:changeDirection()
    self.direction = not self.direction
+end
+
+-- Make a nice gradient from green to yellow to red, based on the thresholds
+-- we've set for warning and critical sadness levels.
+--
+-- Not the most efficient thing in the world, but it took me a while to figure
+-- out the math on it.  Being tired probably didn't help.
+-- @author JP
+function Saddie:calculateSadnessBarColors()
+   local red, green, blue
+   local percentage
+   -- From 100 to warning:      1
+   -- From warning to critical: 1 -> 0
+   -- From critical to 0:            0
+   -- 0........CRITICAL......WARNING...........100
+   --             |--------------|
+   if self.health > Constants.WARNING_SADNESS then
+      percentage = 1
+   elseif self.health > Constants.CRITICAL_SADNESS then
+      percentage = Util:percentageOfRange(
+         Constants.WARNING_SADNESS,
+         self.health,
+         Constants.CRITICAL_SADNESS)
+   else
+      percentage = 0
+   end
+   green = math.floor(percentage * 255)
+
+   -- From 100 to warning:      0 -> 1
+   -- From warning to critical:      1
+   -- From critical to 0:            1
+   -- 0........CRITICAL......WARNING...........100
+   --                           |---------------|
+   if self.health > Constants.WARNING_SADNESS then
+      -- We use the inverse of the percentage because we're going from 0 to 1.
+      percentage = 1 - Util:percentageOfRange(
+         Constants.PERFECT_SADNESS,
+         self.health,
+         Constants.WARNING_SADNESS)
+   else
+      percentage = 1
+   end
+   red = math.floor(percentage * 255)
+
+   blue = 0
+
+   return red, green, blue
 end
 
 return Saddie
