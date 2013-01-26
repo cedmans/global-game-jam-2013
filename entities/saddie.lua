@@ -32,6 +32,12 @@ end
 
 function Saddie:draw(dt)
    love.graphics.draw(saddieImage, self.position.x, self.position.y)
+   love.graphics.rectangle(
+      "fill",
+      self.position.x,
+      self.position.y - Constants.SADNESS_BAR_OFFSET,
+      self.health,
+      Constants.SADNESS_BAR_OFFSET)
 end
 
 return Saddie

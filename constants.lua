@@ -8,4 +8,6 @@ constants.MAX_X = constants.SCREEN_WIDTH
 constants.MIN_Y = 0
 constants.MAX_Y = constants.SCREEN_HEIGHT
 
+constants.SADNESS_BAR_OFFSET = 20
+
 return constants
