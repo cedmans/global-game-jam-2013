@@ -6,6 +6,10 @@ local posY = 0
 local player = {}
 
 function love.load()
+   reset()
+end
+
+function reset()
    startTime = love.timer.getTime()
    timeElapsed = 0
    posX = 400
@@ -22,4 +26,11 @@ end
 function love.draw()
    player:draw(dt)
    love.graphics.print(timeElapsed, 50, 50)
+end
+
+function love.mousepressed(x, y, button)
+   -- For now, reset the game on right-click.
+   if button == "r" then
+      reset()
+   end
 end
