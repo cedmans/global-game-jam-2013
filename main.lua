@@ -1,9 +1,12 @@
+local Vector = require "hump.vector"
 local Player = require "entities.player"
+local Saddie = require "entities.saddie"
 
 local counter = 0
 local posX = 0
 local posY = 0
 local player = {}
+local saddies = {}
 
 function love.load()
    reset()
@@ -16,6 +19,12 @@ function reset()
    posY = 400
 
    player = Player()
+
+   saddies = {}
+
+   for i = 1, 5 do
+      table.insert(saddies, Saddie(Vector(i * 125, i * 100)))
+   end
 end
 
 function love.update(dt)
@@ -24,7 +33,12 @@ function love.update(dt)
 end
 
 function love.draw()
-   player:draw(dt)
+   for i, saddie in ipairs(saddies) do
+      saddie:draw()
+   end
+
+   player:draw()
+
    love.graphics.print(timeElapsed, 50, 50)
 end
 
