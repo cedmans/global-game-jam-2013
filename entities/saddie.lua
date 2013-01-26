@@ -57,13 +57,8 @@ function Saddie:draw(time)
    end
 end
 
-function Saddie.getPosition()
+function Saddie:getPosition()
    return self.position
-end
-
-function Saddie.getDimensions()
-   --TODO: Get real dimensions
-   return Vector.new(0,0)
 end
 
 -- Changes the directions that this saddie is moving in. Mainly just a

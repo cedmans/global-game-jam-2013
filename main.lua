@@ -14,6 +14,7 @@ local time = 0
 local startTime
 
 local mouth = {}
+local activeItem = {}
 
 function love.load()
    reset()   
@@ -36,6 +37,7 @@ function reset()
 
    mouth = Mouth()
    mouth:toggleActive() --set true
+   activeItem = mouth;
 end
 
 function calcMousePlayerAngle()
@@ -60,6 +62,12 @@ function love.update(dt)
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
    player:update(dt)
+
+   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+   --count items
+   local count = 0
+   for _ in pairs(affectedSaddies) do count = count + 1 end
+   print("Number in radius: " .. count)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -123,6 +131,7 @@ end
 -- different things depending on our current "item".
 function performAction(point)
    local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
+   print(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:changeDirection()
