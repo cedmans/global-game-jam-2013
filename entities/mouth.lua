@@ -42,7 +42,7 @@ end
 
 function intersects(circleCenter, rect)
    r = Constants.MOUTH_EFFECTIVE_RADIUS
-   circleDistance = Vector(math.abs(circleCenter.x - rect.left), math.abs(circleCenter.y - rect.top))
+   circleDistance = Vector(math.abs((circleCenter.x - r/2) - rect.left), math.abs((circleCenter.y - r/2) - rect.top))
 
    if (circleDistance.x > (rect.width / 2 + r)) then return false end
    if (circleDistance.y > (rect.height / 2 + r)) then return false end
@@ -51,30 +51,6 @@ function intersects(circleCenter, rect)
 
    cornerDistance_sq = (circleDistance.x - rect.width / 2) ^ 2 + (circleDistance.y - rect.height / 2) ^2
    return (cornerDistance_sq <= (r ^ 2))
-end
-
-function intersects2(center, saddieRect)
-   local r = Constants.MOUTH_EFFECTIVE_RADIUS
-   
-   local circleDistance = Vector(math.abs((center.x - r/2) - saddieRect.left), math.abs((center.y - r/2) - saddieRect.top));
-
-   if (circleDistance.x > ((saddieRect.right - saddieRect.left) / 2 + r)) then
-      return false
-   end
-   if (circleDistance.y > ((saddieRect.bottom-saddieRect.top) / 2 + r)) then
-      return false
-   end
-   if (circleDistance.x <= ((saddieRect.right - saddieRect.left) / 2)) then
-      return true
-   end
-   if (circleDistance.y <= ((saddieRect.bottom-saddieRect.top) / 2)) then
-      return true
-   end
-
-   cornerDistance_sq = (circleDistance.x - (saddieRect.right - saddieRect.left) / 2) ^ 2 +
-                       (circleDistance.y - (saddieRect.bottom-saddieRect.top) / 2) ^ 2;
-
-   return (cornerDistance_sq <= (r ^ 2));
 end
 
 return Mouth
