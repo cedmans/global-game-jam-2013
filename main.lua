@@ -74,7 +74,6 @@ function love.draw()
    end
 
    player:draw(time)
-   player:draw()
    if action ~= nil then
       action.draw(time)
    end
