@@ -4,17 +4,17 @@ local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
-
-
+local Hud = require "entities.hud"
 
 
 local counter = 0
+saddies = {}
 local player = {}
-local saddies = {}
 local deadSaddies = {}
 local action = nil
 local time = 0
 local startTime
+local hud = {}
 
 local mouth = {}
 local activeItem = {}
@@ -32,6 +32,7 @@ function reset()
    
 
    player = Player()
+   hud = Hud()
 
    saddies = {}
 
@@ -84,11 +85,13 @@ function love.draw()
    end
 
    player:draw(time)
+   hud:draw(time)
+   
    if action ~= nil then
       action.draw(time)
    end
 
-   love.graphics.print(math.floor(time), 50, 50)
+   
 end
 
 -- x: Mouse x position.
@@ -146,4 +149,10 @@ end
 function checkSpawn(x,y)
    return (((x-player.position.x)^2+(y-player.position.y)^2)^.5 > Constants.SPAWN_RADIUS) 
    --checks is spawn point farther than [RADIUS]px 
+   --may have to expand to prevent spawning on obstacles
 end
+
+ 
+
+
+
