@@ -24,6 +24,14 @@ function reset()
    end
 end
 
+function calcMousePlayerAngle()
+   mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
+   mousedelta = mousedelta - player.position
+   mousedelta.y = - mousedelta.y
+   return math.atan2(mousedelta.y, mousedelta.x)
+end
+
+
 function love.update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
@@ -35,11 +43,6 @@ function love.update(dt)
 
    player:update(dt)
    timeElapsed = math.floor(love.timer.getTime() - startTime)
-
-   mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
-   mousedelta = mousedelta - player.position
-   mousedelta.y = - mousedelta.y
-   mouseangle = math.atan2(mousedelta.y, mousedelta.x)
 end
 
 function love.draw()
