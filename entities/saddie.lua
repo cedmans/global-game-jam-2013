@@ -6,7 +6,7 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 
 local Saddie = Class(function(self, position)
    self.position = position
-   self.health = 20 -- Reduced for easier testing.  Preferably 100.
+   self.health = 40 -- Reduced for easier testing.  Preferably 100.
 end)
 
 function Saddie:update(dt)
@@ -32,13 +32,25 @@ function Saddie:addHealth(dh)
 end
 
 function Saddie:draw(dt)
+   -- Store colors for later resetting.
+   r, g, b, a = love.graphics.getColor()
    love.graphics.draw(saddieImage, self.position.x, self.position.y)
+
+   if self.health < Constants.CRITICAL_SADNESS then
+      love.graphics.setColor(255, 0, 0)
+   elseif self.health < Constants.WARNING_SADNESS then
+      love.graphics.setColor(255, 255, 0)
+   else
+      love.graphics.setColor(0, 255, 0)
+   end
    love.graphics.rectangle(
       "fill",
       self.position.x,
       self.position.y - Constants.SADNESS_BAR_OFFSET,
       self.health,
       Constants.SADNESS_BAR_OFFSET)
+
+   love.graphics.setColor(r, g, b, a)
    if self.health < Constants.CRITICAL_SADNESS then
       love.graphics.print(
          math.ceil(self.health),

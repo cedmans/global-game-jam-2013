@@ -11,6 +11,7 @@ constants.MAX_Y = constants.SCREEN_HEIGHT
 constants.SADDIE_HEALTH_REDUCTION = -5 -- Units per second
 
 constants.SADNESS_BAR_OFFSET = 20
+constants.WARNING_SADNESS = 30
 constants.CRITICAL_SADNESS = 10
 constants.SADNESS_ALERT_OFFSET = 18
 
