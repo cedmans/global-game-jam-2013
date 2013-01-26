@@ -61,8 +61,6 @@ function love.update(dt)
    end
    player:update(dt)
 
-   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
-
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
@@ -89,9 +87,10 @@ function love.mousepressed(x, y, button)
       player.targetpos = Vector(x, y)
       action = nil
    elseif button == "l" then
-      if action ~= nil then
-         action.perform()
-         action = nil
+      affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+
+      for i, saddie in ipairs(affectedSaddies) do
+         saddie:giveHappiness(5, 5)
       end
    end
 end
@@ -109,23 +108,10 @@ function love.keypressed(key, unicode)
    end
 end
 
-function getAllSaddiesInRadiusFromPoint(point, radius)
-   local closeSaddies = {}
-
-   for i, saddie in ipairs(saddies) do
-      if point:dist(saddie.position) < radius then
-         table.insert(closeSaddies, saddie)
-      end
-   end
-
-   return closeSaddies
-end
-
 -- Generic perform action function. We probably want to expand this to do
 -- different things depending on our current "item".
 function performAction(point)
    local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
-   print(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:changeDirection()

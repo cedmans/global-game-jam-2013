@@ -10,6 +10,9 @@ local Saddie = Class(function(self, position)
    self.targetpos = position
    self.direction = false
    self.health = Constants.PERFECT_SADNESS
+   self.isHappy = false
+   self.happyDuration = 0
+   self.healthIncrease = 0
 end)
 
 function Saddie:update(dt)
@@ -22,7 +25,18 @@ function Saddie:update(dt)
          if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
       end
    end
-   self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
+   if (self.happyDuration <= 0) then
+      self.happyDuration = 0
+      self.isHappy = false
+      self.healthIncrease = 0
+   end
+
+   if (self.isHappy) then
+      self:addHealth(self.healthIncrease * dt)
+      self.happyDuration = self.happyDuration - dt
+   else
+      self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
+   end
 end
 
 function Saddie:moveRight(amount)
@@ -38,7 +52,17 @@ function Saddie:moveUp(amount)
 end
 
 function Saddie:addHealth(dh)
-   self.health = self.health + dh
+   if (self.health <= Constants.PERFECT_SADNESS) then
+      self.health = self.health + dh
+   elseif (self.health > Constants.PERFECT_SADNESS) then
+      self.health = Constants.PERFECT_SADNESS
+   end
+end
+
+function Saddie:giveHappiness(health, duration)
+   self.isHappy = true
+   self.happyDuration = duration
+   self.healthIncrease = health
 end
 
 function Saddie:draw(time)
