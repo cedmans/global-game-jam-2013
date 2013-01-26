@@ -3,16 +3,8 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
-<<<<<<< HEAD
-local saddieImage = love.graphics.newImage("assets/images/saddie.png")
-
 local originalFont = love.graphics.newFont(14)
 
-
-
-
-=======
->>>>>>> e4057474cba6bcf88973288941609c2c8fbd6196
 local Saddie = Class(function(self, position)
    self.image = love.graphics.newImage("assets/images/saddie.png")
    self.position = position
