@@ -5,9 +5,6 @@ local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
 
-
-
-
 local counter = 0
 local player = {}
 local saddies = {}
@@ -23,16 +20,13 @@ function love.load()
    reset()   
    counter = 0
    r, g, b, a = love.graphics.getColor()
-   
 end
 
 function reset()
    startTime = love.timer.getTime()
    time = 0
-   
 
    player = Player()
-
    saddies = {}
 
    for i = 1, 5 do
