@@ -1,4 +1,5 @@
 local Constants = require "constants"
+local Sound = require "sound"
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
@@ -26,8 +27,10 @@ local mouth = {}
 local activeItem = {}
 
 function love.load()
+   Sound.load()
    reset()   
    r, g, b, a = love.graphics.getColor()
+   Sound.playMain()
 end
 
 function reset()
