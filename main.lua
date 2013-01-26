@@ -62,5 +62,29 @@ function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
       reset()
+   elseif button == "l" then
+      performAction(Vector(x, y))
+   end
+end
+
+function getAllSaddiesInRadiusFromPoint(point, radius)
+   local closeSaddies = {}
+
+   for i, saddie in ipairs(saddies) do
+      if point:dist(saddie.position) < radius then
+         table.insert(closeSaddies, saddie)
+      end
+   end
+
+   return closeSaddies
+end
+
+-- Generic perform action function. We probably want to expand this to do
+-- different things depending on our current "item".
+function performAction(point)
+   local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
+
+   for i, saddie in ipairs(affectedSaddies) do
+      saddie:changeDirection()
    end
 end

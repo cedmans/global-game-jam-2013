@@ -7,10 +7,12 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 local Saddie = Class(function(self, position)
    self.position = position
    self.health = 40 -- Reduced for easier testing.  Preferably 100.
+   self.direction = false
 end)
 
 function Saddie:update(dt)
-   self:moveUp(10 * dt);
+   local amount = self.direction and 10 or -10
+   self:moveUp(amount * dt)
    self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
    print(self.health);
 end
@@ -57,6 +59,12 @@ function Saddie:draw(dt)
          self.position.x - Constants.SADNESS_ALERT_OFFSET,
          self.position.y)
    end
+end
+
+-- Changes the directions that this saddie is moving in. Mainly just a
+-- dummy function to demonstrate that they are being affected.
+function Saddie:changeDirection()
+   self.direction = not self.direction
 end
 
 return Saddie
