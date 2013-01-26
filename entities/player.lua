@@ -19,28 +19,6 @@ local Player = Class(function(self)
 end)
 
 function Player:update(dt)
-   if (love.keyboard.isDown('w')) then
-      self:moveUp(dt * 200)
-   end
-
-   if (love.keyboard.isDown('s')) then
-      self:moveUp(-dt * 200)
-   end
-
-   if (love.keyboard.isDown('a')) then
-      self:moveRight(-dt * 200)
-   end
-   if (love.keyboard.isDown('d')) then
-      self:moveRight(dt * 200)
-   end
-   
-end
-
-function Player:moveRight(amount)
-   self.position.x = self.position.x + amount
-
-   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
-
    self.position = self.position + (self.targetpos - self.position):normalized() * 100 * dt
 end
 
