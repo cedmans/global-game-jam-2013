@@ -9,5 +9,7 @@ constants.MIN_Y = 0
 constants.MAX_Y = constants.SCREEN_HEIGHT
 
 constants.SADNESS_BAR_OFFSET = 20
+constants.CRITICAL_SADNESS = 10
+constants.SADNESS_ALERT_OFFSET = 18
 
 return constants
