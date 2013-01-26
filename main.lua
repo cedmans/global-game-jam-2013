@@ -7,6 +7,9 @@ local counter = 0
 local player = {}
 local saddies = {}
 spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
+local action = nil
+local time = 0
+local timeElapsed = 0
 
 function love.load()
    reset()   
@@ -17,6 +20,7 @@ end
 
 function reset()
    startTime = love.timer.getTime()
+   time = 0
    timeElapsed = 0
 
    player = Player()
@@ -37,6 +41,8 @@ end
 
 
 function love.update(dt)
+   time = time + dt
+
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       -- There's probably a better way to do this. -JP
@@ -48,15 +54,20 @@ function love.update(dt)
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
    player:update(dt)
+
    timeElapsed = math.floor(love.timer.getTime() - startTime)      
+   timeElapsed = math.floor(time)
 end
 
 function love.draw()
    for i, saddie in ipairs(saddies) do
-      saddie:draw()
+      saddie:draw(time)
    end
 
    player:draw()
+   if action != nil then
+      action.draw(time)
+   end
 
    love.graphics.print(timeElapsed, 50, 50)
 end
@@ -67,9 +78,25 @@ end
 function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
-      reset()
+      player.targetpos = Vector(x, y)
+      action = nil
    elseif button == "l" then
-      performAction(Vector(x, y))
+      if action != nil then
+         action.perform()
+         action = nil
+      end
+   end
+end
+
+function love.keypressed(key, unicode)
+   if key == 'q' then
+      -- action = QAction()
+   elseif key == 'w' then
+      -- action = WAction()
+   elseif key == 'e' then
+      -- action = EAction()
+   elseif key == 'r' then
+      -- action = RAction()
    end
 end
 

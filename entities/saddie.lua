@@ -33,7 +33,7 @@ function Saddie:addHealth(dh)
    self.health = self.health + dh
 end
 
-function Saddie:draw(dt)
+function Saddie:draw(time)
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
    love.graphics.draw(saddieImage, self.position.x - Constants.SADDIE_WIDTH/2,
@@ -60,6 +60,15 @@ function Saddie:draw(dt)
          self.position.x - Constants.SADNESS_ALERT_OFFSET,
          self.position.y)
    end
+end
+
+function Saddie.getPosition()
+   return self.position
+end
+
+function Saddie.getDimensions()
+   --TODO: Get real dimensions
+   return Vector.new(0,0)
 end
 
 -- Changes the directions that this saddie is moving in. Mainly just a
