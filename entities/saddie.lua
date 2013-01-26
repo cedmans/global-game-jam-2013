@@ -8,17 +8,19 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 local Saddie = Class(function(self, position)
    self.position = position
    self.targetpos = position
+   self.speed = 0.0
    self.direction = false
    self.health = Constants.PERFECT_SADNESS
 end)
 
 function Saddie:update(dt)
-   self.position = self.position + (self.targetpos - self.position):normalized() * 10 * dt
+   self.position = self.position + (self.targetpos - self.position):normalized() * self.speed * dt
    if self.position.dist(self.position, self.targetpos) < 2 then
       while true do
          dir = math.random()*2*math.pi
          vec = Vector(math.cos(dir), math.sin(dir))
-         self.targetpos = self.position + Constants.SADDIE_SPEED*vec
+         self.speed = Constants.SADDIE_SPEED*(math.random()+1)
+         self.targetpos = self.position + Constants.SADDIE_ROUTE_LEG*vec
          if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
       end
    end
