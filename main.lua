@@ -5,33 +5,30 @@ local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
 
-local counter = 0
-local player = {}
-local saddies = {}
-local deadSaddies = {}
-local action = nil
-local time = 0
-local startTime
+local counter, player, saddies, deadSaddies, time, startTime, action
 
 local mouth = {}
 local activeItem = {}
 
 function love.load()
    reset()   
-   counter = 0
    r, g, b, a = love.graphics.getColor()
 end
 
 function reset()
    startTime = love.timer.getTime()
    time = 0
+   counter = 0
 
    player = Player()
    saddies = {}
+   deadSaddies = {}
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
+   
+   action = nil
 
    mouth = Mouth()
    mouth:toggleActive() --set true
