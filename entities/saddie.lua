@@ -59,4 +59,13 @@ function Saddie:draw(dt)
    end
 end
 
+function Saddie.getPosition()
+   return self.position
+end
+
+function Saddie.getDimensions()
+   --TODO: Get real dimensions
+   return Vector.new(0,0)
+end
+
 return Saddie
