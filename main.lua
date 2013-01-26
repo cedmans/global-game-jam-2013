@@ -15,6 +15,7 @@ end
 
 function love.update(dt)
    player:update(dt)
+   counter = (counter + 1) % 100
 end
 
 function love.draw()
