@@ -7,6 +7,8 @@ local maxX = 1024
 local minY = 0
 local maxY = 720
 
+local playerImage = love.graphics.newImage("assets/images/peter.png")
+
 local Player = Class(function(self)
    self.position = Vector(400, 400)
 end)
@@ -42,7 +44,7 @@ function Player:moveUp(amount)
 end
 
 function Player:draw(dt)
-   love.graphics.print("Player", self.position.x, self.position.y)
+   love.graphics.draw(playerImage, self.position.x, self.position.y)
 end
 
 return Player
