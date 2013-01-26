@@ -7,8 +7,14 @@ local counter = 0
 local player = {}
 local saddies = {}
 
+
 function love.load()
    reset()
+   spriteDim = Vector.new(100, 100, 0, 0)
+   counter = 0
+   r, g, b, a = love.graphics.getColor()
+   pos = randomPoint(spriteDim)
+   
 end
 
 function reset()
@@ -35,6 +41,12 @@ function love.update(dt)
 
    player:update(dt)
    timeElapsed = math.floor(love.timer.getTime() - startTime)
+
+   if(love.keyboard.isDown('r')) then
+	  pos = randomPoint(spriteDim)
+	--
+   end
+      
 end
 
 function love.draw()
@@ -45,6 +57,7 @@ function love.draw()
    player:draw()
 
    love.graphics.print(timeElapsed, 50, 50)
+   love.graphics.print( "( " .. pos.x .. ", " .. pos.y .. ")", 200,200)
 end
 
 -- x: Mouse x position.
@@ -55,4 +68,18 @@ function love.mousepressed(x, y, button)
    if button == "r" then
       reset()
    end
+end
+
+function randomPoint(spriteSize)
+      local randomX,randomY = 0,0
+	  local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
+      randomX = math.random(0,1024)
+      randomY = math.random(0,720)
+      while(randomX > (boundaries.x-spriteSize.x) or randomY > (boundaries.y-spriteSize.y)) do 
+         randomX = math.random(0,1024)
+         randomY = math.random(0,720)
+      end
+      randomVector = Vector.new(randomX,randomY)
+
+      return randomVector
 end
