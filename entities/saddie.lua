@@ -3,6 +3,16 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
+<<<<<<< HEAD
+local saddieImage = love.graphics.newImage("assets/images/saddie.png")
+
+local originalFont = love.graphics.newFont(14)
+
+
+
+
+=======
+>>>>>>> e4057474cba6bcf88973288941609c2c8fbd6196
 local Saddie = Class(function(self, position)
    self.image = love.graphics.newImage("assets/images/saddie.png")
    self.position = position
@@ -74,20 +84,27 @@ function Saddie:draw(time)
 
    local red, green, blue = self:calculateSadnessBarColors()
    love.graphics.setColor(red, green, blue)
+   local scoreFont = love.graphics.newFont("assets/fonts/arialbd.ttf", 18)
+   love.graphics.setFont(scoreFont)
+   love.graphics.print("SCORE: " .. math.ceil(time*1000), 870,20)
+      
    love.graphics.rectangle(
       "fill",
       self.position.x - Constants.SADDIE_WIDTH/2,
       self.position.y - Constants.SADNESS_BAR_OFFSET - Constants.SADDIE_HEIGHT/2,
       self.health,
       Constants.SADNESS_BAR_OFFSET)
+      
 
    love.graphics.setColor(r, g, b, a)
+   love.graphics.setFont(originalFont)
    if self.health < Constants.CRITICAL_SADNESS then
       love.graphics.print(
          math.ceil(self.health),
          self.position.x - Constants.SADNESS_ALERT_OFFSET,
          self.position.y)
    end
+   
 end
 
 function Saddie:getPosition()

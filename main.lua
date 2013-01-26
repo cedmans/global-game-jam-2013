@@ -4,8 +4,9 @@ local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
-local originalFont = love.graphics.newFont(14)
-local scoreFont = love.graphics.newFont("assets/fonts/pixel.ttf", 18) 
+
+
+
 
 local counter = 0
 local player = {}
@@ -28,6 +29,7 @@ end
 function reset()
    startTime = love.timer.getTime()
    time = 0
+   
 
    player = Player()
 
@@ -87,9 +89,6 @@ function love.draw()
    end
 
    love.graphics.print(math.floor(time), 50, 50)
-   love.graphics.setFont(scoreFont)
-   love.graphics.print("SCORE: " .. math.ceil(time*1000), 870,20)
-   love.graphics.setFont(originalFont)
 end
 
 -- x: Mouse x position.
