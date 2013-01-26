@@ -11,10 +11,12 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 
 local Saddie = Class(function(self, position)
    self.position = position
+   self.health = 100
 end)
 
 function Saddie:update(dt)
    self:moveUp(10 * dt);
+   self:addHealth(-5 * dt);
 end
 
 function Saddie:moveRight(amount)
@@ -27,6 +29,10 @@ function Saddie:moveUp(amount)
    self.position.y = self.position.y - amount
 
    self.position.y = math.max(math.min(self.position.y, maxY), minY)
+end
+
+function Saddie:addHealth(dh)
+   self.health = self.health + dh
 end
 
 function Saddie:draw(dt)

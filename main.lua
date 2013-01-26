@@ -28,6 +28,10 @@ function reset()
 end
 
 function love.update(dt)
+   for i, saddie in ipairs(saddies) do
+      saddie:update(dt)
+   end
+
    player:update(dt)
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
