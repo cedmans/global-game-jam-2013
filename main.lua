@@ -6,7 +6,7 @@ local DeadSaddie = require "entities.deadsaddie"
 local Mouth = require "entities.mouth"
 
 local counter, player, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime
+      newSpawnTime, lives, gameEnded
 
 local mouth = {}
 local activeItem = {}
@@ -17,10 +17,12 @@ function love.load()
 end
 
 function reset()
+   gameEnded = false
    startTime = love.timer.getTime()
    time = 0
    newSpawnTime = nextSpawnTime()
    counter = 0
+   lives = 1
 
    player = Player()
    saddies = {}
@@ -37,6 +39,12 @@ function reset()
    activeItem = mouth;
 end
 
+function endGame()
+   gameEnded = true
+   saddies = {}
+   deadSaddies = {}
+end
+
 function calcMousePlayerAngle()
    mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
    mousedelta = mousedelta - player.position
@@ -46,6 +54,11 @@ end
 
 
 function love.update(dt)
+   -- Stop doing most things when the game is done.
+   if gameEnded then
+      return
+   end
+
    time = time + dt
    
    addSaddies()
@@ -55,6 +68,7 @@ function love.update(dt)
       if saddie.health < 0 then
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
+         lives = lives - 1
       end
    end
    for i, saddie in ipairs(deadSaddies) do
@@ -64,6 +78,10 @@ function love.update(dt)
       end
    end
    player:update(dt)
+   
+   if math.floor(lives) <= 0 then
+      endGame()
+   end
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -82,8 +100,16 @@ function love.draw()
    if action ~= nil then
       action.draw(time)
    end
+   
+   if gameEnded then
+      love.graphics.print(
+         "Game Over",
+         Constants.SCREEN_WIDTH / 2,
+         Constants.SCREEN_HEIGHT / 2)
+   end
 
    love.graphics.print(math.floor(time), 50, 50)
+   love.graphics.print(math.floor(lives), 50, 70)
 end
 
 -- x: Mouse x position.
@@ -126,6 +152,7 @@ function addSaddies()
          table.insert(saddies, Saddie(randomPoint()))
       end
       newSpawnTime = nextSpawnTime()
+      lives = lives + 0.25
    end
 end
 
