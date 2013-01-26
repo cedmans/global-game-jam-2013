@@ -2,13 +2,11 @@ local Constants = require "constants"
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
-
 local Mouth = require "entities.mouth"
 
 local counter = 0
 local player = {}
 local saddies = {}
-spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
 local action = nil
 local time = 0
 local startTime
@@ -76,6 +74,7 @@ function love.draw()
    end
 
    player:draw(time)
+   player:draw()
    if action ~= nil then
       action.draw(time)
    end
@@ -134,23 +133,17 @@ function performAction(point)
    end
 end
 
-function randomPoint(spriteSize)
+function randomPoint()
    local randomX,randomY = 0,0
-	local boundaries = Vector.new(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)	  
-   randomX = math.random(0,boundaries.x)
-   randomY = math.random(0,boundaries.y)
-   while(randomX > (boundaries.x-spriteSize.x) or 
-    randomY > (boundaries.y-spriteSize.y) or 
-    checkSpawn(randomX,randomY)) do 
-      randomX = math.random(0,boundaries.x)
-      randomY = math.random(0,boundaries.y)
-   end
+	repeat	  
+      randomX = math.random(0,Constants.SCREEN_WIDTH - Constants.PLAYER_WIDTH)
+      randomY = math.random(0,Constants.SCREEN_HEIGHT - Constants.PLAYER_HEIGHT)
+   until(checkSpawn(randomX,randomY))
    randomVector = Vector.new(randomX,randomY)
-
    return randomVector
 end
 
 function checkSpawn(x,y)
-   return (((x-player.position.x)^2+(y-player.position.y)^2)^.5 < Constants.SPAWN_RADIUS) 
+   return (((x-player.position.x)^2+(y-player.position.y)^2)^.5 > Constants.SPAWN_RADIUS) 
    --checks is spawn point farther than [RADIUS]px 
 end
