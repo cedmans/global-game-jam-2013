@@ -3,6 +3,8 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local Mouth = require "entities.mouth"
+local originalFont = love.graphics.newFont(14)
+local scoreFont = love.graphics.newFont("assets/fonts/pixel.ttf", 18) 
 
 local counter = 0
 local player = {}
@@ -56,9 +58,6 @@ function love.update(dt)
          saddies[i] = nil
       end
    end
-   if(love.keyboard.isDown('c')) then
-      table.insert(saddies, Saddie(randomPoint(spriteDim)))
-   end
    player:update(dt)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
@@ -77,6 +76,9 @@ function love.draw()
    end
 
    love.graphics.print(math.floor(time), 50, 50)
+   love.graphics.setFont(scoreFont)
+   love.graphics.print("SCORE: " .. math.ceil(time*1000), 870,20)
+   love.graphics.setFont(originalFont)
 end
 
 -- x: Mouse x position.
@@ -96,6 +98,9 @@ function love.mousepressed(x, y, button)
 end
 
 function love.keypressed(key, unicode)
+   if(love.keyboard.isDown('c')) then
+      table.insert(saddies, Saddie(randomPoint()))
+   end
    if key == 'q' then
       -- action = QAction()
    elseif key == 'w' then
