@@ -51,4 +51,8 @@ function Player:draw(time)
     self.position.y - Constants.PLAYER_HEIGHT/2)
 end
 
+function Player:getPosition()
+   return self.position
+end
+
 return Player

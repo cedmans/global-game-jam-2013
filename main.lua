@@ -3,12 +3,17 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 
+local Mouth = require "entities.mouth"
+
 local counter = 0
 local player = {}
 local saddies = {}
 spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
 local action = nil
 local time = 0
+local startTime
+
+local mouth = {}
 
 function love.load()
    reset()   
@@ -18,6 +23,7 @@ function love.load()
 end
 
 function reset()
+   startTime = love.timer.getTime()
    time = 0
 
    player = Player()
@@ -27,6 +33,9 @@ function reset()
    for i = 1, 5 do
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
+
+   mouth = Mouth()
+   mouth:toggleActive() --set true
 end
 
 function calcMousePlayerAngle()
@@ -51,9 +60,13 @@ function love.update(dt)
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
    player:update(dt)
+
+   timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
 function love.draw()
+   mouth:drawEffectiveArea(player:getPosition());
+
    for i, saddie in ipairs(saddies) do
       saddie:draw(time)
    end
