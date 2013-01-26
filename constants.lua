@@ -8,6 +8,12 @@ Constants.MAX_X = Constants.SCREEN_WIDTH
 Constants.MIN_Y = 0
 Constants.MAX_Y = Constants.SCREEN_HEIGHT
 
+Constants.PLAYER_WIDTH = 35
+Constants.PLAYER_HEIGHT = 85
+
+Constants.SADDIE_WIDTH = 100
+Constants.SADDIE_HEIGHT = 102
+
 Constants.SADDIE_HEALTH_REDUCTION = -5 -- Units per second
 
 Constants.SADNESS_BAR_OFFSET = 20

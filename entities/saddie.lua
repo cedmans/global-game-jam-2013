@@ -36,7 +36,8 @@ end
 function Saddie:draw(dt)
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
-   love.graphics.draw(saddieImage, self.position.x, self.position.y)
+   love.graphics.draw(saddieImage, self.position.x - Constants.SADDIE_WIDTH/2,
+    self.position.y - Constants.SADDIE_HEIGHT/2)
 
    if self.health < Constants.CRITICAL_SADNESS then
       love.graphics.setColor(255, 0, 0)
@@ -47,8 +48,8 @@ function Saddie:draw(dt)
    end
    love.graphics.rectangle(
       "fill",
-      self.position.x,
-      self.position.y - Constants.SADNESS_BAR_OFFSET,
+      self.position.x - Constants.SADDIE_WIDTH/2,
+      self.position.y - Constants.SADNESS_BAR_OFFSET - Constants.SADDIE_HEIGHT/2,
       self.health,
       Constants.SADNESS_BAR_OFFSET)
 

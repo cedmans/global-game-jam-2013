@@ -39,7 +39,8 @@ function Player:moveUp(amount)
 end
 
 function Player:draw(dt)
-   love.graphics.draw(playerImage, self.position.x, self.position.y)
+   love.graphics.draw(playerImage, self.position.x - Constants.PLAYER_WIDTH/2,
+    self.position.y - Constants.PLAYER_HEIGHT/2)
 end
 
 return Player
