@@ -7,13 +7,18 @@ local saddieImage = love.graphics.newImage("assets/images/saddie.png")
 
 local Saddie = Class(function(self, position)
    self.position = position
+   self.targetpos = position
    self.direction = false
    self.health = Constants.PERFECT_SADNESS
 end)
 
 function Saddie:update(dt)
-   local amount = self.direction and 10 or -10
-   self:moveUp(amount * dt)
+   self.position = self.position + (self.targetpos - self.position):normalized() * 10 * dt
+   if self.position.dist(self.position, self.targetpos) < 2 then
+      dir = math.random()*2*math.pi
+      vec = Vector(math.cos(dir), math.sin(dir))
+      self.targetpos = self.targetpos + 50*vec
+   end
    self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
 end
 
