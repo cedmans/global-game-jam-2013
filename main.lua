@@ -9,7 +9,6 @@ local saddies = {}
 spriteDim = Vector.new(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT, 0, 0) --put the dimensions of sprites here 
 local action = nil
 local time = 0
-local timeElapsed = 0
 
 function love.load()
    reset()   
@@ -19,9 +18,7 @@ function love.load()
 end
 
 function reset()
-   startTime = love.timer.getTime()
    time = 0
-   timeElapsed = 0
 
    player = Player()
 
@@ -54,9 +51,6 @@ function love.update(dt)
       table.insert(saddies, Saddie(randomPoint(spriteDim)))
    end
    player:update(dt)
-
-   timeElapsed = math.floor(love.timer.getTime() - startTime)      
-   timeElapsed = math.floor(time)
 end
 
 function love.draw()
@@ -69,7 +63,7 @@ function love.draw()
       action.draw(time)
    end
 
-   love.graphics.print(timeElapsed, 50, 50)
+   love.graphics.print(math.floor(time), 50, 50)
 end
 
 -- x: Mouse x position.
