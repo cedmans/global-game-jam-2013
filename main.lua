@@ -61,6 +61,6 @@ end
 function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
-      reset()
+      player.targetpos = Vector(x, y)
    end
 end
