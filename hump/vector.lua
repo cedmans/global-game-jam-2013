@@ -84,6 +84,13 @@ function vector.__eq(a,b)
 	return a.x == b.x and a.y == b.y
 end
 
+-- This is an approximate equality.
+-- @author JP
+function vector:equals(other)
+   return (math.floor(self.x) == math.floor(other.x)
+      and  math.floor(self.y) == math.floor(other.y))
+end
+
 function vector.__lt(a,b)
 	return a.x < b.x or (a.x == b.x and a.y < b.y)
 end
