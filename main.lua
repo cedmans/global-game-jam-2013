@@ -58,8 +58,8 @@ function love.update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
-         table.remove(saddies,i)
          table.insert(deadSaddies, DeadSaddie(saddie))
+         table.remove(saddies,i)
       end
    end
    for i, saddie in ipairs(deadSaddies) do
