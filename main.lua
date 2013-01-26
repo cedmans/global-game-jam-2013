@@ -6,7 +6,8 @@ local posY = 0
 local player = {}
 
 function love.load()
-   counter = 0
+   startTime = love.timer.getTime()
+   timeElapsed = 0
    posX = 400
    posY = 400
 
@@ -15,9 +16,10 @@ end
 
 function love.update(dt)
    player:update(dt)
-   counter = (counter + 1) % 100
+   timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
 function love.draw()
    player:draw(dt)
+   love.graphics.print(timeElapsed, 50, 50)
 end
