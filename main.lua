@@ -58,7 +58,7 @@ function love.draw()
       saddie:draw(time)
    end
 
-   player:draw()
+   player:draw(time)
    if action ~= nil then
       action.draw(time)
    end
