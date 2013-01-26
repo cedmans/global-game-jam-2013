@@ -27,6 +27,10 @@ end
 function love.update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
+      -- There's probably a better way to do this. -JP
+      if saddie.health < 0 then
+         saddies[i] = nil
+      end
    end
 
    player:update(dt)
