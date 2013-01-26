@@ -28,6 +28,9 @@ function love.draw()
    love.graphics.print(timeElapsed, 50, 50)
 end
 
+-- x: Mouse x position.
+-- y: Mouse y position.
+-- button: http://www.love2d.org/wiki/MouseConstant
 function love.mousepressed(x, y, button)
    -- For now, reset the game on right-click.
    if button == "r" then
