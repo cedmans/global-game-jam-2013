@@ -1,10 +1,9 @@
+local Constants = require "constants"
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 
 local counter = 0
-local posX = 0
-local posY = 0
 local player = {}
 local saddies = {}
 
@@ -15,8 +14,6 @@ end
 function reset()
    startTime = love.timer.getTime()
    timeElapsed = 0
-   posX = 400
-   posY = 400
 
    player = Player()
 
