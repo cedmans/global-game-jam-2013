@@ -9,13 +9,13 @@ local Obstruction = Class(function(self, position, width, height)
 end)
 
 function Obstruction:draw()
-   -- Store colors for later resetting.
-   love.graphics.rectangle(
-      "fill",
-      self.position.x,
-      self.position.y,
-      self.width,
-      self.height)
+   -- Uncomment this to see where the obstructions are, for debugging.
+   --love.graphics.rectangle(
+   --   "fill",
+   --   self.position.x,
+   --   self.position.y,
+   --   self.width,
+   --   self.height)
 end
 
 return Obstruction
