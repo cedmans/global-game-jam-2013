@@ -50,6 +50,7 @@ function play:reset()
 
    player = Player()
    hud = Hud()
+   hud: load()
 
    saddies = {}
    deadSaddies = {}
@@ -121,7 +122,7 @@ function play:update(dt)
    player:update(dt)
    
    if math.floor(lives) <= 0 then
-      love.timer.step()
+      
       self:endGame()
    end
 

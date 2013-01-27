@@ -1,6 +1,6 @@
 local Gamestate = require "hump.gamestate"
 local Sound = require "sound"
-
+local Hud = require "entities.hud"
 -- Load game states.
 title = require "states.title"
 play = require "states.play"
