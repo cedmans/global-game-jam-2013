@@ -94,7 +94,7 @@ function play:update(dt)
    for i, saddie in ipairs(deadSaddies) do
       saddie:update(dt)
       if saddie:finishedDying() then
-         deadSaddies[i] = nil
+         table.remove(deadSaddies, i)
       end
    end
    player:update(dt)
