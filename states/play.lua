@@ -221,6 +221,7 @@ function play:addSaddies()
       -- Simple difficulty scaling dependent on time elapsed.
       for i = 1, math.floor(time / 5) do
          table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+         hud:sadIncrement(1)
       end
       newSpawnTime = self:nextSpawnTime()
       lives = lives + 0.25
