@@ -15,7 +15,6 @@ local counter = 0
 obstructions = {}
 saddies = {}
 local deadSaddies = {}
-local action = nil
 local time = 0
 local startTime
 local hud = {}
@@ -23,7 +22,7 @@ local hud = {}
 player = {}
 lives = {}
 
-local counter, saddies, deadSaddies, time, startTime, action,
+local counter, saddies, deadSaddies, time, startTime,
       newSpawnTime, toolbar
 
 local mouth = {}
@@ -62,8 +61,6 @@ function play:reset()
    for i = 1, 5 do
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end
-
-   action = nil
 
    mouth = Mouth()
    wave = Wave()
@@ -133,10 +130,6 @@ function play:draw()
    player:draw(time)
    hud:draw(time)
    
-   if action ~= nil then
-      action.draw(time)
-   end
-   
    toolbar:draw()
 
    love.graphics.print(math.floor(time), 50, 50)
@@ -149,7 +142,6 @@ end
 function play:mousepressed(x, y, button)
    if button == "r" then
       player.targetpos = Vector(x, y)
-      action = nil
    elseif button == "l" then
       self:performAction()
    end
@@ -177,20 +169,11 @@ function play:keypressed(key, unicode)
    if(love.keyboard.isDown('c')) then
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end
-   if key == 'q' then
-      -- action = QAction()
-   elseif key == 'w' then
-      -- action = WAction()
-   elseif key == 'e' then
-      -- action = EAction()
-   elseif key == ' ' then
+   if key == ' ' then
       self:performAction()
    elseif key == 'r' then
-      -- action = RAction()
       reset()
-   end
-
-   if key == '1' then
+   elseif key == '1' then
       activeItem = mouth
    elseif key == '2' then
       activeItem = wave
