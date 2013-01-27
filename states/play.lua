@@ -15,6 +15,8 @@ local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
 local TextArea = require "entities.textarea"
 
+local heartdown = love.audio.newSource("assets/sounds/heart-down.wav")
+
 local counter = 0
 obstructions = {}
 saddies = {}
@@ -108,6 +110,8 @@ function play:update(dt)
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
+         heartdown:rewind()
+         love.audio.play(heartdown)
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
          lives = lives - 1
