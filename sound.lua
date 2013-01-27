@@ -12,8 +12,8 @@ function sound.load()
    heart:setLooping(true)
 end
 
-function sound.update(dt, time)
-   local volume = math.abs(math.sin(time / 20))
+function sound.update(averageSaddieHealth)
+   local volume = 1 - averageSaddieHealth/100
 
    heart:setVolume(volume)
 end
