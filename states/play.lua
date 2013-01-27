@@ -178,7 +178,7 @@ function play:draw()
    player:draw(time)
    hud:draw(time)
    
-   toolbar:draw()
+   toolbar:draw({mouth, wave, lovepotion})
 end
 
 -- x: Mouse x position.

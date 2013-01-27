@@ -6,6 +6,7 @@ local Shapes = require "hardoncollider.shapes"
 
 local Wave = Class(function(self)
    self.activateTime = 0
+   self.image = love.graphics.newImage("assets/images/Wave_icon.png")
 end)
 
 function Wave:activate()

@@ -4,6 +4,7 @@ local Constants = require "constants"
 
 local Mouth = Class(function(self)
    self.activateTime = 0
+   self.image = love.graphics.newImage("assets/images/Mouthtalking_icon.png")
 end)
 
 function Mouth:activate()

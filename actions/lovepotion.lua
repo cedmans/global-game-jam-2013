@@ -3,7 +3,8 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 
 local LovePotion = Class(function(self)
-   self.activateTime = 0
+   self.activateTime = love.timer.getTime() + 10 -- Disable for first 10 seconds.
+   self.image = love.graphics.newImage("assets/images/LovePotion_icon.png")
 end)
 
 function LovePotion:activate()
