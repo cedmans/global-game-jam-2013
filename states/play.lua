@@ -109,7 +109,9 @@ function play:update(dt)
       self:endGame()
    end
 
-   Sound.update(dt, time)
+   local averageSaddieHealth = self:getAverageSaddieHealth()
+
+   Sound.update(averageSaddieHealth)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -159,6 +161,16 @@ function play:performAction()
    for i, saddie in ipairs(affectedSaddies) do
       saddie:giveHappiness(5, 5)
    end
+end
+
+function play:getAverageSaddieHealth()
+   local totalHealth = 0
+
+   for i, saddie in ipairs(saddies) do
+      totalHealth = totalHealth + saddie.health
+   end
+
+   return totalHealth / #saddies
 end
 
 function play:keypressed(key, unicode)
