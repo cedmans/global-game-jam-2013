@@ -8,9 +8,12 @@ local HighFive = Class(function(self)
    self.image = love.graphics.newImage("assets/images/Highfive_icon.png")
 end)
 
-function HighFive:activate()
+function HighFive:activate(affectedSaddies)
    self.activateTime = love.timer.getTime()
-   Sound.highFive()
+
+   if #affectedSaddies > 0 then
+      Sound.highFive()
+   end
 end
 
 function HighFive:enabled()

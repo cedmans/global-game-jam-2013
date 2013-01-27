@@ -153,7 +153,7 @@ end
 
 function play:draw()
    love.graphics.draw(background)
-   items[activeItem]:drawEffectiveArea(player:getPosition());
+   items[activeItem]:drawEffectiveArea(player:getPosition())
    if textArea then
       textArea:draw()
    end
@@ -204,10 +204,10 @@ function play:performAction()
    if not items[activeItem]:enabled() then
       return
    end
-   
-   items[activeItem]:activate()
 
    affectedSaddies = items[activeItem]:getAffectedSaddies(player:getPosition(), saddies)
+
+   items[activeItem]:activate(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:giveHappiness(5, 5)
