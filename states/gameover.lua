@@ -15,6 +15,14 @@ function gameOver:draw()
    love.graphics.print("Game Over",
     Constants.SCREEN_WIDTH / 2,
     Constants.SCREEN_HEIGHT / 2)
+
+   love.graphics.print("Press any key restart",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5)
+end
+
+function gameOver:keypressed(key, unicode)
+   Gamestate.switch(play)
 end
 
 return gameOver
