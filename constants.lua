@@ -18,7 +18,7 @@ Constants.PLAYER_WIDTH = 35
 Constants.PLAYER_HEIGHT = 85
 Constants.PLAYER_SPEED = 100
 
-Constants.SADDIE_WIDTH = 100
+Constants.SADDIE_WIDTH = 35
 Constants.SADDIE_HEIGHT = 102
 Constants.SADDIE_SPEED = 15
 Constants.SADDIE_ROUTE_LEG = 100
