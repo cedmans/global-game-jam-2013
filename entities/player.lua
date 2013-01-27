@@ -91,8 +91,21 @@ function Player:draw(time)
       image = playerImages[self.direction][math.floor(time * 5) % 8 + 1]
    end
 
+   local scaleFactor
+   local offset = Vector.new()
+
+   if self.direction == "left" then
+      scaleFactor = -1
+      offset.x = Constants.PLAYER_WIDTH
+   else
+      scaleFactor = 1
+      offset.x = 0
+   end
+
+   offset.y = 0
+
    love.graphics.draw(image, self.position.x - Constants.PLAYER_WIDTH/2,
-    self.position.y - Constants.PLAYER_HEIGHT/2)
+    self.position.y - Constants.PLAYER_HEIGHT/2, 0, scaleFactor, 1, offset.x, offset.y)
 end
 
 function Player:getPosition()
