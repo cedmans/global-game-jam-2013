@@ -19,8 +19,8 @@ function sound.update(dt, time)
 end
 
 function sound.playMain()
-   love.audio.play(music)
-   love.audio.play(heart)
+   -- love.audio.play(music)
+   -- love.audio.play(heart)
 end
 
 return sound
