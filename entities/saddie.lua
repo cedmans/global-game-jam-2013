@@ -113,10 +113,20 @@ function Saddie:drawHappiness()
    -- Start at full opacity and fade out.
    opacity = percentageProgress * 255
    love.graphics.setColor(r, g, b, opacity)
-   -- Move away from the saddie.
+
+   -- Middle heart
    xOffset = 0
    yOffset = (((1 - percentageProgress) * Constants.HEART_REACH)
               + Constants.HEART_OFFSET)
+   self:drawHeart(xOffset, yOffset)
+
+   -- Left heart
+   xOffset = (1 - math.sin(percentageProgress)) * Constants.HEART_REACH
+   yOffset = math.cos(percentageProgress) * Constants.HEART_REACH
+   self:drawHeart(xOffset, yOffset)
+
+   -- Right heart
+   xOffset = -xOffset
    self:drawHeart(xOffset, yOffset)
 
    love.graphics.setColor(r, g, b, a)
