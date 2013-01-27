@@ -61,6 +61,12 @@ function play:reset()
    table.insert(obstructions, Obstruction(Vector(370+315/2, 0+230/2), 315, 230))
    table.insert(obstructions, Obstruction(Vector(425+155/2, 395+80/2), 155, 80))
 
+   -- World Boundaries
+   table.insert(obstructions, Obstruction(Vector(0+Constants.SCREEN_WIDTH/2,0+Constants.TOOLBAR_ITEM_HEIGHT/2), Constants.SCREEN_WIDTH, Constants.TOOLBAR_ITEM_HEIGHT))
+   table.insert(obstructions, Obstruction(Vector(0,0),0,Constants.SCREEN_HEIGHT))
+   table.insert(obstructions, Obstruction(Vector(0,Constants.SCREEN_HEIGHT), Constants.SCREEN_WIDTH, 0))
+   table.insert(obstructions, Obstruction(Vector(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT), 0, Constants.SCREEN_HEIGHT))
+
    for i = 1, 5 do
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end

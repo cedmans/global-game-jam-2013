@@ -9,8 +9,8 @@ Constants.TOOLBAR_ITEM_WIDTH = 100
 Constants.TOOLBAR_ITEM_HEIGHT = 100
 
 Constants.MIN_X = 0
-Constants.MAX_X = Constants.SCREEN_WIDTH - Constants.TOOLBAR_ITEM_WIDTH;
-Constants.MIN_Y = 0
+Constants.MAX_X = Constants.SCREEN_WIDTH
+Constants.MIN_Y = Constants.TOOLBAR_ITEM_HEIGHT
 Constants.MAX_Y = Constants.SCREEN_HEIGHT
 
 

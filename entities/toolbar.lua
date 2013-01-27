@@ -7,7 +7,7 @@ local toolURIs = {mouth = love.graphics.newImage("assets/images/Mouthtalking_ico
 
 local Toolbar = Class(function(self)
    self.active = false
-   self.position = Vector(0, Constants.SCREEN_HEIGHT - Constants.TOOLBAR_ITEM_HEIGHT)
+   self.position = Vector(0, 0)
    self.numberItems = 0
 end)
 
