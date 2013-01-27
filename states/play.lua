@@ -94,6 +94,7 @@ end
 
 function play:endGame()
 	--hud:getTime()
+   hud:setScore()
    Gamestate.switch(gameOver)
 end
 

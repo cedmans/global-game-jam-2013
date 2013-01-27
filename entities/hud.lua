@@ -3,12 +3,12 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local finalDelta = love.timer.getDelta()
 local originalFont = love.graphics.newFont(18)
-local scoreFont = love.graphics.newFont("assets/fonts/arialbd.ttf", 18)
-local endFont = love.graphics.newFont("assets/fonts/pixel.ttf", 30)
+local endFont = love.graphics.newFont("assets/fonts/ARIALNI.ttf", 30)
+local scoreFont = love.graphics.newFont("assets/fonts/STENCIL.ttf", 18)
 local r,g,b,a = love.graphics.getColor()
 score = 0
 sadCount = 5
-scoreList = {}
+scoreList = {0,0,0}
 local Hud = Class(function(self)
     
 end)
@@ -20,7 +20,7 @@ function Hud: load()
 end
 
 function Hud: wipeScores()
-   scoreList = {}
+   scoreList = {0,0,0}
 end
 
 
@@ -63,23 +63,34 @@ function Hud: startDelta()
    love.timer.step()
 end
 
-function Hud:endDisplay(finalTime)
-	currentScore = score
+function Hud: setScore()
+   currentScore = score
 	table.insert(scoreList, score)
 	table.sort(scoreList)
+end
+
+function Hud:endDisplay(finalTime)
 	if(scoreList[#scoreList] == currentScore) then 
 		love.graphics.print("High Score!",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2 + 30)
 		end
    love.graphics.setColor(0,150,0)
    love.graphics.setFont(endFont)
    love.graphics.print("Game Over",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2)
+   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(initTime) .. 
+   " seconds", 40, 20)
    
    
    love.graphics.setFont(scoreFont)
-   love.graphics.print("FINAL SCORE: " .. self:getScore(),770,20)
+   love.graphics.print("FINAL SCORE: " .. currentScore,770,20)
+   love.graphics.print("-------------------------" ,770,40)
+   love.graphics.print("CURRENT HIGHEST SCORES" ,720,60)
+   love.graphics.print("-------------------------" ,770,80)
+   love.graphics.print("#1: " .. scoreList[#scoreList],770,100)
+   love.graphics.print("#2: " .. scoreList[(#scoreList-1)],770,120)
+   love.graphics.print("#3: " .. scoreList[(#scoreList-2)],770,140)
+   
    love.graphics.setFont(originalFont)
-   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(initTime) .. 
-   " seconds", 40, 20)
+   
    love.graphics.print("Press any key to restart.",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5)
 	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 20)
    love.graphics.print("Quitting? (q)",Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 1.5 + 40)
