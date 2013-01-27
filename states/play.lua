@@ -83,7 +83,7 @@ function play:reset()
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end
 
-   items = { Mouth(), Wave(), LovePotion(), HighFive() }
+   items = { Mouth(), Wave(), HighFive(), LovePotion() }
    activeItem = 1;
 
    toolbar = Toolbar()
