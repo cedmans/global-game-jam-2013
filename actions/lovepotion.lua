@@ -45,9 +45,6 @@ function LovePotion:getAffectedSaddies(center,saddies)
       end
    end
 
-   local count = 0
-   for _ in ipairs(affectedSaddies) do count = count + 1 end
-   print(count)
    return affectedSaddies
 end
 
