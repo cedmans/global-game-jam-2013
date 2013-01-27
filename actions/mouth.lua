@@ -3,7 +3,8 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 
 local Mouth = Class(function(self)
-   self.activateTime = 0
+   self.activateTime = love.timer.getTime() - Constants.MOUTH_COOLDOWN
+   self.image = love.graphics.newImage("assets/images/Mouthtalking_icon.png")
 end)
 
 function Mouth:activate()
@@ -11,7 +12,11 @@ function Mouth:activate()
 end
 
 function Mouth:enabled()
-   return (love.timer.getTime() - self.activateTime) > Constants.MOUTH_COOLDOWN
+   return self:percentageCooledDown() >= 1
+end
+
+function Mouth:percentageCooledDown()
+   return (love.timer.getTime() - self.activateTime) / Constants.MOUTH_COOLDOWN
 end
 
 function Mouth:drawEffectiveArea(center)

@@ -179,7 +179,7 @@ function play:draw()
    player:draw(time)
    hud:draw(time)
    
-   toolbar:draw()
+   toolbar:draw({mouth, wave, lovepotion})
 end
 
 -- x: Mouse x position.
@@ -257,7 +257,7 @@ function play:keypressed(key, unicode)
       activeItem = mouth
    elseif key == '2' then
       activeItem = wave
-   elseif key == '3' and timeElapsed > 10 then
+   elseif key == '3' then
       activeItem = lovepotion
    end
 end
