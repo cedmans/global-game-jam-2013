@@ -10,6 +10,7 @@ local Toolbar = require 'entities.toolbar'
 local Mouth = require "actions.mouth"
 local Wave = require "actions.wave"
 local LovePotion = require "actions.lovepotion"
+local HighFive = require "actions.highfive"
 local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
 local TextArea = require "entities.textarea"
@@ -39,6 +40,7 @@ timeElapsed = 0
 local mouth = {}
 local wave = {}
 local lovepotion = {}
+local highFive = {}
 local activeItem = {}
 local background = love.graphics.newImage("assets/images/Background_city.png")
 
@@ -87,6 +89,7 @@ function play:reset()
    mouth = Mouth()
    wave = Wave()
    lovepotion = LovePotion()
+   highFive = HighFive()
    activeItem = mouth;
 
    toolbar = Toolbar()
@@ -179,7 +182,7 @@ function play:draw()
    player:draw(time)
    hud:draw(time)
    
-   toolbar:draw({mouth, wave, lovepotion})
+   toolbar:draw({mouth, wave, lovepotion, highFive})
 end
 
 -- x: Mouse x position.
@@ -259,6 +262,8 @@ function play:keypressed(key, unicode)
       activeItem = wave
    elseif key == '3' then
       activeItem = lovepotion
+   elseif key == '4' then
+      activeItem = highFive
    end
 end
 
