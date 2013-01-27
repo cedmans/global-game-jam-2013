@@ -88,7 +88,7 @@ function Player:draw(time)
    if self.position:equals(self.previousPosition) then
       image = staticPlayerImage
    else
-      image = playerImages[self.direction][math.floor(time * 5) % 8 + 1]
+      image = playerImages[self.direction][math.floor(time * 5) % #self.direction + 1]
    end
 
    local scaleFactor
