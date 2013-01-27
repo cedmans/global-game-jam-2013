@@ -50,6 +50,16 @@ Constants.WAVE_HEALTH_EFFECT = 1.5
 Constants.WAVE_HEALTH_DURATION = 0.5
 Constants.WAVE_COOLDOWN = 5
 
+Constants.TEXTAREA_X_LOC = 370
+Constants.TEXTAREA_Y_LOC = 0
+Constants.TEXTAREA_X_SIZE = 315
+Constants.TEXTAREA_Y_SIZE = 230
+Constants.TEXTAREA_PADDING = 8
+Constants.TEXTAREA_X_OFFSET = Constants.TEXTAREA_X_LOC + Constants.TEXTAREA_PADDING
+Constants.TEXTAREA_Y_OFFSET = Constants.TEXTAREA_Y_LOC + Constants.TEXTAREA_PADDING
+Constants.TEXTAREA_WRAP = Constants.TEXTAREA_X_SIZE -
+                          (2 * Constants.TEXTAREA_PADDING)
+
 -- Number of seconds to wait until the user can skip the game over screen.
 Constants.GAME_OVER_SKIP_DELAY = 1.0
 

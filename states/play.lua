@@ -11,6 +11,7 @@ local Mouth = require "actions.mouth"
 local Wave = require "actions.wave"
 local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
+local TextArea = require "entities.textarea"
 
 local counter = 0
 obstructions = {}
@@ -25,7 +26,7 @@ player = {}
 lives = {}
 
 local counter, saddies, deadSaddies, time, startTime,
-      newSpawnTime, toolbar
+      newSpawnTime, toolbar, textArea
 
 local mouth = {}
 local wave = {}
@@ -54,6 +55,7 @@ function play:reset()
    deadSaddies = {}
    obstructions = {}
    explodingTexts = {}
+   textArea = nil
 
    -- These are hardcoded coordinates relating to the static background.
    table.insert(obstructions, Obstruction(Vector(0+255/2, 0+230/2), 255, 230))
@@ -134,6 +136,9 @@ end
 function play:draw()
    love.graphics.draw(background)
    activeItem:drawEffectiveArea(player:getPosition());
+   if textArea then
+      textArea:draw()
+   end
 
    for i, saddie in ipairs(saddies) do
       saddie:draw(time)
