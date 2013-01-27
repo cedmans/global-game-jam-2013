@@ -81,6 +81,8 @@ function Saddie:giveHappiness(health, duration)
 end
 
 function Saddie:draw(time)
+   self.image = saddieImages[math.floor(time * 5) % 8 + 1]
+
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
    love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
