@@ -18,13 +18,7 @@ local time = 0
 local startTime
 local hud = {}
 
-
 player = {}
-
-local counter, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, gameEnded, toolbar
-
-      
 
 local mouth = {}
 local activeItem = {}
@@ -125,25 +119,13 @@ function love.draw()
    if (not gameEnded) then
       hud:draw(time)
    elseif (gameEnded) then
-      love.graphics.print("FINAL SCORE: " .. hud:getScore(),870,20)
+      hud:endDisplay(time)
    end
    if action ~= nil then
       action.draw(time)
    end
-   
-   if gameEnded then
-      love.graphics.print(
-         "Game Over",
-         Constants.SCREEN_WIDTH / 2,
-         Constants.SCREEN_HEIGHT / 2)
-   end
 
    toolbar:draw()
-
-
-   love.graphics.print(math.floor(time), 50, 50)
-   love.graphics.print(math.floor(lives), 50, 70)
-
 end
 
 -- x: Mouse x position.
