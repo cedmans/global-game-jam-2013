@@ -15,7 +15,7 @@ function gameOver:update(dt)
 end
 
 function gameOver:draw()
-	hud:endDisplay()
+   hud:endDisplay()
 end
 
 function gameOver:keypressed(key, unicode)
