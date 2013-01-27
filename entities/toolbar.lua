@@ -20,6 +20,7 @@ function Toolbar:draw(items)
       percentage = item:percentageCooledDown()
       if percentage <= 1 then
          percentage = math.max(percentage, 0)
+         love.graphics.setColor(Constants.COOLDOWN_COLORS)
          love.graphics.rectangle(
             'fill',
             self.position.x + (Constants.TOOLBAR_ITEM_WIDTH * (i-1)),
@@ -27,10 +28,9 @@ function Toolbar:draw(items)
             Constants.TOOLBAR_ITEM_WIDTH,
             Constants.TOOLBAR_ITEM_HEIGHT * (1 - percentage)
          )
+         love.graphics.setColor(oldr,oldg,oldb,olda)
       end
    end
-
-   love.graphics.setColor(oldr,oldg,oldb,olda)
 end
 
 

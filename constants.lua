@@ -7,6 +7,7 @@ Constants.SCREEN_HEIGHT = 720
 Constants.SPAWN_RADIUS = 210 -- minimum spawn distance of NPC's.
 Constants.TOOLBAR_ITEM_WIDTH = 100
 Constants.TOOLBAR_ITEM_HEIGHT = 100
+Constants.COOLDOWN_COLORS = {255, 255, 255, 200}
 
 Constants.MIN_X = 0
 Constants.MAX_X = Constants.SCREEN_WIDTH
