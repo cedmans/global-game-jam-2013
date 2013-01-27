@@ -56,7 +56,8 @@ function play:reset()
    deadSaddies = {}
    obstructions = {}
    explodingTexts = {}
-   textArea = nil
+   textArea = TextArea("There sure are a lot of unhappy people here.",
+                       player.name)
 
    -- These are hardcoded coordinates relating to the static background.
    table.insert(obstructions, Obstruction(Vector(0+255/2, 0+230/2), 255, 230))
