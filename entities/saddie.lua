@@ -41,7 +41,10 @@ function Saddie:update(dt)
 
          obstructed = false
          for i, obs in ipairs(obstructions) do
-            if math.abs(self.targetpos.x-obs.position.x) < (Constants.SADDIE_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.targetpos.y-obs.position.y) < (Constants.SADDIE_HEIGHT+Constants.OBS_HEIGHT)/2 then
+            if math.abs(self.targetpos.x-obs.position.x) <
+               (Constants.SADDIE_WIDTH+obs.width)/2
+            and math.abs(self.targetpos.y-obs.position.y) <
+               (Constants.SADDIE_HEIGHT+obs.height)/2 then
                obstructed = true
             end
          end
