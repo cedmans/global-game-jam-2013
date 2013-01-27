@@ -6,7 +6,9 @@ local DeadSaddie = require "entities.deadsaddie"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
 
-local counter, player, saddies, deadSaddies, time, startTime, action,
+player = {}
+
+local counter, saddies, deadSaddies, time, startTime, action,
       newSpawnTime, lives, gameEnded, toolbar
 
 local mouth = {}
