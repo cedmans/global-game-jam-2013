@@ -25,6 +25,11 @@ local explodingTexts
 local dieTime = love.timer.getDelta()
 player = {}
 lives = {}
+randomQuotes = {"Welcome! You're late.","Solutions that pile tons of horrible muck into these functions will not receive full credit.",
+"There's still a problem...we actually *created* a new problem in solving our old problem.",
+"It turns out to be very easy. And I'm going to make it a *little* bit harder than it needs to be.","Exciting is not always the same thing as nice.",
+"And then some jerk comes along, and totally blows up the whole world!","This is probably a good time to ask: what COULD go wrong?",
+"Okay! Let's do other crazy stuff."}
 
 local counter, saddies, deadSaddies, time, startTime,
       newSpawnTime, toolbar, textArea
@@ -132,7 +137,7 @@ function play:update(dt)
          textArea = nil
       end
    elseif chance < 80 then
-      textArea = TextArea("It's too crowded here.", 'Guest 534')
+      textArea = TextArea(randomQuotes[math.random(1,#randomQuotes)], 'Dr. Clemens')
    end
    
    if math.floor(lives) <= 0 then

@@ -2,6 +2,8 @@ local Gamestate = require "hump.gamestate"
 local Constants = require "constants"
 local Hud = require "entities.hud"
 local Sound = require "sound"
+title = require "states.title"
+play = require "states.play"
 
 local gameOver = Gamestate.new()
 local hud = Hud()
@@ -28,10 +30,11 @@ function gameOver:keypressed(key, unicode)
    end
 
    if time > Constants.GAME_OVER_SKIP_DELAY then
-		play:reset()
+		
 		if(key == 'r 'or key == 'R') then
 			Gamestate.switch(title)
 		else
+         play:reset()
 			Gamestate.switch(play)
 		end
 	end
