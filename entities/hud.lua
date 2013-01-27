@@ -68,14 +68,11 @@ end
 
 function Hud:endDisplay(finalTime)
 	if(scoreList[#scoreList] == currentScore) then 
-		love.graphics.print("High Score!",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2 + 30)
-		end
-   love.graphics.setColor(0,150,0)
+		love.graphics.print("High Score!",Constants.SCREEN_WIDTH / 2 + 300,Constants.SCREEN_HEIGHT / 2 + 30)
+   end
+   love.graphics.setColor(0,230,0)
    love.graphics.setFont(endFont)
-   love.graphics.print("Game Over",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2)
-   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(initTime) .. 
-   " seconds", 40, 20)
-   
+   love.graphics.print("Game Over",Constants.SCREEN_WIDTH / 2 + 300,Constants.SCREEN_HEIGHT / 2)
    
    love.graphics.setFont(scoreFont)
    love.graphics.print("FINAL SCORE: " .. currentScore,770,20)
@@ -90,9 +87,9 @@ function Hud:endDisplay(finalTime)
    love.graphics.print("You kept up to " .. sadCount .. " people happy for " .. math.floor(timeElapsed) .. 
    " seconds", 40, 20)
 
-	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 0)
-   love.graphics.print("Quitting? (q)",Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 1.5 + 20)
-   love.graphics.print("Restart? (any other)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 40)
+	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2 + 300,Constants.SCREEN_HEIGHT / 1.5 + 0)
+   love.graphics.print("Quitting? (q)",Constants.SCREEN_WIDTH / 2 + 300, Constants.SCREEN_HEIGHT / 1.5 + 20)
+   love.graphics.print("Restart? (any other)",Constants.SCREEN_WIDTH / 2 + 300,Constants.SCREEN_HEIGHT / 1.5 + 40)
    love.graphics.setColor(r,g,b,a)
          
 end 
