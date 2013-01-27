@@ -75,7 +75,8 @@ function Hud:endDisplay(finalTime)
    love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(initTime) .. 
    " seconds", 40, 20)
    love.graphics.print("Press any key restart ",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5)
-	love.graphics.print("Quiting? press r",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 20)
+	love.graphics.print("Restarting? press r",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 20)
+   love.graphics.print("Quitting? press q",Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 1.5 + 40)
    love.graphics.setColor(r,g,b,a)
          
 end 

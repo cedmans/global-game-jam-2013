@@ -23,6 +23,10 @@ end
 
 function gameOver:keypressed(key, unicode)
   
+   if key == 'q' or key == 'Q' then
+      love.event.push('quit')
+   end
+
    if time > Constants.GAME_OVER_SKIP_DELAY then
 		play:reset()
 		if(key == 'r 'or key == 'R') then

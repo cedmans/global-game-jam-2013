@@ -236,6 +236,10 @@ function play:getPercentLivesRemaining()
 end
 
 function play:keypressed(key, unicode)
+   if key == 'q' or key == 'Q' then
+      love.event.push('quit')
+   end
+
    if(love.keyboard.isDown('c')) then
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end

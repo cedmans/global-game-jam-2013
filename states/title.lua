@@ -37,6 +37,10 @@ function title:draw()
    love.graphics.print("i: INSANE",
     Constants.SCREEN_WIDTH / 2,
     Constants.SCREEN_HEIGHT / 1.5+48)
+   
+   love.graphics.print("q: QUIT",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5+60)
 end
 
 function title:keypressed(key, unicode)
@@ -50,6 +54,8 @@ function title:keypressed(key, unicode)
    elseif key == "i" or key == "I" then
       Constants.SADDIE_HEALTH_REDUCTION = -20
       Constants.SADDIE_SPEED = 50
+   elseif key == 'q' or key == 'Q' then
+      love.event.push('quit')
    end
 
    Gamestate.switch(play)
