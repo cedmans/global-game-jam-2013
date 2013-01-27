@@ -10,6 +10,7 @@ local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
 local Wave = require "entities.wave"
 local Hud = require "entities.hud"
+local ExplodingText = require "entities.explodingtext"
 
 local counter = 0
 obstructions = {}
@@ -18,6 +19,7 @@ local deadSaddies = {}
 local time = 0
 local startTime
 local hud = {}
+local explodingTexts
 
 player = {}
 lives = {}
@@ -51,6 +53,7 @@ function play:reset()
    saddies = {}
    deadSaddies = {}
    obstructions = {}
+   explodingTexts = {}
 
    -- These are hardcoded coordinates relating to the static background.
    table.insert(obstructions, Obstruction(Vector(0+255/2, 0+230/2), 255, 230))
@@ -92,12 +95,19 @@ function play:update(dt)
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
          lives = lives - 1
+         table.insert(explodingTexts, ExplodingText("DEATH"))
       end
    end
    for i, saddie in ipairs(deadSaddies) do
       saddie:update(dt)
       if saddie:finishedDying() then
          table.remove(deadSaddies, i)
+      end
+   end
+   for i, text in ipairs(explodingTexts) do
+      text:update(dt)
+      if text:finished() then
+         table.remove(explodingTexts, i)
       end
    end
    player:update(dt)
@@ -125,6 +135,9 @@ function play:draw()
    end
    for i, obs in pairs(obstructions) do
       obs:draw()
+   end
+   for i, texts in ipairs(explodingTexts) do
+      texts:draw()
    end
 
    player:draw(time)
