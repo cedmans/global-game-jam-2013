@@ -1,15 +1,27 @@
+local Constants = require "constants"
+
 local sound = {}
 
-local music = {}
-local heart = {}
+local mainMusic = {}
+local mainBeat = {}
+local offBeat = {}
+local gameOver = {}
 
 function sound.load()
-   music = love.audio.newSource("assets/sounds/main_music.ogg", "static")
-   music:setLooping(true)
-   music:setVolume(0.5)
+   mainMusic = love.audio.newSource("assets/sounds/main_music.ogg", "static")
+   mainMusic:setLooping(true)
+   mainMusic:setVolume(2)
 
-   heart = love.audio.newSource("assets/sounds/heart.ogg", "static")
-   heart:setLooping(true)
+   mainBeat = love.audio.newSource("assets/sounds/main_beat.ogg", "static")
+   mainBeat:setLooping(true)
+   mainBeat:setVolume(2)
+
+   offBeat = love.audio.newSource("assets/sounds/off_beat.ogg", "static")
+   offBeat:setLooping(true)
+   offBeat:setVolume(2)
+
+   gameOver = love.audio.newSource("assets/sounds/game_over.ogg", "static")
+   gameOver:setVolume(2)
 end
 
 function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
@@ -19,16 +31,40 @@ function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
    volume = math.max(minBasedOnHealth, blended)
    volume = math.max(math.min(volume, 1), 0)
 
-   heart:setVolume(volume)
+   offBeat:setVolume(volume)
 end
 
 function sound.playGameMusic()
-   -- love.audio.play(music)
-   -- love.audio.play(heart)
+   mainMusic:setVolume(2)
+   mainMusic:rewind()
+   mainMusic:play()
+
+   mainBeat:setVolume(2)
+   mainBeat:rewind()
+   mainBeat:play()
+
+   offBeat:setVolume(2)
+   offBeat:rewind()
+   offBeat:play()
+end
+
+function sound.setMainMusicVolume(volume)
+
 end
 
 function sound.gameOver()
-   heart:setVolume(0.5)
+   gameOver:setVolume(0)
+   gameOver:play()
+end
+
+function sound.gameOverUpdate(timeElapsed)
+   local fadeOutVolume = math.max(1 - (timeElapsed / Constants.FADE_OUT_TIME), 0) * 2
+   local fadeInVolume = math.min(timeElapsed / Constants.FADE_IN_TIME, 1) * 2
+
+   mainMusic:setVolume(fadeOutVolume)
+   mainBeat:setVolume(fadeOutVolume)
+   offBeat:setVolume(fadeOutVolume)
+   gameOver:setVolume(fadeInVolume)
 end
 
 return sound

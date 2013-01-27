@@ -69,4 +69,8 @@ Constants.TEXTAREA_WRAP = Constants.TEXTAREA_X_SIZE -
 -- Number of seconds to wait until the user can skip the game over screen.
 Constants.GAME_OVER_SKIP_DELAY = 1.0
 
+-- Fade in/out time for music
+Constants.FADE_OUT_TIME = 1.5
+Constants.FADE_IN_TIME = 5
+
 return Constants
