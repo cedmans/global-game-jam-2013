@@ -177,7 +177,7 @@ function Saddie:calculateSadnessBarColors()
    if self.health > Constants.WARNING_SADNESS then
       percentage = 1
    elseif self.health > Constants.CRITICAL_SADNESS then
-      percentage = Util:percentageOfRange(
+      percentage = Util.percentageOfRange(
          Constants.WARNING_SADNESS,
          self.health,
          Constants.CRITICAL_SADNESS)
@@ -193,7 +193,7 @@ function Saddie:calculateSadnessBarColors()
    --                           |---------------|
    if self.health > Constants.WARNING_SADNESS then
       -- We use the inverse of the percentage because we're going from 0 to 1.
-      percentage = 1 - Util:percentageOfRange(
+      percentage = 1 - Util.percentageOfRange(
          Constants.PERFECT_SADNESS,
          self.health,
          Constants.WARNING_SADNESS)
