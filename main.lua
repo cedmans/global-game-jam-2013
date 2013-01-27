@@ -1,5 +1,6 @@
-local Constants = require "constants"
+local Gamestate = require "hump.gamestate"
 local Sound = require "sound"
+
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
@@ -7,10 +8,7 @@ local DeadSaddie = require "entities.deadsaddie"
 local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
-<<<<<<< HEAD
 
-=======
->>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 local Hud = require "entities.hud"
 
 local counter = 0
@@ -24,12 +22,9 @@ local hud = {}
 
 player = {}
 
-<<<<<<< HEAD
-=======
-local counter, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, gameEnded, toolbar
+local counter,saddies,deadSaddies,time,startTime,action
+newSpawnTime,lives,gameEnded,toolbar
 
->>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 local mouth = {}
 local activeItem = {}
 
@@ -49,16 +44,12 @@ function reset()
    lives = 1
 
    player = Player()
-<<<<<<< HEAD
+
 
    hud = Hud()
 
-
-
-=======
    hud = Hud()
 
->>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
    saddies = {}
    deadSaddies = {}
    obstructions = {}
@@ -153,12 +144,7 @@ function love.draw()
    end
 
    toolbar:draw()
-<<<<<<< HEAD
-=======
 
-   love.graphics.print(math.floor(time), 50, 50)
-   love.graphics.print(math.floor(lives), 50, 70)
->>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 end
 
 -- x: Mouse x position.
@@ -247,4 +233,18 @@ end
  
 
 
+
+
+
+-- Load game states.
+title = require "states.title"
+play = require "states.play"
+gameOver = require "states.gameover"
+
+function love.load()
+   Sound.load()
+   -- Register the game state dispatcher and switch into the initial state.
+   Gamestate.registerEvents()
+   Gamestate.switch(title)
+end
 

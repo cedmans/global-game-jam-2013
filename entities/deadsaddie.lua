@@ -4,27 +4,69 @@ local Constants = require "constants"
 
 local DeadSaddie = Class(function(self, saddie)
    self.image = saddie.image
+   self.leftPiece = love.graphics.newImage("assets/images/heart_left.png")
+   self.rightPiece = love.graphics.newImage("assets/images/heart_right.png")
    self.position = saddie.position
-   self.progress = 100
+   self.progress = 1
 end)
 
 function DeadSaddie:update(dt)
-   self.progress = self.progress - 1
+   self.progress = self.progress - .01
 end
 
 function DeadSaddie:draw(time)
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
 
-   love.graphics.setColor(r, g, b, self.progress / 100 * 255)
+   love.graphics.setColor(r, g, b, self.progress * 255)
    love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
     self.position.y - Constants.SADDIE_HEIGHT/2)
+   
+   self:drawBrokenHearts()
 
    love.graphics.setColor(r, g, b, a)
 end
 
+function DeadSaddie:drawBrokenHearts()
+   -- Middle Top
+   xOffset = 5
+   yOffset = (((1 - self.progress) * Constants.HEART_REACH)
+              + Constants.HEART_OFFSET)
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = -xOffset
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+   
+   -- Middle Bottom
+   xOffset = -xOffset
+   yOffset = -yOffset
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = -xOffset
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+
+   -- Left
+   xOffset = (((1 - self.progress) * Constants.HEART_REACH)
+              + Constants.HEART_OFFSET)
+   yOffset = 0
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = xOffset - 5
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+   
+   -- Right
+   xOffset = -xOffset
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = xOffset - 5
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+end
+
+function DeadSaddie:drawHeart(heart, xOffset, yOffset)
+   love.graphics.draw(
+      heart,
+      self.position.x - Constants.SADDIE_WIDTH/2 - xOffset,
+      self.position.y - Constants.SADDIE_HEIGHT/2 - yOffset)
+end
+
 function DeadSaddie:finishedDying()
-   return self.progress == 0
+   return self.progress <= 0
 end
 
 return DeadSaddie
