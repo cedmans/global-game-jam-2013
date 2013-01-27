@@ -2,28 +2,34 @@ local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
 
-local Mouth = Class(function(self)
+local LovePotion = Class(function(self)
    self.activateTime = 0
 end)
 
-function Mouth:activate()
+function LovePotion:activate()
    self.activateTime = love.timer.getTime()
 end
 
-function Mouth:enabled()
-   return (love.timer.getTime() - self.activateTime) > Constants.MOUTH_COOLDOWN
+function LovePotion:enabled()
+   return (love.timer.getTime() - self.activateTime) > Constants.LOVE_POTION_COOLDOWN
 end
 
-function Mouth:drawEffectiveArea(center)
+-- Center is ignored in favor of mouse position
+function LovePotion:drawEffectiveArea(center)
+   local x,y = love.mouse.getPosition()
+
    local oldr,oldg,oldb,olda = love.graphics.getColor()
    local areaColor = Constants.EFFECTIVE_AREA_COLOR
    love.graphics.setColor(areaColor.r,areaColor.g,areaColor.b,areaColor.a)
-   love.graphics.circle("fill",center.x,center.y,Constants.MOUTH_EFFECTIVE_RADIUS);
+   love.graphics.circle("fill",x,y,Constants.LOVE_POTION_EFFECTIVE_RADIUS)
    love.graphics.setColor(oldr,oldg,oldb,olda)
 end
 
-function Mouth:getAffectedSaddies(center,saddies)
+-- Center is ignored in favor of mouse position
+function LovePotion:getAffectedSaddies(center,saddies)
    local affectedSaddies = {}
+
+   local mousex,mousey = love.mouse.getPosition()
 
    for i, saddie in ipairs(saddies) do
       local saddieCenter = saddie:getPosition()
@@ -34,7 +40,7 @@ function Mouth:getAffectedSaddies(center,saddies)
       saddieRect.width = saddieRect.right - saddieRect.left;
       saddieRect.height = saddieRect.bottom - saddieRect.top;
       
-      if (Mouth:intersects(center, saddieRect) == true) then
+      if (LovePotion:intersects(Vector(mousex,mousey), saddieRect) == true) then
          table.insert(affectedSaddies, saddie);
       end
    end
@@ -42,12 +48,13 @@ function Mouth:getAffectedSaddies(center,saddies)
    local count = 0
    for _ in ipairs(affectedSaddies) do count = count + 1 end
    print(count)
-   return affectedSaddies;
+   return affectedSaddies
 end
 
-function Mouth:intersects(circleCenter, rect)
-   local r = Constants.MOUTH_EFFECTIVE_RADIUS
-   circleDistance = Vector(math.abs((circleCenter.x - r/2) - rect.left), math.abs((circleCenter.y - r/2) - rect.top))
+function LovePotion:intersects(circleCenter, rect)
+   local r = Constants.LOVE_POTION_EFFECTIVE_RADIUS
+   --This is a monumentally stupid hack because there's a bad offset
+   circleDistance = Vector(math.abs((circleCenter.x - r/2) - rect.left + (rect.right-rect.left)*2), math.abs((circleCenter.y - r/2) - rect.top + (rect.bottom-rect.top)*0.5))
 
    if (circleDistance.x > (rect.width / 2 + r)) then return false end
    if (circleDistance.y > (rect.height / 2 + r)) then return false end
@@ -58,4 +65,4 @@ function Mouth:intersects(circleCenter, rect)
    return (cornerDistance_sq <= (r ^ 2))
 end
 
-return Mouth
+return LovePotion
