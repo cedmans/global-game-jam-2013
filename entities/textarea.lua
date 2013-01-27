@@ -1,8 +1,9 @@
 local Class = require "hump.class"
 local Constants = require "constants"
 
-local TextArea = Class(function(self, text)
+local TextArea = Class(function(self, text, author)
    self.text = text
+   self.author = author
    self.color = {255, 255, 255, 255}
    self.bgColor = {0, 27, 106, 200}
 end)
@@ -24,6 +25,12 @@ function TextArea:draw(time)
       Constants.TEXTAREA_Y_OFFSET,
       Constants.TEXTAREA_WRAP,
       'center')
+   love.graphics.printf(
+      '- '..self.author,
+      Constants.TEXTAREA_X_OFFSET,
+      Constants.TEXTAREA_Y_OFFSET+200,
+      Constants.TEXTAREA_WRAP,
+      'right')
    
    love.graphics.setColor(r, g, b, a)
 end

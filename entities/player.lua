@@ -52,7 +52,7 @@ local Player = Class(function(self)
    self.previousPosition = self.position
    self.targetpos = Vector(400, 400)
    self.direction = "down"
-
+   self.name = "Dr. Clements"
 end)
 
 function Player:update(dt)
