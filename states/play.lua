@@ -141,17 +141,16 @@ function play:mousepressed(x, y, button)
       player.targetpos = Vector(x, y)
       angle = player:getMouseAngle()
       if angle < -math.pi*3/4 then
-         direction = "left"
+         player:setDirection("left")
       elseif angle < -math.pi/4 then
-         direction = "down"
+         player:setDirection("down")
       elseif angle < math.pi/4 then
-         direction = "right"
+         player:setDirection("right")
       elseif angle < math.pi*3/4 then
-         direction = "up"
+         player:setDirection("up")
       else
-         direction = "left"
+         player:setDirection("left")
       end
-      print(direction)
    elseif button == "l" then
       self:performAction()
    end
