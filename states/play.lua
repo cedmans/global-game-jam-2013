@@ -20,7 +20,7 @@ local time = 0
 local startTime
 local hud = {}
 local explodingTexts
-
+local dieTime = love.timer.getDelta()
 player = {}
 lives = {}
 
@@ -79,7 +79,7 @@ function play:reset()
 end
 
 function play:endGame()
-	hud:getTime()
+	--hud:getTime()
    Gamestate.switch(gameOver)
 end
 
@@ -119,6 +119,7 @@ function play:update(dt)
    player:update(dt)
    
    if math.floor(lives) <= 0 then
+      love.timer.step()
       self:endGame()
    end
 
