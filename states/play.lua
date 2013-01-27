@@ -211,10 +211,14 @@ function play:performAction()
 
    affectedSaddies = items[activeItem]:getAffectedSaddies(player:getPosition(), saddies)
 
-   items[activeItem]:activate(affectedSaddies)
+   local currentItem = items[activeItem]
+   local duration = currentItem.duration
+   local health = currentItem.health
+
+   currentItem:activate(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
-      saddie:giveHappiness(5, 5)
+      saddie:giveHappiness(health, duration)
    end
 end
 

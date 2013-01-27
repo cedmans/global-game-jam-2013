@@ -4,6 +4,8 @@ local Constants = require "constants"
 local Sound = require "sound"
 
 local HighFive = Class(function(self)
+   self.duration = Constants.HIGH_FIVE_HEALTH_DURATION
+   self.health = Constants.HIGH_FIVE_HEALTH_EFFECT
    self.activateTime = 0
    self.image = love.graphics.newImage("assets/images/Highfive_icon.png")
 end)
