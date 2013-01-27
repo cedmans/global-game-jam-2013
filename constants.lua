@@ -50,6 +50,7 @@ Constants.WAVE_HEALTH_EFFECT = 1.5
 Constants.WAVE_HEALTH_DURATION = 0.5
 Constants.WAVE_COOLDOWN = 5
 
+Constants.TEXTAREA_DURATION = 5
 Constants.TEXTAREA_X_LOC = 370
 Constants.TEXTAREA_Y_LOC = 0
 Constants.TEXTAREA_X_SIZE = 315

@@ -120,6 +120,12 @@ function play:update(dt)
       end
    end
    player:update(dt)
+   if textArea then
+      textArea:update(dt)
+      if textArea:finished() then
+         textArea = nil
+      end
+   end
    
    if math.floor(lives) <= 0 then
       love.timer.step()
