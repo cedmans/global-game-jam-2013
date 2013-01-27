@@ -8,7 +8,7 @@ local Toolbar = Class(function(self)
    self.numberItems = 0
 end)
 
-function Toolbar:draw(items)
+function Toolbar:draw(items, activeItem)
    local percentage
    local oldr, oldg, oldb, olda = love.graphics.getColor()
 
