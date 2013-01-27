@@ -30,7 +30,7 @@ function Hud:draw(time)
    score = score + (3*sadCount)
    love.graphics.setFont(originalFont)
    love.graphics.print("SCORE: " .. score, 870,20) 
-   love.timer.step()
+   --love.timer.step()
    
    
    
