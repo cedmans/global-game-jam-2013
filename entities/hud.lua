@@ -1,7 +1,6 @@
 local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
-local Util = require "util"
 
 local originalFont = love.graphics.newFont(18)
 local scoreFont = love.graphics.newFont("assets/fonts/arialbd.ttf", 18)

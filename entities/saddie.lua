@@ -41,7 +41,10 @@ function Saddie:update(dt)
 
          obstructed = false
          for i, obs in ipairs(obstructions) do
-            if math.abs(self.targetpos.x-obs.position.x) < (Constants.SADDIE_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.targetpos.y-obs.position.y) < (Constants.SADDIE_HEIGHT+Constants.OBS_HEIGHT)/2 then
+            if math.abs(self.targetpos.x-obs.position.x) <
+               (Constants.SADDIE_WIDTH+obs.width)/2
+            and math.abs(self.targetpos.y-obs.position.y) <
+               (Constants.SADDIE_HEIGHT+obs.height)/2 then
                obstructed = true
             end
          end
@@ -177,7 +180,7 @@ function Saddie:calculateSadnessBarColors()
    if self.health > Constants.WARNING_SADNESS then
       percentage = 1
    elseif self.health > Constants.CRITICAL_SADNESS then
-      percentage = Util:percentageOfRange(
+      percentage = Util.percentageOfRange(
          Constants.WARNING_SADNESS,
          self.health,
          Constants.CRITICAL_SADNESS)
@@ -193,7 +196,7 @@ function Saddie:calculateSadnessBarColors()
    --                           |---------------|
    if self.health > Constants.WARNING_SADNESS then
       -- We use the inverse of the percentage because we're going from 0 to 1.
-      percentage = 1 - Util:percentageOfRange(
+      percentage = 1 - Util.percentageOfRange(
          Constants.PERFECT_SADNESS,
          self.health,
          Constants.WARNING_SADNESS)
