@@ -17,7 +17,10 @@ Constants.PLAYER_SPEED = 100
 Constants.SADDIE_WIDTH = 100
 Constants.SADDIE_HEIGHT = 102
 Constants.SADDIE_SPEED = 15
-Constants.SADDIE_ROUTE_LEG = 50
+Constants.SADDIE_ROUTE_LEG = 100
+
+Constants.OBS_WIDTH = 100
+Constants.OBS_HEIGHT = 100
 
 Constants.SADDIE_HEALTH_REDUCTION = -5 -- Units per second
 

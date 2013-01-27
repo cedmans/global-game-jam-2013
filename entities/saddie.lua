@@ -27,7 +27,15 @@ function Saddie:update(dt)
          vec = Vector(math.cos(dir), math.sin(dir))
          self.speed = Constants.SADDIE_SPEED*(math.random()+1)
          self.targetpos = self.position + Constants.SADDIE_ROUTE_LEG*vec
-         if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
+
+         obstructed = false
+         for i, obs in ipairs(obstructions) do
+            if math.abs(self.targetpos.x-obs.position.x) < (Constants.SADDIE_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.targetpos.y-obs.position.y) < (Constants.SADDIE_HEIGHT+Constants.OBS_HEIGHT)/2 then
+               obstructed = true
+            end
+         end
+
+         if not obstructed and self.targetpos.x > Constants.MIN_X and self.targetpos.x < Constants.MAX_X and self.targetpos.y > Constants.MIN_Y and self.targetpos.y < Constants.MAX_Y then break end
       end
    end
    if (self.happyDuration <= 0) then
@@ -42,18 +50,6 @@ function Saddie:update(dt)
    else
       self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
    end
-end
-
-function Saddie:moveRight(amount)
-   self.position.x = self.position.x + amount
-
-   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
-end
-
-function Saddie:moveUp(amount)
-   self.position.y = self.position.y - amount
-
-   self.position.y = math.max(math.min(self.position.y, Constants.MAX_Y), Constants.MIN_Y)
 end
 
 function Saddie:addHealth(dh)

@@ -3,9 +3,11 @@ local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
+local Obstruction = require "entities.obstruction"
 local Mouth = require "entities.mouth"
 
 local counter, player, saddies, deadSaddies, time, startTime, action
+obstructions = {}
 
 local mouth = {}
 local activeItem = {}
@@ -23,11 +25,16 @@ function reset()
    player = Player()
    saddies = {}
    deadSaddies = {}
+   obstructions = {}
 
    for i = 1, 5 do
-      table.insert(saddies, Saddie(randomPoint(spriteDim)))
+      table.insert(obstructions, Obstruction(randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
    end
-   
+
+   for i = 1, 5 do
+      table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+   end
+
    action = nil
 
    mouth = Mouth()
@@ -73,6 +80,9 @@ function love.draw()
    for i, saddie in ipairs(deadSaddies) do
       saddie:draw(time)
    end
+   for i, obs in pairs(obstructions) do
+      obs:draw()
+   end
 
    player:draw(time)
    if action ~= nil then
@@ -100,7 +110,7 @@ end
 
 function love.keypressed(key, unicode)
    if(love.keyboard.isDown('c')) then
-      table.insert(saddies, Saddie(randomPoint()))
+      table.insert(saddies, Saddie(randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end
    if key == 'q' then
       -- action = QAction()
@@ -124,12 +134,20 @@ function performAction(point)
    end
 end
 
-function randomPoint()
+function randomPoint(dim)
    local randomX,randomY = 0,0
 	repeat	  
-      randomX = math.random(0,Constants.SCREEN_WIDTH - Constants.PLAYER_WIDTH)
-      randomY = math.random(0,Constants.SCREEN_HEIGHT - Constants.PLAYER_HEIGHT)
-   until(checkSpawn(randomX,randomY))
+      randomX = math.random(0,Constants.SCREEN_WIDTH - dim.x)
+      randomY = math.random(0,Constants.SCREEN_HEIGHT - dim.y)
+
+      obstructed = false
+      for i, obs in ipairs(obstructions) do
+         if math.abs(randomX-obs.position.x) < (dim.x+Constants.OBS_WIDTH)/2 and math.abs(randomY-obs.position.y) < (dim.y+Constants.OBS_HEIGHT)/2 then
+            obstructed = true
+         end
+      end
+
+   until(not obstructed and checkSpawn(randomX,randomY))
    randomVector = Vector.new(randomX,randomY)
    return randomVector
 end
