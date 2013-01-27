@@ -27,6 +27,16 @@ function Player:update(dt)
    if not self.position:equals(self.targetpos) then
       self.position = self.position + (self.targetpos - self.position):normalized() * Constants.PLAYER_SPEED * dt
    end
+
+   obstructed = false
+   for i, obs in ipairs(obstructions) do
+      if math.abs(self.position.x-obs.position.x) < (Constants.PLAYER_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.position.y-obs.position.y) < (Constants.PLAYER_HEIGHT+Constants.OBS_HEIGHT)/2 then
+         obstructed = true
+      end
+   end
+   if obstructed then
+      self.targetpos = self.position
+   end
 end
 
 function Player:draw(time)
