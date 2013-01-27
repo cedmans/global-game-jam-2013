@@ -12,6 +12,8 @@ function title:update(dt)
 end
 
 function title:draw()
+   love.graphics.setFont(love.graphics.newFont(12))
+
    love.graphics.print("SADDIES",
     Constants.SCREEN_WIDTH / 2,
     Constants.SCREEN_HEIGHT / 2)
