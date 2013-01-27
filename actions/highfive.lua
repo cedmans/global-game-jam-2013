@@ -4,13 +4,18 @@ local Constants = require "constants"
 local Sound = require "sound"
 
 local HighFive = Class(function(self)
+   self.duration = Constants.HIGH_FIVE_HEALTH_DURATION
+   self.health = Constants.HIGH_FIVE_HEALTH_EFFECT
    self.activateTime = 0
    self.image = love.graphics.newImage("assets/images/Highfive_icon.png")
 end)
 
-function HighFive:activate()
+function HighFive:activate(affectedSaddies)
    self.activateTime = love.timer.getTime()
-   Sound.highFive()
+
+   if #affectedSaddies > 0 then
+      Sound.highFive()
+   end
 end
 
 function HighFive:enabled()
@@ -25,7 +30,7 @@ function HighFive:drawEffectiveArea(center)
    local oldr,oldg,oldb,olda = love.graphics.getColor()
    local areaColor = Constants.EFFECTIVE_AREA_COLOR
    love.graphics.setColor(areaColor.r,areaColor.g,areaColor.b,areaColor.a)
-   love.graphics.circle("fill",center.x,center.y,Constants.HIGH_FIVE_EFFECTIVE_RADIUS);
+   love.graphics.circle("fill", center.x, center.y, Constants.HIGH_FIVE_EFFECTIVE_RADIUS);
    love.graphics.setColor(oldr,oldg,oldb,olda)
 end
 
