@@ -22,9 +22,15 @@ function gameOver:draw()
 end
 
 function gameOver:keypressed(key, unicode)
+  
    if time > Constants.GAME_OVER_SKIP_DELAY then
-      Gamestate.switch(title)
-   end
+		play:reset()
+		if(key == 'r 'or key == 'R') then
+			Gamestate.switch(title)
+		else
+			Gamestate.switch(play)
+		end
+	end
 end
 
 return gameOver
