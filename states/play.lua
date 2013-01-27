@@ -145,11 +145,15 @@ function play:mousepressed(x, y, button)
       player.targetpos = Vector(x, y)
       action = nil
    elseif button == "l" then
-      affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+      self:performAction()
+   end
+end
 
-      for i, saddie in ipairs(affectedSaddies) do
-         saddie:giveHappiness(5, 5)
-      end
+function play:performAction()
+   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+
+   for i, saddie in ipairs(affectedSaddies) do
+      saddie:giveHappiness(5, 5)
    end
 end
 
@@ -163,6 +167,8 @@ function play:keypressed(key, unicode)
       -- action = WAction()
    elseif key == 'e' then
       -- action = EAction()
+   elseif key == ' ' then
+      self:performAction()
    elseif key == 'r' then
       -- action = RAction()
       reset()
@@ -190,16 +196,6 @@ end
 -- Determine the next time we want to spawn saddies.
 function play:nextSpawnTime()
    return time + 5
-end
-
--- Generic perform action function. We probably want to expand this to do
--- different things depending on our current "item".
-function play:performAction(point)
-   local affectedSaddies = self:getAllSaddiesInRadiusFromPoint(point, 150)
-
-   for i, saddie in ipairs(affectedSaddies) do
-      saddie:changeDirection()
-   end
 end
 
 function play:randomPoint(dim)
