@@ -70,6 +70,7 @@ function play:reset()
 end
 
 function play:endGame()
+	hud:getTime()
    Gamestate.switch(gameOver)
 end
 
@@ -131,9 +132,6 @@ function play:draw()
    hud:draw(time)
    
    toolbar:draw()
-
-   love.graphics.print(math.floor(time), 50, 50)
-   love.graphics.print(math.floor(lives), 50, 70)
 end
 
 -- x: Mouse x position.
