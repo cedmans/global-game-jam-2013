@@ -7,6 +7,7 @@ Constants.SCREEN_HEIGHT = 720
 Constants.SPAWN_RADIUS = 210 -- minimum spawn distance of NPC's.
 Constants.TOOLBAR_ITEM_WIDTH = 100
 Constants.TOOLBAR_ITEM_HEIGHT = 100
+Constants.COOLDOWN_COLORS = {255, 255, 255, 200}
 
 Constants.MIN_X = 0
 Constants.MAX_X = Constants.SCREEN_WIDTH
@@ -55,6 +56,11 @@ Constants.LOVE_POTION_COOLDOWN = 1
 Constants.LOVE_POTION_HEALTH_EFFECT = 50
 Constants.LOVE_POTION_DURATION = 3
 
+Constants.HIGH_FIVE_EFFECTIVE_RADIUS = 100
+Constants.HIGH_FIVE_HEALTH_EFFECT = 100
+Constants.HIGH_FIVE_HEALTH_DURATION = 1
+Constants.HIGH_FIVE_COOLDOWN = 1
+
 Constants.TEXTAREA_DURATION = 5
 Constants.TEXTAREA_X_LOC = 370
 Constants.TEXTAREA_Y_LOC = 0
@@ -68,5 +74,9 @@ Constants.TEXTAREA_WRAP = Constants.TEXTAREA_X_SIZE -
 
 -- Number of seconds to wait until the user can skip the game over screen.
 Constants.GAME_OVER_SKIP_DELAY = 1.0
+
+-- Fade in/out time for music
+Constants.FADE_OUT_TIME = 1.5
+Constants.FADE_IN_TIME = 5
 
 return Constants

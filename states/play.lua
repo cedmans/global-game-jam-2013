@@ -10,6 +10,7 @@ local Toolbar = require 'entities.toolbar'
 local Mouth = require "actions.mouth"
 local Wave = require "actions.wave"
 local LovePotion = require "actions.lovepotion"
+local HighFive = require "actions.highfive"
 local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
 local TextArea = require "entities.textarea"
@@ -32,14 +33,10 @@ randomQuotes = {"Welcome! You're late.","Solutions that pile tons of horrible mu
 "Okay! Let's do other crazy stuff."}
 
 local counter, saddies, deadSaddies, time, startTime,
-      newSpawnTime, toolbar, textArea
+      newSpawnTime, toolbar, textArea, items, activeItem
 
 timeElapsed = 0
 
-local mouth = {}
-local wave = {}
-local lovepotion = {}
-local activeItem = {}
 local background = love.graphics.newImage("assets/images/Background_city.png")
 
 local play = Gamestate.new()
@@ -84,16 +81,15 @@ function play:reset()
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end
 
-   mouth = Mouth()
-   wave = Wave()
-   lovepotion = LovePotion()
-   activeItem = mouth;
+   items = { Mouth(), Wave(), LovePotion(), HighFive() }
+   activeItem = 1;
 
    toolbar = Toolbar()
 end
 
 function play:endGame()
 	--hud:getTime()
+   hud:setScore()
    Gamestate.switch(gameOver)
 end
 
@@ -157,7 +153,7 @@ end
 
 function play:draw()
    love.graphics.draw(background)
-   activeItem:drawEffectiveArea(player:getPosition());
+   items[activeItem]:drawEffectiveArea(player:getPosition())
    if textArea then
       textArea:draw()
    end
@@ -178,7 +174,7 @@ function play:draw()
    player:draw(time)
    hud:draw(time)
    
-   toolbar:draw()
+   toolbar:draw(items, activeItem)
 end
 
 -- x: Mouse x position.
@@ -205,13 +201,13 @@ function play:mousepressed(x, y, button)
 end
 
 function play:performAction()
-   if not activeItem:enabled() then
+   if not items[activeItem]:enabled() then
       return
    end
-   
-   activeItem:activate()
 
-   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+   affectedSaddies = items[activeItem]:getAffectedSaddies(player:getPosition(), saddies)
+
+   items[activeItem]:activate(affectedSaddies)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:giveHappiness(5, 5)
@@ -253,11 +249,13 @@ function play:keypressed(key, unicode)
    if key == ' ' then
       self:performAction()
    elseif key == '1' then
-      activeItem = mouth
+      activeItem = 1
    elseif key == '2' then
-      activeItem = wave
-   elseif key == '3' and timeElapsed > 10 then
-      activeItem = lovepotion
+      activeItem = 2
+   elseif key == '3' then
+      activeItem = 3
+   elseif key == '4' then
+      activeItem = 4
    end
 end
 

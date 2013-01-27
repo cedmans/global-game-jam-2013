@@ -2,32 +2,37 @@ local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
 
-local toolURIs = {
-   mouth = love.graphics.newImage("assets/images/Mouthtalking_icon.png"),
-   wave = love.graphics.newImage("assets/images/Wave_icon.png"),
-   lovepotion = love.graphics.newImage("assets/images/LovePotion_icon.png"),
-}
-
 local Toolbar = Class(function(self)
    self.active = false
    self.position = Vector(0, 0)
    self.numberItems = 0
 end)
 
-function Toolbar:draw()
+function Toolbar:draw(items, activeItem)
+   local percentage
    local oldr, oldg, oldb, olda = love.graphics.getColor()
 
-   love.graphics.draw(toolURIs["mouth"], self.position.x, self.position.y)
-   love.graphics.setColor(0,102,0,255)
-   love.graphics.setColor(oldr,oldg,oldb,olda)
+   for i, item in ipairs(items) do
+      if i ~= activeItem then
+         love.graphics.setColor(100, 100, 100, olda)
+      end
+      love.graphics.draw(
+         item.image,
+         self.position.x + (Constants.TOOLBAR_ITEM_WIDTH * (i-1)),
+         self.position.y)
 
-   love.graphics.draw(toolURIs["wave"], self.position.x+Constants.TOOLBAR_ITEM_WIDTH, self.position.y)
-   love.graphics.setColor(0,102,0,255)
-   love.graphics.setColor(oldr,oldg,oldb,olda)
-
-   if timeElapsed > 10 then
-      love.graphics.draw(toolURIs["lovepotion"], self.position.x+Constants.TOOLBAR_ITEM_WIDTH*2, self.position.y)
-      love.graphics.setColor(0,102,0,255)
+      percentage = item:percentageCooledDown()
+      if percentage <= 1 then
+         percentage = math.max(percentage, 0)
+         love.graphics.setColor(Constants.COOLDOWN_COLORS)
+         love.graphics.rectangle(
+            'fill',
+            self.position.x + (Constants.TOOLBAR_ITEM_WIDTH * (i-1)),
+            self.position.y,
+            Constants.TOOLBAR_ITEM_WIDTH,
+            Constants.TOOLBAR_ITEM_HEIGHT * (1 - percentage)
+         )
+      end
       love.graphics.setColor(oldr,oldg,oldb,olda)
    end
 end
