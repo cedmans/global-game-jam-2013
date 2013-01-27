@@ -43,7 +43,7 @@ function play:reset()
    time = 0
    newSpawnTime = self:nextSpawnTime()
    counter = 0
-   lives = 10
+   lives = 1
 
    player = Player()
    hud = Hud()
@@ -103,7 +103,8 @@ function play:update(dt)
    player:update(dt)
    
    if math.floor(lives) <= 0 then
-      self:endGame()
+      hud:getTime()
+	  self:endGame()
    end
 
    Sound.update(dt, time)
@@ -188,6 +189,8 @@ function play:addSaddies()
       for i = 1, math.floor(time / 5) do
          table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
       end
+	  hud:sadIncrement(1)
+	  
       newSpawnTime = self:nextSpawnTime()
       lives = lives + 0.25
    end
