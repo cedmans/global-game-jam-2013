@@ -57,7 +57,7 @@ function Hud: startDelta()
    love.timer.step()
 end
 
-function Hud:endDisplay(finalTime)
+function Hud:endDisplay()
 	currentScore = score
 	table.insert(scoreList, score)
 	table.sort(scoreList)
@@ -72,7 +72,7 @@ function Hud:endDisplay(finalTime)
    love.graphics.setFont(scoreFont)
    love.graphics.print("FINAL SCORE: " .. self:getScore(),770,20)
    love.graphics.setFont(originalFont)
-   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(initTime) .. 
+   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(timeElapsed) .. 
    " seconds", 40, 20)
    love.graphics.print("Press any key to restart.",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5)
 	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 20)
