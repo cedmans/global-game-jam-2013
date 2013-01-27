@@ -1,5 +1,6 @@
-local Constants = require "constants"
+local Gamestate = require "hump.gamestate"
 local Sound = require "sound"
+<<<<<<< HEAD
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
@@ -248,3 +249,17 @@ end
 
 
 
+=======
+
+-- Load game states.
+title = require "states.title"
+play = require "states.play"
+gameOver = require "states.gameover"
+
+function love.load()
+   Sound.load()
+   -- Register the game state dispatcher and switch into the initial state.
+   Gamestate.registerEvents()
+   Gamestate.switch(title)
+end
+>>>>>>> 1719298c601a158462857f6480700ed23cf6e00b
