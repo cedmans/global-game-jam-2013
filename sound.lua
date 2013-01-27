@@ -13,7 +13,7 @@ function sound.load()
 end
 
 function sound.update(dt, time)
-   local volume = math.sin(time / 20)
+   local volume = math.abs(math.sin(time / 20))
 
    heart:setVolume(volume)
 end
