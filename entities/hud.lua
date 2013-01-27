@@ -27,8 +27,7 @@ end
 
 function Hud:draw(time)  
    love.graphics.setColor(0,0,0)
-   love.graphics.rectangle("fill", 45,650,100,50)
-   love.graphics.rectangle("fill", 860,20,190,30)
+   love.graphics.rectangle("fill", 860,18,190,70)
    
    love.graphics.setColor(255,255,230)
    
@@ -36,12 +35,9 @@ function Hud:draw(time)
    score = score + (3*sadCount)
    love.graphics.setFont(originalFont)
    love.graphics.print("SCORE: " .. score, 870,20) 
+   love.graphics.print("TIME: " .. math.floor(time), 870, 40)
+   love.graphics.print("LIVES: " .. math.floor(lives), 870, 60)
    --love.timer.step()
-   
-   
-   
-   love.graphics.print("TIME: " .. math.floor(time), 50, 650)
-   love.graphics.print("Lives: " .. math.floor(lives), 50, 680)
    
    love.graphics.setColor(r,g,b,a)
    
