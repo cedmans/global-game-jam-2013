@@ -13,7 +13,11 @@ local Hud = Class(function(self)
 end)
 
 function Hud:draw(time)  
-   love.graphics.setColor(230,230,0)
+   love.graphics.setColor(0,0,0)
+   love.graphics.rectangle("fill", 45,48,100,50)
+   love.graphics.rectangle("fill", 860,20,190,30)
+   
+   love.graphics.setColor(255,255,230)
    
    love.graphics.setFont(scoreFont)
    score = score + (3*sadCount)
@@ -44,6 +48,7 @@ end
 
 
 function Hud:endDisplay(finalTime)
+   
    love.graphics.setColor(0,150,0)
    love.graphics.setFont(endFont)
    love.graphics.print("Game Over",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2)
