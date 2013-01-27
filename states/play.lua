@@ -151,7 +151,7 @@ end
 -- y: Mouse y position.
 -- button: http://www.love2d.org/wiki/MouseConstant
 function play:mousepressed(x, y, button)
-   if button == "r" then
+   if button == "l" then
       player.targetpos = Vector(x, y)
       angle = player:getMouseAngle()
       if angle < -math.pi*3/4 then
@@ -165,7 +165,7 @@ function play:mousepressed(x, y, button)
       else
          player:setDirection("left")
       end
-   elseif button == "l" then
+   elseif button == "r" then
       self:performAction()
    end
 end
