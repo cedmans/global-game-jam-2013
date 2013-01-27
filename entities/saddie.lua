@@ -51,6 +51,20 @@ function Saddie:update(dt)
 
          if not obstructed and self.targetpos.x > Constants.MIN_X and self.targetpos.x < Constants.MAX_X and self.targetpos.y > Constants.MIN_Y and self.targetpos.y < Constants.MAX_Y then break end
       end
+      tgtDelta = self.targetpos - self.position
+      tgtDelta.y = - tgtDelta.y
+      angle = math.atan2(tgtDelta.y, tgtDelta.x)
+      if angle < -math.pi*3/4 then
+         direction = "left"
+      elseif angle < -math.pi/4 then
+         direction = "down"
+      elseif angle < math.pi/4 then
+         direction = "right"
+      elseif angle < math.pi*3/4 then
+         direction = "up"
+      else
+         direction = "left"
+      end
    end
    if (self.happyDuration <= 0) then
       self.happyDuration = 0
