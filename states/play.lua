@@ -8,6 +8,7 @@ local DeadSaddie = require "entities.deadsaddie"
 local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
+local Wave = require "entities.wave"
 local Hud = require "entities.hud"
 
 local counter = 0
@@ -20,11 +21,13 @@ local startTime
 local hud = {}
 
 player = {}
+lives = {}
 
 local counter, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, toolbar
+      newSpawnTime, toolbar
 
 local mouth = {}
+local wave = {}
 local activeItem = {}
 
 local play = Gamestate.new()
@@ -40,7 +43,7 @@ function play:reset()
    time = 0
    newSpawnTime = self:nextSpawnTime()
    counter = 0
-   lives = 1
+   lives = 10
 
    player = Player()
    hud = Hud()
@@ -60,7 +63,7 @@ function play:reset()
    action = nil
 
    mouth = Mouth()
-   mouth:toggleActive() --set true
+   wave = Wave()
    activeItem = mouth;
 
    toolbar = Toolbar()
@@ -109,7 +112,7 @@ function play:update(dt)
 end
 
 function play:draw()
-   mouth:drawEffectiveArea(player:getPosition());
+   activeItem:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
       saddie:draw(time)
@@ -163,6 +166,12 @@ function play:keypressed(key, unicode)
    elseif key == 'r' then
       -- action = RAction()
       reset()
+   end
+
+   if key == '1' then
+      activeItem = mouth
+   elseif key == '2' then
+      activeItem = wave
    end
 end
 
