@@ -81,7 +81,6 @@ function play:calcMousePlayerAngle()
    return math.atan2(mousedelta.y, mousedelta.x)
 end
 
-
 function play:update(dt)
    time = time + dt
    
@@ -140,6 +139,19 @@ end
 function play:mousepressed(x, y, button)
    if button == "r" then
       player.targetpos = Vector(x, y)
+      angle = player:getMouseAngle()
+      if angle < -math.pi*3/4 then
+         direction = "left"
+      elseif angle < -math.pi/4 then
+         direction = "down"
+      elseif angle < math.pi/4 then
+         direction = "right"
+      elseif angle < math.pi*3/4 then
+         direction = "up"
+      else
+         direction = "left"
+      end
+      print(direction)
    elseif button == "l" then
       self:performAction()
    end
