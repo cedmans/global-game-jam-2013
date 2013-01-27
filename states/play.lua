@@ -139,7 +139,7 @@ function play:update(dt)
          textArea = nil
       end
    elseif chance < 80 then
-      textArea = TextArea(randomQuotes[math.random(1,#randomQuotes)], 'Dr. Clemens')
+      textArea = TextArea(randomQuotes[math.random(1,#randomQuotes)], player.name)
    end
    
    if math.floor(lives) <= 0 then
