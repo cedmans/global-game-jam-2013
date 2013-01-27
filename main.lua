@@ -72,6 +72,8 @@ function love.update(dt)
    end
    player:update(dt)
 
+   Sound.update(dt, time)
+
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
