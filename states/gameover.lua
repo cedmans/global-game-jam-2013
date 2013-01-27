@@ -28,12 +28,12 @@ function gameOver:keypressed(key, unicode)
    end
 
    if time > Constants.GAME_OVER_SKIP_DELAY then
-		play:reset()
-		if(key == 'r 'or key == 'R') then
+		if(key == 't' or key == 'T') then
 			Gamestate.switch(title)
 		else
 			Gamestate.switch(play)
 		end
+		play:reset()
 	end
 end
 
