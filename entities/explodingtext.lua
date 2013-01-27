@@ -17,12 +17,12 @@ function ExplodingText:draw(time)
    love.graphics.setColor(r, g, b, self.progress * 255)
    love.graphics.print(
       self.text,
-      Constants.SCREEN_WIDTH / 2,
+      Constants.SCREEN_WIDTH / 2 / 2,
       10, --Constants.SCREEN_HEIGHT / 2,
       0,
-      (1 - self.progress) * 100,
-      (1 - self.progress) * 100,
-      ((1 - self.progress) * 100) / 2)
+      (1 - self.progress) * 20,
+      (1 - self.progress) * 20,
+      ((1 - self.progress) * 20) / 2)
    
    love.graphics.setColor(r, g, b, a)
 end
