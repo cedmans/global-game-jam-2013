@@ -28,12 +28,33 @@ function DeadSaddie:draw(time)
 end
 
 function DeadSaddie:drawBrokenHearts()
-   -- Middle
+   -- Middle Top
    xOffset = 5
    yOffset = (((1 - self.progress) * Constants.HEART_REACH)
               + Constants.HEART_OFFSET)
    self:drawHeart(self.leftPiece, xOffset, yOffset)
    xOffset = -xOffset
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+   
+   -- Middle Bottom
+   xOffset = -xOffset
+   yOffset = -yOffset
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = -xOffset
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+
+   -- Left
+   xOffset = (((1 - self.progress) * Constants.HEART_REACH)
+              + Constants.HEART_OFFSET)
+   yOffset = 0
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = xOffset - 5
+   self:drawHeart(self.rightPiece, xOffset, yOffset)
+   
+   -- Right
+   xOffset = -xOffset
+   self:drawHeart(self.leftPiece, xOffset, yOffset)
+   xOffset = xOffset - 5
    self:drawHeart(self.rightPiece, xOffset, yOffset)
 end
 
