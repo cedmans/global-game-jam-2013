@@ -3,8 +3,21 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
+local staticSaddieImage =
+   love.graphics.newImage("assets/images/npcside_frameidle.png")
+local saddieImages = {
+   love.graphics.newImage("assets/images/npcside_frame1.png"),
+   love.graphics.newImage("assets/images/npcside_frame2.png"),
+   love.graphics.newImage("assets/images/npcside_frame3.png"),
+   love.graphics.newImage("assets/images/npcside_frame4.png"),
+   love.graphics.newImage("assets/images/npcside_frame5.png"),
+   love.graphics.newImage("assets/images/npcside_frame6.png"),
+   love.graphics.newImage("assets/images/npcside_frame7.png"),
+   love.graphics.newImage("assets/images/npcside_frame8.png")
+}
+
 local Saddie = Class(function(self, position)
-   self.image = love.graphics.newImage("assets/images/saddie.png")
+   self.image = staticSaddieImage
    self.heart = love.graphics.newImage("assets/images/heart_whole.png")
    self.position = position
    self.targetpos = position
@@ -68,6 +81,8 @@ function Saddie:giveHappiness(health, duration)
 end
 
 function Saddie:draw(time)
+   self.image = saddieImages[math.floor(time * 5) % 8 + 1]
+
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
    love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
