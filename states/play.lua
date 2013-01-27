@@ -194,8 +194,6 @@ function play:keypressed(key, unicode)
    end
    if key == ' ' then
       self:performAction()
-   elseif key == 'r' then
-      reset()
    elseif key == '1' then
       activeItem = mouth
    elseif key == '2' then
