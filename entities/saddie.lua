@@ -28,7 +28,8 @@ local saddieImages = {
    },
    up = {
       love.graphics.newImage("assets/images/npctop_frame1.png"),
-      love.graphics.newImage("assets/images/npctop_frame2.png"),
+   
+   love.graphics.newImage("assets/images/npctop_frame2.png"),
       love.graphics.newImage("assets/images/npctop_frame3.png"),
       love.graphics.newImage("assets/images/npctop_frame4.png"),
       love.graphics.newImage("assets/images/npctop_frame5.png"),
