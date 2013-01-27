@@ -179,7 +179,7 @@ function addSaddies()
    if time > newSpawnTime then
       -- Simple difficulty scaling dependent on time elapsed.
       for i = 1, math.floor(time / 5) do
-         table.insert(saddies, Saddie(randomPoint()))
+         table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
       end
       newSpawnTime = nextSpawnTime()
       lives = lives + 0.25
