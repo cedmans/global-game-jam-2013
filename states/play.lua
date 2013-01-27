@@ -121,11 +121,15 @@ function play:update(dt)
       end
    end
    player:update(dt)
+
+   local chance = math.random(0, 100)
    if textArea then
       textArea:update(dt)
       if textArea:finished() then
          textArea = nil
       end
+   elseif chance < 80 then
+      textArea = TextArea("It's too crowded here.", 'Guest 534')
    end
    
    if math.floor(lives) <= 0 then
