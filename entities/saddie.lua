@@ -128,7 +128,7 @@ function Saddie:addHealth(dh)
 end
 
 function Saddie:giveHappiness(health, duration)
-   love.audio.rewind()
+   heartup:rewind()
    love.audio.play(heartup)
    self.isHappy = true
    self.happyDuration = duration
