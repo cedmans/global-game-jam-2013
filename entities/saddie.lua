@@ -3,6 +3,8 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
+local heartup = love.audio.newSource("assets/sounds/heart-up.wav")
+
 local staticSaddieImage =
    love.graphics.newImage("assets/images/npcside_frameidle.png")
 local saddieImages = {
@@ -126,6 +128,8 @@ function Saddie:addHealth(dh)
 end
 
 function Saddie:giveHappiness(health, duration)
+   love.audio.rewind()
+   love.audio.play(heartup)
    self.isHappy = true
    self.happyDuration = duration
    self.healthIncrease = health
