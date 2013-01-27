@@ -34,6 +34,8 @@ randomQuotes = {"Welcome! You're late.","Solutions that pile tons of horrible mu
 local counter, saddies, deadSaddies, time, startTime,
       newSpawnTime, toolbar, textArea
 
+timeElapsed = 0
+
 local mouth = {}
 local wave = {}
 local lovepotion = {}
@@ -254,7 +256,7 @@ function play:keypressed(key, unicode)
       activeItem = mouth
    elseif key == '2' then
       activeItem = wave
-   elseif key == '3' then
+   elseif key == '3' and timeElapsed > 10 then
       activeItem = lovepotion
    end
 end

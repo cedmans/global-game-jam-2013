@@ -23,9 +23,11 @@ function Toolbar:draw()
    love.graphics.setColor(0,102,0,255)
    love.graphics.setColor(oldr,oldg,oldb,olda)
 
-   love.graphics.draw(toolURIs["lovepotion"], self.position.x+Constants.TOOLBAR_ITEM_WIDTH*2, self.position.y)
-   love.graphics.setColor(0,102,0,255)
-   love.graphics.setColor(oldr,oldg,oldb,olda)
+   if timeElapsed > 10 then
+      love.graphics.draw(toolURIs["lovepotion"], self.position.x+Constants.TOOLBAR_ITEM_WIDTH*2, self.position.y)
+      love.graphics.setColor(0,102,0,255)
+      love.graphics.setColor(oldr,oldg,oldb,olda)
+   end
 end
 
 
