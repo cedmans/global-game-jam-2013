@@ -5,7 +5,7 @@ local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
-<<<<<<< HEAD
+
 local Hud = require "entities.hud"
 
 
@@ -17,11 +17,12 @@ local action = nil
 local time = 0
 local startTime
 local hud = {}
-=======
+
 
 local counter, player, saddies, deadSaddies, time, startTime, action,
       newSpawnTime, lives, gameEnded, toolbar
->>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
+
+      
 
 local mouth = {}
 local activeItem = {}
@@ -40,11 +41,11 @@ function reset()
    lives = 1
 
    player = Player()
-<<<<<<< HEAD
+
    hud = Hud()
 
-=======
->>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
+
+
    saddies = {}
    deadSaddies = {}
 
@@ -119,8 +120,11 @@ function love.draw()
    end
 
    player:draw(time)
-   hud:draw(time)
-   
+   if (not gameEnded) then
+      hud:draw(time)
+   elseif (gameEnded) then
+      love.graphics.print("FINAL SCORE: " .. hud:getScore(),870,20)
+   end
    if action ~= nil then
       action.draw(time)
    end
@@ -134,12 +138,10 @@ function love.draw()
 
    toolbar:draw()
 
-<<<<<<< HEAD
-   
-=======
+
    love.graphics.print(math.floor(time), 50, 50)
    love.graphics.print(math.floor(lives), 50, 70)
->>>>>>> 41f0df1acb569c42611fb06648e398aada50271c
+
 end
 
 -- x: Mouse x position.
