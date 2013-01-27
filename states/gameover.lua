@@ -6,20 +6,25 @@ local Sound = require "sound"
 local gameOver = Gamestate.new()
 local hud = Hud()
 
+local time = 0
+
 function gameOver:enter()
    Sound.gameOver()
+   time = 0
 end
 
 function gameOver:update(dt)
-
+   time = time + dt
 end
 
 function gameOver:draw()
-	hud:endDisplay()
+   hud:endDisplay()
 end
 
 function gameOver:keypressed(key, unicode)
-   Gamestate.switch(play)
+   if time > Constants.GAME_OVER_SKIP_DELAY then
+      Gamestate.switch(play)
+   end
 end
 
 return gameOver
