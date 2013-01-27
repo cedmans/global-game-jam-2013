@@ -1,3 +1,5 @@
+local Constants = require "constants"
+
 local sound = {}
 
 local mainMusic = {}
@@ -33,12 +35,15 @@ function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
 end
 
 function sound.playGameMusic()
+   mainMusic:setVolume(2)
    mainMusic:rewind()
    mainMusic:play()
 
+   mainBeat:setVolume(2)
    mainBeat:rewind()
    mainBeat:play()
 
+   offBeat:setVolume(2)
    offBeat:rewind()
    offBeat:play()
 end
@@ -48,10 +53,18 @@ function sound.setMainMusicVolume(volume)
 end
 
 function sound.gameOver()
-   mainMusic:stop()
-   mainBeat:stop()
-   offBeat:stop()
+   gameOver:setVolume(0)
    gameOver:play()
+end
+
+function sound.gameOverUpdate(timeElapsed)
+   local fadeOutVolume = math.max(1 - (timeElapsed / Constants.FADE_OUT_TIME), 0) * 2
+   local fadeInVolume = math.min(timeElapsed / Constants.FADE_IN_TIME, 1) * 2
+
+   mainMusic:setVolume(fadeOutVolume)
+   mainBeat:setVolume(fadeOutVolume)
+   offBeat:setVolume(fadeOutVolume)
+   gameOver:setVolume(fadeInVolume)
 end
 
 return sound

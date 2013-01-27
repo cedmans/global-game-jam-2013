@@ -17,6 +17,8 @@ end
 
 function gameOver:update(dt)
    time = time + dt
+
+   Sound.gameOverUpdate(time)
 end
 
 function gameOver:draw()
