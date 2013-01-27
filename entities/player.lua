@@ -39,6 +39,13 @@ function Player:update(dt)
    end
 end
 
+function Player:getMouseAngle()
+   mouseDelta = Vector(love.mouse.getX(), love.mouse.getY())
+   mouseDelta = mouseDelta - self.position
+   mouseDelta.y = - mouseDelta.y
+   return math.atan2(mouseDelta.y, mouseDelta.x)
+end
+
 function Player:draw(time)
    local image
    if self.position:equals(self.previousPosition) then
