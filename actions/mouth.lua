@@ -3,7 +3,7 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 
 local Mouth = Class(function(self)
-   self.activateTime = 0
+   self.activateTime = love.timer.getTime() - Constants.MOUTH_COOLDOWN
    self.image = love.graphics.newImage("assets/images/Mouthtalking_icon.png")
 end)
 

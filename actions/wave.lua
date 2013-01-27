@@ -5,7 +5,7 @@ local Collider = require "hardoncollider"
 local Shapes = require "hardoncollider.shapes"
 
 local Wave = Class(function(self)
-   self.activateTime = 0
+   self.activateTime = love.timer.getTime() - Constants.WAVE_COOLDOWN
    self.image = love.graphics.newImage("assets/images/Wave_icon.png")
 end)
 

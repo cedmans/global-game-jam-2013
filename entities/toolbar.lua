@@ -9,6 +9,7 @@ local Toolbar = Class(function(self)
 end)
 
 function Toolbar:draw(items)
+   local percentage
    local oldr, oldg, oldb, olda = love.graphics.getColor()
 
    for i, item in ipairs(items) do
@@ -16,6 +17,17 @@ function Toolbar:draw(items)
          item.image,
          self.position.x + (Constants.TOOLBAR_ITEM_WIDTH * (i-1)),
          self.position.y)
+      percentage = item:percentageCooledDown()
+      if percentage <= 1 then
+         percentage = math.max(percentage, 0)
+         love.graphics.rectangle(
+            'fill',
+            self.position.x + (Constants.TOOLBAR_ITEM_WIDTH * (i-1)),
+            self.position.y,
+            Constants.TOOLBAR_ITEM_WIDTH,
+            Constants.TOOLBAR_ITEM_HEIGHT * (1 - percentage)
+         )
+      end
    end
 
    love.graphics.setColor(oldr,oldg,oldb,olda)
