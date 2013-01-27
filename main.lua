@@ -109,6 +109,8 @@ function love.update(dt)
       endGame()
    end
 
+   Sound.update(dt, time)
+
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
