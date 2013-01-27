@@ -54,10 +54,10 @@ function play:reset()
    obstructions = {}
 
    -- These are hardcoded coordinates relating to the static background.
-   table.insert(obstructions, Obstruction(Vector(0, 0), 255, 230))
-   table.insert(obstructions, Obstruction(Vector(775, 0), 245, 230))
-   table.insert(obstructions, Obstruction(Vector(370, 0), 315, 230))
-   table.insert(obstructions, Obstruction(Vector(425, 395), 155, 80))
+   table.insert(obstructions, Obstruction(Vector(0+255/2, 0+230/2), 255, 230))
+   table.insert(obstructions, Obstruction(Vector(775+245/2, 0+230/2), 245, 230))
+   table.insert(obstructions, Obstruction(Vector(370+315/2, 0+230/2), 315, 230))
+   table.insert(obstructions, Obstruction(Vector(425+155/2, 395+80/2), 155, 80))
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))

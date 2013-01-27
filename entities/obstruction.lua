@@ -10,12 +10,12 @@ end)
 
 function Obstruction:draw()
    -- Uncomment this to see where the obstructions are, for debugging.
-   --love.graphics.rectangle(
-   --   "fill",
-   --   self.position.x,
-   --   self.position.y,
-   --   self.width,
-   --   self.height)
+   love.graphics.rectangle(
+      "fill",
+      self.position.x - self.width/2,
+      self.position.y - self.height/2,
+      self.width,
+      self.height)
 end
 
 return Obstruction
