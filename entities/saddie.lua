@@ -25,7 +25,15 @@ function Saddie:update(dt)
          vec = Vector(math.cos(dir), math.sin(dir))
          self.speed = Constants.SADDIE_SPEED*(math.random()+1)
          self.targetpos = self.position + Constants.SADDIE_ROUTE_LEG*vec
-         if self.targetpos.x > 0 and self.targetpos.x < Constants.SCREEN_WIDTH and self.targetpos.y > 0 and self.targetpos.y < Constants. SCREEN_HEIGHT then break end
+
+         obstructed = false
+         for i, obs in ipairs(obstructions) do
+            if math.abs(self.targetpos.x-obs.position.x) < (Constants.SADDIE_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.targetpos.y-obs.position.y) < (Constants.SADDIE_HEIGHT+Constants.OBS_HEIGHT)/2 then
+               obstructed = true
+            end
+         end
+
+         if not obstructed and self.targetpos.x > Constants.MIN_X and self.targetpos.x < Constants.MAX_X and self.targetpos.y > Constants.MIN_Y and self.targetpos.y < Constants.MAX_Y then break end
       end
    end
    if (self.happyDuration <= 0) then
@@ -42,18 +50,6 @@ function Saddie:update(dt)
    else
       self:addHealth(Constants.SADDIE_HEALTH_REDUCTION * dt);
    end
-end
-
-function Saddie:moveRight(amount)
-   self.position.x = self.position.x + amount
-
-   self.position.x = math.max(math.min(self.position.x, Constants.MAX_X), Constants.MIN_X)
-end
-
-function Saddie:moveUp(amount)
-   self.position.y = self.position.y - amount
-
-   self.position.y = math.max(math.min(self.position.y, Constants.MAX_Y), Constants.MIN_Y)
 end
 
 function Saddie:addHealth(dh)
@@ -105,7 +101,7 @@ end
 
 -- If you're happy and you know it show the world!
 function Saddie:drawHappiness()
-   local percentageProgress, opacity, yOffset
+   local percentageProgress, opacity, xOffset, yOffset
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
 
@@ -113,15 +109,30 @@ function Saddie:drawHappiness()
    -- Start at full opacity and fade out.
    opacity = percentageProgress * 255
    love.graphics.setColor(r, g, b, opacity)
-   -- Move away from the saddie.
+
+   -- Middle heart
+   xOffset = 0
    yOffset = (((1 - percentageProgress) * Constants.HEART_REACH)
               + Constants.HEART_OFFSET)
-   love.graphics.draw(
-      self.heart,
-      self.position.x - Constants.SADDIE_WIDTH/2,
-      self.position.y - Constants.SADDIE_HEIGHT/2 - yOffset)
+   self:drawHeart(xOffset, yOffset)
+
+   -- Left heart
+   xOffset = (1 - math.sin(percentageProgress)) * Constants.HEART_REACH
+   yOffset = math.cos(percentageProgress) * Constants.HEART_REACH
+   self:drawHeart(xOffset, yOffset)
+
+   -- Right heart
+   xOffset = -xOffset
+   self:drawHeart(xOffset, yOffset)
 
    love.graphics.setColor(r, g, b, a)
+end
+
+function Saddie:drawHeart(xOffset, yOffset)
+   love.graphics.draw(
+      self.heart,
+      self.position.x - Constants.SADDIE_WIDTH/2 - xOffset,
+      self.position.y - Constants.SADDIE_HEIGHT/2 - yOffset)
 end
 
 function Saddie:getPosition()

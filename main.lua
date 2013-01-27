@@ -1,17 +1,21 @@
 local Constants = require "constants"
+local Sound = require "sound"
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
+local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 local Hud = require "entities.hud"
 
-
 local counter = 0
+obstructions = {}
 saddies = {}
-local player = {}
 local deadSaddies = {}
 local action = nil
 local time = 0
@@ -20,12 +24,20 @@ local hud = {}
 
 player = {}
 
+<<<<<<< HEAD
+=======
+local counter, saddies, deadSaddies, time, startTime, action,
+      newSpawnTime, lives, gameEnded, toolbar
+
+>>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 local mouth = {}
 local activeItem = {}
 
 function love.load()
+   Sound.load()
    reset()   
    r, g, b, a = love.graphics.getColor()
+   Sound.playMain()
 end
 
 function reset()
@@ -37,18 +49,28 @@ function reset()
    lives = 1
 
    player = Player()
+<<<<<<< HEAD
 
    hud = Hud()
 
 
 
+=======
+   hud = Hud()
+
+>>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
    saddies = {}
    deadSaddies = {}
+   obstructions = {}
 
    for i = 1, 5 do
-      table.insert(saddies, Saddie(randomPoint(spriteDim)))
+      table.insert(obstructions, Obstruction(randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
    end
-   
+
+   for i = 1, 5 do
+      table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+   end
+
    action = nil
 
    mouth = Mouth()
@@ -102,6 +124,8 @@ function love.update(dt)
       endGame()
    end
 
+   Sound.update(dt, time)
+
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
@@ -113,6 +137,9 @@ function love.draw()
    end
    for i, saddie in ipairs(deadSaddies) do
       saddie:draw(time)
+   end
+   for i, obs in pairs(obstructions) do
+      obs:draw()
    end
 
    player:draw(time)
@@ -126,6 +153,12 @@ function love.draw()
    end
 
    toolbar:draw()
+<<<<<<< HEAD
+=======
+
+   love.graphics.print(math.floor(time), 50, 50)
+   love.graphics.print(math.floor(lives), 50, 70)
+>>>>>>> 645a5b4d0353ac1341eb8cc717e0a47605a4105f
 end
 
 -- x: Mouse x position.
@@ -146,7 +179,7 @@ end
 
 function love.keypressed(key, unicode)
    if(love.keyboard.isDown('c')) then
-      table.insert(saddies, Saddie(randomPoint()))
+      table.insert(saddies, Saddie(randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end
    if key == 'q' then
       -- action = QAction()
@@ -165,7 +198,7 @@ function addSaddies()
    if time > newSpawnTime then
       -- Simple difficulty scaling dependent on time elapsed.
       for i = 1, math.floor(time / 5) do
-         table.insert(saddies, Saddie(randomPoint()))
+         table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
       end
       newSpawnTime = nextSpawnTime()
       lives = lives + 0.25
@@ -187,12 +220,20 @@ function performAction(point)
    end
 end
 
-function randomPoint()
+function randomPoint(dim)
    local randomX,randomY = 0,0
 	repeat	  
-      randomX = math.random(0,Constants.SCREEN_WIDTH - Constants.PLAYER_WIDTH)
-      randomY = math.random(0,Constants.SCREEN_HEIGHT - Constants.PLAYER_HEIGHT)
-   until(checkSpawn(randomX,randomY))
+      randomX = math.random(0,Constants.SCREEN_WIDTH - dim.x)
+      randomY = math.random(0,Constants.SCREEN_HEIGHT - dim.y)
+
+      obstructed = false
+      for i, obs in ipairs(obstructions) do
+         if math.abs(randomX-obs.position.x) < (dim.x+Constants.OBS_WIDTH)/2 and math.abs(randomY-obs.position.y) < (dim.y+Constants.OBS_HEIGHT)/2 then
+            obstructed = true
+         end
+      end
+
+   until(not obstructed and checkSpawn(randomX,randomY))
    randomVector = Vector.new(randomX,randomY)
    return randomVector
 end
