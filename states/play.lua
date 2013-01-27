@@ -7,8 +7,8 @@ local Saddie = require "entities.saddie"
 local DeadSaddie = require "entities.deadsaddie"
 local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
-local Mouth = require "entities.mouth"
-local Wave = require "entities.wave"
+local Mouth = require "actions.mouth"
+local Wave = require "actions.wave"
 local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
 
