@@ -16,12 +16,40 @@ function title:draw()
     Constants.SCREEN_WIDTH / 2,
     Constants.SCREEN_HEIGHT / 2)
 
-   love.graphics.print("Press any key to play",
+   love.graphics.print("Press a letter for difficulty:",
     Constants.SCREEN_WIDTH / 2,
     Constants.SCREEN_HEIGHT / 1.5)
+
+   love.graphics.print("e: Easy",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5+12)
+
+   love.graphics.print("m: Medium",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5+24)
+
+   love.graphics.print("h: Hard",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5+36)
+
+   love.graphics.print("i: INSANE",
+    Constants.SCREEN_WIDTH / 2,
+    Constants.SCREEN_HEIGHT / 1.5+48)
 end
 
 function title:keypressed(key, unicode)
+   if     key == "e" or key == "E" then
+   elseif key == "m" or key == "M" then
+      Constants.SADDIE_HEALTH_REDUCTION = -5
+      Constants.SADDIE_SPEED = 20
+   elseif key == 'h' or key == 'H' then
+      Constants.SADDIE_HEALTH_REDUCTION = -15
+      Constants.SADDIE_SPEED = 30
+   elseif key == "i" or key == "I" then
+      Constants.SADDIE_HEALTH_REDUCTION = -20
+      Constants.SADDIE_SPEED = 50
+   end
+
    Gamestate.switch(play)
 end
 
