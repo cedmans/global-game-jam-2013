@@ -22,7 +22,7 @@ local hud = {}
 player = {}
 
 local counter, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, gameEnded, toolbar
+      newSpawnTime, lives, toolbar
 
 local mouth = {}
 local activeItem = {}
@@ -36,7 +36,6 @@ function play:enter()
 end
 
 function play:reset()
-   gameEnded = false
    startTime = love.timer.getTime()
    time = 0
    newSpawnTime = self:nextSpawnTime()
@@ -68,9 +67,7 @@ function play:reset()
 end
 
 function play:endGame()
-   gameEnded = true
-   saddies = {}
-   deadSaddies = {}
+   Gamestate.switch(gameOver)
 end
 
 function play:calcMousePlayerAngle()
@@ -82,11 +79,6 @@ end
 
 
 function play:update(dt)
-   -- Stop doing most things when the game is done.
-   if gameEnded then
-      return
-   end
-
    time = time + dt
    
    self:addSaddies()
@@ -136,13 +128,6 @@ function play:draw()
       action.draw(time)
    end
    
-   if gameEnded then
-      love.graphics.print(
-         "Game Over",
-         Constants.SCREEN_WIDTH / 2,
-         Constants.SCREEN_HEIGHT / 2)
-   end
-
    toolbar:draw()
 
    love.graphics.print(math.floor(time), 50, 50)

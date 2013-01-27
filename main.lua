@@ -3,6 +3,7 @@ local Sound = require "sound"
 
 -- Load game states.
 play = require "states.play"
+gameOver = require "states.gameover"
 
 function love.load()
    Sound.load()
