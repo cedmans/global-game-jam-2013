@@ -12,7 +12,11 @@ function LovePotion:activate()
 end
 
 function LovePotion:enabled()
-   return (love.timer.getTime() - self.activateTime) > Constants.LOVE_POTION_COOLDOWN
+   return self:percentageCooledDown() >= 1
+end
+
+function LovePotion:percentageCooledDown()
+   return (love.timer.getTime() - self.activateTime) / Constants.LOVE_POTION_COOLDOWN
 end
 
 -- Center is ignored in favor of mouse position

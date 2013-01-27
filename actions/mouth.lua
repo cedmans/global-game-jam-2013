@@ -12,7 +12,11 @@ function Mouth:activate()
 end
 
 function Mouth:enabled()
-   return (love.timer.getTime() - self.activateTime) > Constants.MOUTH_COOLDOWN
+   return self:percentageCooledDown() >= 1
+end
+
+function Mouth:percentageCooledDown()
+   return (love.timer.getTime() - self.activateTime) / Constants.MOUTH_COOLDOWN
 end
 
 function Mouth:drawEffectiveArea(center)

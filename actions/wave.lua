@@ -14,7 +14,11 @@ function Wave:activate()
 end
 
 function Wave:enabled()
-   return (love.timer.getTime() - self.activateTime) > Constants.WAVE_COOLDOWN
+   return self:percentageCooledDown() >= 1
+end
+
+function Wave:percentageCooledDown()
+   return (love.timer.getTime() - self.activateTime) / Constants.WAVE_COOLDOWN
 end
 
 function Wave:drawEffectiveArea(center)
