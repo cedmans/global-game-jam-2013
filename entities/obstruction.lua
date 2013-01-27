@@ -1,7 +1,6 @@
 local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
-local Util = require "util"
 
 local Obstruction = Class(function(self, position)
    self.position = position
