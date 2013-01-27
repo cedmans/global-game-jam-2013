@@ -9,6 +9,7 @@ local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "actions.mouth"
 local Wave = require "actions.wave"
+local LovePotion = require "actions.lovepotion"
 local Hud = require "entities.hud"
 local ExplodingText = require "entities.explodingtext"
 local TextArea = require "entities.textarea"
@@ -30,6 +31,7 @@ local counter, saddies, deadSaddies, time, startTime,
 
 local mouth = {}
 local wave = {}
+local lovepotion = {}
 local activeItem = {}
 local background = love.graphics.newImage("assets/images/Background_city.png")
 
@@ -77,6 +79,7 @@ function play:reset()
 
    mouth = Mouth()
    wave = Wave()
+   lovepotion = LovePotion()
    activeItem = mouth;
 
    toolbar = Toolbar()
@@ -238,6 +241,8 @@ function play:keypressed(key, unicode)
       activeItem = mouth
    elseif key == '2' then
       activeItem = wave
+   elseif key == '3' then
+      activeItem = lovepotion
    end
 end
 
