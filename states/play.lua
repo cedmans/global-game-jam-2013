@@ -115,7 +115,7 @@ function play:update(dt)
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
          lives = lives - 1
-         table.insert(explodingTexts, ExplodingText("DEATH"))
+         table.insert(explodingTexts, ExplodingText("LONELINESS"))
       end
    end
    for i, saddie in ipairs(deadSaddies) do
