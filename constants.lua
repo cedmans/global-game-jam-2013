@@ -34,6 +34,7 @@ Constants.PERFECT_SADNESS = 100
 Constants.WARNING_SADNESS = 30
 Constants.CRITICAL_SADNESS = 10
 Constants.SADNESS_ALERT_OFFSET = 18
+Constants.STARTING_LIVES = 10
 
 -- Item Constants
 Constants.EFFECTIVE_AREA_COLOR = {r=0, g=102, b=0, a=100}

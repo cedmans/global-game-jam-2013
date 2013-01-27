@@ -45,7 +45,7 @@ function play:reset()
    time = 0
    newSpawnTime = self:nextSpawnTime()
    counter = 0
-   lives = 10
+   lives = Constants.STARTING_LIVES
 
    player = Player()
    hud = Hud()
@@ -116,9 +116,10 @@ function play:update(dt)
       self:endGame()
    end
 
-   local averageSaddieHealth = self:getAverageSaddieHealth()
+   local averageSaddieHealth = self:getAverageSadnessFromSaddestSaddies()
+   local percentLivesRemaining = self:getPercentLivesRemaining()
 
-   Sound.update(averageSaddieHealth)
+   Sound.update(averageSaddieHealth/100, percentLivesRemaining)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
@@ -178,14 +179,28 @@ function play:performAction()
    end
 end
 
-function play:getAverageSaddieHealth()
+function play:getAverageSadnessFromSaddestSaddies()
    local totalHealth = 0
+   local numSaddies = math.floor(math.max(#saddies/3, 1)) -- Only factor in saddest third
+
+   table.sort(saddies, function(saddie1, saddie2)
+      return saddie1.health < saddie2.health
+   end)
 
    for i, saddie in ipairs(saddies) do
+      if i > numSaddies then
+         break
+      end
+
       totalHealth = totalHealth + saddie.health
    end
 
-   return totalHealth / #saddies
+   return totalHealth/numSaddies
+end
+
+function play:getPercentLivesRemaining()
+   -- Lives remaining as a percentage of starting lives with a max of 1.
+   return math.min(lives / Constants.STARTING_LIVES, 1)
 end
 
 function play:keypressed(key, unicode)

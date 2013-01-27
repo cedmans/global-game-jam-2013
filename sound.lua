@@ -12,8 +12,12 @@ function sound.load()
    heart:setLooping(true)
 end
 
-function sound.update(averageSaddieHealth)
-   local volume = 1 - averageSaddieHealth/100
+function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
+   local minBasedOnHealth = (1 - averageSaddieHealthPercentage)/4
+   local blended = (1 - percentLivesRemaining) * (1 - averageSaddieHealthPercentage)
+
+   volume = math.max(minBasedOnHealth, blended)
+   volume = math.max(math.min(volume, 1), 0)
 
    heart:setVolume(volume)
 end
