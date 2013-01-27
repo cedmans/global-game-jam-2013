@@ -27,4 +27,8 @@ function sound.playGameMusic()
    -- love.audio.play(heart)
 end
 
+function sound.gameOver()
+   heart:setVolume(0.5)
+end
+
 return sound
