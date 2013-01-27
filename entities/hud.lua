@@ -21,7 +21,7 @@ end
 
 function Hud:draw(time)  
    love.graphics.setColor(0,0,0)
-   love.graphics.rectangle("fill", 45,670,100,50)
+   love.graphics.rectangle("fill", 45,650,100,50)
    love.graphics.rectangle("fill", 860,20,190,30)
    
    love.graphics.setColor(255,255,230)
@@ -34,8 +34,8 @@ function Hud:draw(time)
    
    
    
-   love.graphics.print("TIME: " .. math.floor(time), 50, 670)
-   love.graphics.print("Lives: " .. math.floor(lives), 50, 700)
+   love.graphics.print("TIME: " .. math.floor(time), 50, 650)
+   love.graphics.print("Lives: " .. math.floor(lives), 50, 680)
    
    love.graphics.setColor(r,g,b,a)
    
