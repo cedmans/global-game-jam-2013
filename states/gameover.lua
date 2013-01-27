@@ -8,6 +8,8 @@ play = require "states.play"
 local gameOver = Gamestate.new()
 local hud = Hud()
 
+local background = love.graphics.newImage("assets/images/GameOverScreen.png")
+
 local time = 0
 
 function gameOver:enter()
@@ -22,6 +24,7 @@ function gameOver:update(dt)
 end
 
 function gameOver:draw()
+   love.graphics.draw(background)
    hud:endDisplay()
 end
 

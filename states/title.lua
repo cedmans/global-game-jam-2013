@@ -3,6 +3,7 @@ local Constants = require "constants"
 local Hud = require "entities.hud"
 
 local title = Gamestate.new()
+local titleBackground = love.graphics.newImage("assets/images/TitleScreen.png")
 
 function title:enter()
    hud = Hud()
@@ -14,6 +15,8 @@ function title:update(dt)
 end
 
 function title:draw()
+   love.graphics.draw(titleBackground)
+
    love.graphics.setFont(love.graphics.newFont(12))
 
    love.graphics.print("SADDIES",
