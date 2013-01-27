@@ -78,11 +78,11 @@ function Hud:endDisplay()
    love.graphics.setFont(scoreFont)
    love.graphics.print("FINAL SCORE: " .. self:getScore(),770,20)
    love.graphics.setFont(originalFont)
-   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(timeElapsed) .. 
+   love.graphics.print("You kept up to " .. sadCount .. " people happy for " .. math.floor(timeElapsed) .. 
    " seconds", 40, 20)
-   love.graphics.print("Press any key to restart.",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5)
-	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 20)
-   love.graphics.print("Quitting? (q)",Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 1.5 + 40)
+	love.graphics.print("Go to title? (t)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 0)
+   love.graphics.print("Quitting? (q)",Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 1.5 + 20)
+   love.graphics.print("Restart? (any other)",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5 + 40)
    love.graphics.setColor(r,g,b,a)
          
 end 
