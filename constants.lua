@@ -42,11 +42,13 @@ Constants.EFFECTIVE_AREA_COLOR = {r=0, g=102, b=0, a=100}
 Constants.MOUTH_EFFECTIVE_RADIUS = 100
 Constants.MOUTH_HEALTH_EFFECT = 30
 Constants.MOUTH_HEALTH_DURATION = 5
+Constants.MOUTH_COOLDOWN = 2
 
 Constants.WAVE_EFFECTIVE_DISTANCE = 350
 Constants.WAVE_ANGLE_OF_OCCURRENCE = 3
 Constants.WAVE_HEALTH_EFFECT = 1.5
 Constants.WAVE_HEALTH_DURATION = 0.5
+Constants.WAVE_COOLDOWN = 5
 
 -- Number of seconds to wait until the user can skip the game over screen.
 Constants.GAME_OVER_SKIP_DELAY = 1.0

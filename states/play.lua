@@ -151,7 +151,7 @@ end
 -- y: Mouse y position.
 -- button: http://www.love2d.org/wiki/MouseConstant
 function play:mousepressed(x, y, button)
-   if button == "r" then
+   if button == "l" then
       player.targetpos = Vector(x, y)
       angle = player:getMouseAngle()
       if angle < -math.pi*3/4 then
@@ -165,12 +165,18 @@ function play:mousepressed(x, y, button)
       else
          player:setDirection("left")
       end
-   elseif button == "l" then
+   elseif button == "r" then
       self:performAction()
    end
 end
 
 function play:performAction()
+   if not activeItem:enabled() then
+      return
+   end
+   
+   activeItem:activate()
+
    affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
 
    for i, saddie in ipairs(affectedSaddies) do
@@ -221,6 +227,7 @@ function play:addSaddies()
       -- Simple difficulty scaling dependent on time elapsed.
       for i = 1, math.floor(time / 5) do
          table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+         hud:sadIncrement(1)
       end
       newSpawnTime = self:nextSpawnTime()
       lives = lives + 0.25

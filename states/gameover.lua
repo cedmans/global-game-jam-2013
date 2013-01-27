@@ -23,7 +23,7 @@ end
 
 function gameOver:keypressed(key, unicode)
    if time > Constants.GAME_OVER_SKIP_DELAY then
-      Gamestate.switch(play)
+      Gamestate.switch(title)
    end
 end
 
