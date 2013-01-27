@@ -3,8 +3,21 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
+local staticSaddieImage =
+   love.graphics.newImage("assets/images/npcside_frameidle.png")
+local saddieImages = {
+   love.graphics.newImage("assets/images/npcside_frame1.png"),
+   love.graphics.newImage("assets/images/npcside_frame2.png"),
+   love.graphics.newImage("assets/images/npcside_frame3.png"),
+   love.graphics.newImage("assets/images/npcside_frame4.png"),
+   love.graphics.newImage("assets/images/npcside_frame5.png"),
+   love.graphics.newImage("assets/images/npcside_frame6.png"),
+   love.graphics.newImage("assets/images/npcside_frame7.png"),
+   love.graphics.newImage("assets/images/npcside_frame8.png")
+}
+
 local Saddie = Class(function(self, position)
-   self.image = love.graphics.newImage("assets/images/saddie.png")
+   self.image = staticSaddieImage
    self.heart = love.graphics.newImage("assets/images/heart_whole.png")
    self.position = position
    self.targetpos = position
