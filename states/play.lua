@@ -1,3 +1,4 @@
+local Gamestate = require "hump.gamestate"
 local Constants = require "constants"
 local Sound = require "sound"
 local Vector = require "hump.vector"
@@ -26,18 +27,20 @@ local counter, saddies, deadSaddies, time, startTime, action,
 local mouth = {}
 local activeItem = {}
 
-function love.load()
+local play = Gamestate.new()
+
+function play:enter()
    Sound.load()
-   reset()   
+   self:reset()   
    r, g, b, a = love.graphics.getColor()
    Sound.playMain()
 end
 
-function reset()
+function play:reset()
    gameEnded = false
    startTime = love.timer.getTime()
    time = 0
-   newSpawnTime = nextSpawnTime()
+   newSpawnTime = self:nextSpawnTime()
    counter = 0
    lives = 1
 
@@ -49,11 +52,11 @@ function reset()
    obstructions = {}
 
    for i = 1, 5 do
-      table.insert(obstructions, Obstruction(randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
+      table.insert(obstructions, Obstruction(self:randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
    end
 
    for i = 1, 5 do
-      table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+      table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end
 
    action = nil
@@ -65,13 +68,13 @@ function reset()
    toolbar = Toolbar()
 end
 
-function endGame()
+function play:endGame()
    gameEnded = true
    saddies = {}
    deadSaddies = {}
 end
 
-function calcMousePlayerAngle()
+function play:calcMousePlayerAngle()
    mousedelta = Vector(love.mouse.getX(), love.mouse.getY())
    mousedelta = mousedelta - player.position
    mousedelta.y = - mousedelta.y
@@ -79,7 +82,7 @@ function calcMousePlayerAngle()
 end
 
 
-function love.update(dt)
+function play:update(dt)
    -- Stop doing most things when the game is done.
    if gameEnded then
       return
@@ -87,7 +90,7 @@ function love.update(dt)
 
    time = time + dt
    
-   addSaddies()
+   self:addSaddies()
 
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
@@ -106,7 +109,7 @@ function love.update(dt)
    player:update(dt)
    
    if math.floor(lives) <= 0 then
-      endGame()
+      self:endGame()
    end
 
    Sound.update(dt, time)
@@ -114,7 +117,7 @@ function love.update(dt)
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
-function love.draw()
+function play:draw()
    mouth:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
@@ -150,7 +153,7 @@ end
 -- x: Mouse x position.
 -- y: Mouse y position.
 -- button: http://www.love2d.org/wiki/MouseConstant
-function love.mousepressed(x, y, button)
+function play:mousepressed(x, y, button)
    if button == "r" then
       player.targetpos = Vector(x, y)
       action = nil
@@ -163,9 +166,9 @@ function love.mousepressed(x, y, button)
    end
 end
 
-function love.keypressed(key, unicode)
+function play:keypressed(key, unicode)
    if(love.keyboard.isDown('c')) then
-      table.insert(saddies, Saddie(randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
+      table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end
    if key == 'q' then
       -- action = QAction()
@@ -180,33 +183,33 @@ function love.keypressed(key, unicode)
 end
 
 -- Potentially add some number of new saddies, dependent on game conditions.
-function addSaddies()
+function play:addSaddies()
    if time > newSpawnTime then
       -- Simple difficulty scaling dependent on time elapsed.
       for i = 1, math.floor(time / 5) do
-         table.insert(saddies, Saddie(randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
+         table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
       end
-      newSpawnTime = nextSpawnTime()
+      newSpawnTime = self:nextSpawnTime()
       lives = lives + 0.25
    end
 end
 
 -- Determine the next time we want to spawn saddies.
-function nextSpawnTime()
+function play:nextSpawnTime()
    return time + 5
 end
 
 -- Generic perform action function. We probably want to expand this to do
 -- different things depending on our current "item".
-function performAction(point)
-   local affectedSaddies = getAllSaddiesInRadiusFromPoint(point, 150)
+function play:performAction(point)
+   local affectedSaddies = self:getAllSaddiesInRadiusFromPoint(point, 150)
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:changeDirection()
    end
 end
 
-function randomPoint(dim)
+function play:randomPoint(dim)
    local randomX,randomY = 0,0
 	repeat	  
       randomX = math.random(0,Constants.SCREEN_WIDTH - dim.x)
@@ -219,18 +222,15 @@ function randomPoint(dim)
          end
       end
 
-   until(not obstructed and checkSpawn(randomX,randomY))
+   until(not obstructed and self:checkSpawn(randomX,randomY))
    randomVector = Vector.new(randomX,randomY)
    return randomVector
 end
 
-function checkSpawn(x,y)
+function play:checkSpawn(x,y)
    return (((x-player.position.x)^2+(y-player.position.y)^2)^.5 > Constants.SPAWN_RADIUS) 
    --checks is spawn point farther than [RADIUS]px 
    --may have to expand to prevent spawning on obstacles
 end
 
- 
-
-
-
+return play
