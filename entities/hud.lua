@@ -13,7 +13,7 @@ local Hud = Class(function(self)
 end)
 
 function Hud:draw(time)  
-   love.graphics.setColor(150,150,0)
+   love.graphics.setColor(230,230,0)
    
    love.graphics.setFont(scoreFont)
    score = score + (3*sadCount)
