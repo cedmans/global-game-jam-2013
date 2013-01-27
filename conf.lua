@@ -7,5 +7,4 @@ function love.conf(t)
    t.author = "WeDunIt"
    t.screen.width = Constants.SCREEN_WIDTH
    t.screen.height = Constants.SCREEN_HEIGHT
-   t.screen.fullscreen = true
 end
