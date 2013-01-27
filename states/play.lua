@@ -29,6 +29,7 @@ local counter, saddies, deadSaddies, time, startTime, action,
 local mouth = {}
 local wave = {}
 local activeItem = {}
+local background = love.graphics.newImage("assets/images/Background_city.png")
 
 local play = Gamestate.new()
 
@@ -112,6 +113,7 @@ function play:update(dt)
 end
 
 function play:draw()
+   love.graphics.draw(background)
    activeItem:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
