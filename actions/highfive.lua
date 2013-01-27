@@ -28,7 +28,7 @@ function HighFive:drawEffectiveArea(center)
    local oldr,oldg,oldb,olda = love.graphics.getColor()
    local areaColor = Constants.EFFECTIVE_AREA_COLOR
    love.graphics.setColor(areaColor.r,areaColor.g,areaColor.b,areaColor.a)
-   love.graphics.circle("fill",center.x,center.y,Constants.HIGH_FIVE_EFFECTIVE_RADIUS);
+   love.graphics.circle("fill", center.x, center.y, Constants.HIGH_FIVE_EFFECTIVE_RADIUS);
    love.graphics.setColor(oldr,oldg,oldb,olda)
 end
 
