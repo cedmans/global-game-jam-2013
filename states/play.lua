@@ -177,6 +177,12 @@ function play:mousepressed(x, y, button)
 end
 
 function play:performAction()
+   if not activeItem:enabled() then
+      return
+   end
+   
+   activeItem:activate()
+
    affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
 
    for i, saddie in ipairs(affectedSaddies) do

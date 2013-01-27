@@ -38,8 +38,7 @@ function Hud:getScore()
 end
 
 function Hud:getTime()
-	finalTime = love.timer.getTime()
-	return finalTime
+	return love.timer.getTime()
 end
 
 function Hud:sadIncrement(i)
