@@ -29,6 +29,7 @@ local counter, saddies, deadSaddies, time, startTime, action,
 local mouth = {}
 local wave = {}
 local activeItem = {}
+local background = love.graphics.newImage("assets/images/Background_city.png")
 
 local play = Gamestate.new()
 
@@ -52,9 +53,11 @@ function play:reset()
    deadSaddies = {}
    obstructions = {}
 
-   for i = 1, 5 do
-      table.insert(obstructions, Obstruction(self:randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
-   end
+   -- These are hardcoded coordinates relating to the static background.
+   table.insert(obstructions, Obstruction(Vector(0, 0), 255, 230))
+   table.insert(obstructions, Obstruction(Vector(775, 0), 245, 230))
+   table.insert(obstructions, Obstruction(Vector(370, 0), 315, 230))
+   table.insert(obstructions, Obstruction(Vector(425, 395), 155, 80))
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
@@ -106,12 +109,15 @@ function play:update(dt)
       self:endGame()
    end
 
-   Sound.update(dt, time)
+   local averageSaddieHealth = self:getAverageSaddieHealth()
+
+   Sound.update(averageSaddieHealth)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
 function play:draw()
+   love.graphics.draw(background)
    activeItem:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
@@ -155,6 +161,16 @@ function play:performAction()
    for i, saddie in ipairs(affectedSaddies) do
       saddie:giveHappiness(5, 5)
    end
+end
+
+function play:getAverageSaddieHealth()
+   local totalHealth = 0
+
+   for i, saddie in ipairs(saddies) do
+      totalHealth = totalHealth + saddie.health
+   end
+
+   return totalHealth / #saddies
 end
 
 function play:keypressed(key, unicode)
@@ -206,7 +222,8 @@ function play:randomPoint(dim)
 
       obstructed = false
       for i, obs in ipairs(obstructions) do
-         if math.abs(randomX-obs.position.x) < (dim.x+Constants.OBS_WIDTH)/2 and math.abs(randomY-obs.position.y) < (dim.y+Constants.OBS_HEIGHT)/2 then
+         if math.abs(randomX-obs.position.x) < (dim.x+obs.width)/2 and
+         math.abs(randomY-obs.position.y) < (dim.y+obs.height)/2 then
             obstructed = true
          end
       end
