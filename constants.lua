@@ -48,4 +48,7 @@ Constants.WAVE_ANGLE_OF_OCCURRENCE = 3
 Constants.WAVE_HEALTH_EFFECT = 1.5
 Constants.WAVE_HEALTH_DURATION = 0.5
 
+-- Number of seconds to wait until the user can skip the game over screen.
+Constants.GAME_OVER_SKIP_DELAY = 1.0
+
 return Constants
