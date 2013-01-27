@@ -8,24 +8,29 @@ local DeadSaddie = require "entities.deadsaddie"
 local Obstruction = require "entities.obstruction"
 local Toolbar = require 'entities.toolbar'
 local Mouth = require "entities.mouth"
+local Wave = require "entities.wave"
 local Hud = require "entities.hud"
+local ExplodingText = require "entities.explodingtext"
 
 local counter = 0
 obstructions = {}
 saddies = {}
 local deadSaddies = {}
-local action = nil
 local time = 0
 local startTime
 local hud = {}
+local explodingTexts
 
 player = {}
+lives = {}
 
-local counter, saddies, deadSaddies, time, startTime, action,
-      newSpawnTime, lives, toolbar
+local counter, saddies, deadSaddies, time, startTime,
+      newSpawnTime, toolbar
 
 local mouth = {}
+local wave = {}
 local activeItem = {}
+local background = love.graphics.newImage("assets/images/Background_city.png")
 
 local play = Gamestate.new()
 
@@ -40,7 +45,7 @@ function play:reset()
    time = 0
    newSpawnTime = self:nextSpawnTime()
    counter = 0
-   lives = 1
+   lives = Constants.STARTING_LIVES
 
    player = Player()
    hud = Hud()
@@ -48,25 +53,27 @@ function play:reset()
    saddies = {}
    deadSaddies = {}
    obstructions = {}
+   explodingTexts = {}
 
-   for i = 1, 5 do
-      table.insert(obstructions, Obstruction(self:randomPoint(Vector(Constants.OBS_WIDTH, Constants.OBS_HEIGHT))))
-   end
+   -- These are hardcoded coordinates relating to the static background.
+   table.insert(obstructions, Obstruction(Vector(0+255/2, 0+230/2), 255, 230))
+   table.insert(obstructions, Obstruction(Vector(775+245/2, 0+230/2), 245, 230))
+   table.insert(obstructions, Obstruction(Vector(370+315/2, 0+230/2), 315, 230))
+   table.insert(obstructions, Obstruction(Vector(425+155/2, 395+80/2), 155, 80))
 
    for i = 1, 5 do
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.SADDIE_WIDTH, Constants.SADDIE_HEIGHT))))
    end
 
-   action = nil
-
    mouth = Mouth()
-   mouth:toggleActive() --set true
+   wave = Wave()
    activeItem = mouth;
 
    toolbar = Toolbar()
 end
 
 function play:endGame()
+	hud:getTime()
    Gamestate.switch(gameOver)
 end
 
@@ -76,7 +83,6 @@ function play:calcMousePlayerAngle()
    mousedelta.y = - mousedelta.y
    return math.atan2(mousedelta.y, mousedelta.x)
 end
-
 
 function play:update(dt)
    time = time + dt
@@ -89,6 +95,7 @@ function play:update(dt)
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
          lives = lives - 1
+         table.insert(explodingTexts, ExplodingText("DEATH"))
       end
    end
    for i, saddie in ipairs(deadSaddies) do
@@ -97,19 +104,29 @@ function play:update(dt)
          table.remove(deadSaddies, i)
       end
    end
+   for i, text in ipairs(explodingTexts) do
+      text:update(dt)
+      if text:finished() then
+         table.remove(explodingTexts, i)
+      end
+   end
    player:update(dt)
    
    if math.floor(lives) <= 0 then
       self:endGame()
    end
 
-   Sound.update(dt, time)
+   local averageSaddieHealth = self:getAverageSadnessFromSaddestSaddies()
+   local percentLivesRemaining = self:getPercentLivesRemaining()
+
+   Sound.update(averageSaddieHealth/100, percentLivesRemaining)
 
    timeElapsed = math.floor(love.timer.getTime() - startTime)
 end
 
 function play:draw()
-   mouth:drawEffectiveArea(player:getPosition());
+   love.graphics.draw(background)
+   activeItem:drawEffectiveArea(player:getPosition());
 
    for i, saddie in ipairs(saddies) do
       saddie:draw(time)
@@ -120,18 +137,14 @@ function play:draw()
    for i, obs in pairs(obstructions) do
       obs:draw()
    end
+   for i, texts in ipairs(explodingTexts) do
+      texts:draw()
+   end
 
    player:draw(time)
    hud:draw(time)
    
-   if action ~= nil then
-      action.draw(time)
-   end
-   
    toolbar:draw()
-
-   love.graphics.print(math.floor(time), 50, 50)
-   love.graphics.print(math.floor(lives), 50, 70)
 end
 
 -- x: Mouse x position.
@@ -140,29 +153,66 @@ end
 function play:mousepressed(x, y, button)
    if button == "r" then
       player.targetpos = Vector(x, y)
-      action = nil
-   elseif button == "l" then
-      affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
-
-      for i, saddie in ipairs(affectedSaddies) do
-         saddie:giveHappiness(5, 5)
+      angle = player:getMouseAngle()
+      if angle < -math.pi*3/4 then
+         direction = "left"
+      elseif angle < -math.pi/4 then
+         direction = "down"
+      elseif angle < math.pi/4 then
+         direction = "right"
+      elseif angle < math.pi*3/4 then
+         direction = "up"
+      else
+         direction = "left"
       end
+      print(direction)
+   elseif button == "l" then
+      self:performAction()
    end
+end
+
+function play:performAction()
+   affectedSaddies = activeItem:getAffectedSaddies(player:getPosition(), saddies)
+
+   for i, saddie in ipairs(affectedSaddies) do
+      saddie:giveHappiness(5, 5)
+   end
+end
+
+function play:getAverageSadnessFromSaddestSaddies()
+   local totalHealth = 0
+   local numSaddies = math.floor(math.max(#saddies/3, 1)) -- Only factor in saddest third
+
+   table.sort(saddies, function(saddie1, saddie2)
+      return saddie1.health < saddie2.health
+   end)
+
+   for i, saddie in ipairs(saddies) do
+      if i > numSaddies then
+         break
+      end
+
+      totalHealth = totalHealth + saddie.health
+   end
+
+   return totalHealth/numSaddies
+end
+
+function play:getPercentLivesRemaining()
+   -- Lives remaining as a percentage of starting lives with a max of 1.
+   return math.min(lives / Constants.STARTING_LIVES, 1)
 end
 
 function play:keypressed(key, unicode)
    if(love.keyboard.isDown('c')) then
       table.insert(saddies, Saddie(self:randomPoint(Vector(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT))))
    end
-   if key == 'q' then
-      -- action = QAction()
-   elseif key == 'w' then
-      -- action = WAction()
-   elseif key == 'e' then
-      -- action = EAction()
-   elseif key == 'r' then
-      -- action = RAction()
-      reset()
+   if key == ' ' then
+      self:performAction()
+   elseif key == '1' then
+      activeItem = mouth
+   elseif key == '2' then
+      activeItem = wave
    end
 end
 
@@ -183,16 +233,6 @@ function play:nextSpawnTime()
    return time + 5
 end
 
--- Generic perform action function. We probably want to expand this to do
--- different things depending on our current "item".
-function play:performAction(point)
-   local affectedSaddies = self:getAllSaddiesInRadiusFromPoint(point, 150)
-
-   for i, saddie in ipairs(affectedSaddies) do
-      saddie:changeDirection()
-   end
-end
-
 function play:randomPoint(dim)
    local randomX,randomY = 0,0
 	repeat	  
@@ -201,7 +241,8 @@ function play:randomPoint(dim)
 
       obstructed = false
       for i, obs in ipairs(obstructions) do
-         if math.abs(randomX-obs.position.x) < (dim.x+Constants.OBS_WIDTH)/2 and math.abs(randomY-obs.position.y) < (dim.y+Constants.OBS_HEIGHT)/2 then
+         if math.abs(randomX-obs.position.x) < (dim.x+obs.width)/2 and
+         math.abs(randomY-obs.position.y) < (dim.y+obs.height)/2 then
             obstructed = true
          end
       end

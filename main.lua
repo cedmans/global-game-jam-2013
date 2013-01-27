@@ -1,6 +1,7 @@
 local Gamestate = require "hump.gamestate"
 local Sound = require "sound"
 
+<<<<<<< HEAD
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
@@ -230,6 +231,8 @@ function checkSpawn(x,y)
    --may have to expand to prevent spawning on obstacles
 end
 
+=======
+>>>>>>> a4baf496be57b2a18f287f12f788cc169e0c5ff9
 -- Load game states.
 title = require "states.title"
 play = require "states.play"
@@ -241,4 +244,7 @@ function love.load()
    Gamestate.registerEvents()
    Gamestate.switch(title)
 end
+<<<<<<< HEAD
 
+=======
+>>>>>>> a4baf496be57b2a18f287f12f788cc169e0c5ff9

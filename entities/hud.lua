@@ -1,7 +1,6 @@
 local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
-local Util = require "util"
 
 local originalFont = love.graphics.newFont(18)
 local scoreFont = love.graphics.newFont("assets/fonts/arialbd.ttf", 18)
@@ -14,7 +13,11 @@ local Hud = Class(function(self)
 end)
 
 function Hud:draw(time)  
-   love.graphics.setColor(0,150,0)
+   love.graphics.setColor(0,0,0)
+   love.graphics.rectangle("fill", 45,48,100,50)
+   love.graphics.rectangle("fill", 860,20,190,30)
+   
+   love.graphics.setColor(255,255,230)
    
    love.graphics.setFont(scoreFont)
    score = score + (3*sadCount)
@@ -34,22 +37,28 @@ function Hud:getScore()
    return score
 end
 
+function Hud:getTime()
+	finalTime = love.timer.getTime()
+	return finalTime
+end
+
 function Hud:sadIncrement(i)
    sadCount = sadCount + i
 end
 
 
-function Hud:endDisplay(time)
+function Hud:endDisplay(finalTime)
+   
    love.graphics.setColor(0,150,0)
-  
-  love.graphics.setFont(endFont)
+   love.graphics.setFont(endFont)
    love.graphics.print("Game Over",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 2)
    
    love.graphics.setFont(scoreFont)
    love.graphics.print("FINAL SCORE: " .. self:getScore(),770,20)
    love.graphics.setFont(originalFont)
-   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(time) .. " seconds", 40, 20)
-   
+   love.graphics.print("Yout kept up to " .. sadCount .. " people happy for " .. math.floor(love.timer.getTime()-love.timer.getDelta()) .. 
+   " seconds", 40, 20)
+   love.graphics.print("Press any key restart",Constants.SCREEN_WIDTH / 2,Constants.SCREEN_HEIGHT / 1.5)
    love.graphics.setColor(r,g,b,a)
          
 end 

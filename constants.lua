@@ -23,9 +23,6 @@ Constants.SADDIE_HEIGHT = 102
 Constants.SADDIE_SPEED = 15
 Constants.SADDIE_ROUTE_LEG = 100
 
-Constants.OBS_WIDTH = 100
-Constants.OBS_HEIGHT = 100
-
 Constants.SADDIE_HEALTH_REDUCTION = -5 -- Units per second
 
 Constants.SADNESS_BAR_OFFSET = 20
@@ -37,11 +34,18 @@ Constants.PERFECT_SADNESS = 100
 Constants.WARNING_SADNESS = 30
 Constants.CRITICAL_SADNESS = 10
 Constants.SADNESS_ALERT_OFFSET = 18
+Constants.STARTING_LIVES = 10
 
 -- Item Constants
 Constants.EFFECTIVE_AREA_COLOR = {r=0, g=102, b=0, a=100}
+
 Constants.MOUTH_EFFECTIVE_RADIUS = 100
-Constants.MOUTH_HEALTH_EFFECT = 7
+Constants.MOUTH_HEALTH_EFFECT = 10
 Constants.MOUTH_HEALTH_DURATION = 5
+
+Constants.WAVE_EFFECTIVE_DISTANCE = 350
+Constants.WAVE_ANGLE_OF_OCCURRENCE = 3
+Constants.WAVE_HEALTH_EFFECT = 2
+Constants.WAVE_HEALTH_DURATION = 0.5
 
 return Constants

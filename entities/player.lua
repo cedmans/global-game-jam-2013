@@ -27,6 +27,23 @@ function Player:update(dt)
    if not self.position:equals(self.targetpos) then
       self.position = self.position + (self.targetpos - self.position):normalized() * Constants.PLAYER_SPEED * dt
    end
+
+   obstructed = false
+   for i, obs in ipairs(obstructions) do
+      if math.abs(self.position.x-obs.position.x) < (Constants.PLAYER_WIDTH+obs.width)/2 and math.abs(self.position.y-obs.position.y) < (Constants.PLAYER_HEIGHT+obs.height)/2 then
+         obstructed = true
+      end
+   end
+   if obstructed then
+      self.targetpos = self.position
+   end
+end
+
+function Player:getMouseAngle()
+   mouseDelta = Vector(love.mouse.getX(), love.mouse.getY())
+   mouseDelta = mouseDelta - self.position
+   mouseDelta.y = - mouseDelta.y
+   return math.atan2(mouseDelta.y, mouseDelta.x)
 end
 
 function Player:draw(time)

@@ -3,8 +3,21 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 local Util = require "util"
 
+local staticSaddieImage =
+   love.graphics.newImage("assets/images/npcside_frameidle.png")
+local saddieImages = {
+   love.graphics.newImage("assets/images/npcside_frame1.png"),
+   love.graphics.newImage("assets/images/npcside_frame2.png"),
+   love.graphics.newImage("assets/images/npcside_frame3.png"),
+   love.graphics.newImage("assets/images/npcside_frame4.png"),
+   love.graphics.newImage("assets/images/npcside_frame5.png"),
+   love.graphics.newImage("assets/images/npcside_frame6.png"),
+   love.graphics.newImage("assets/images/npcside_frame7.png"),
+   love.graphics.newImage("assets/images/npcside_frame8.png")
+}
+
 local Saddie = Class(function(self, position)
-   self.image = love.graphics.newImage("assets/images/saddie.png")
+   self.image = staticSaddieImage
    self.heart = love.graphics.newImage("assets/images/heart_whole.png")
    self.position = position
    self.targetpos = position
@@ -28,12 +41,29 @@ function Saddie:update(dt)
 
          obstructed = false
          for i, obs in ipairs(obstructions) do
-            if math.abs(self.targetpos.x-obs.position.x) < (Constants.SADDIE_WIDTH+Constants.OBS_WIDTH)/2 and math.abs(self.targetpos.y-obs.position.y) < (Constants.SADDIE_HEIGHT+Constants.OBS_HEIGHT)/2 then
+            if math.abs(self.targetpos.x-obs.position.x) <
+               (Constants.SADDIE_WIDTH+obs.width)/2
+            and math.abs(self.targetpos.y-obs.position.y) <
+               (Constants.SADDIE_HEIGHT+obs.height)/2 then
                obstructed = true
             end
          end
 
          if not obstructed and self.targetpos.x > Constants.MIN_X and self.targetpos.x < Constants.MAX_X and self.targetpos.y > Constants.MIN_Y and self.targetpos.y < Constants.MAX_Y then break end
+      end
+      tgtDelta = self.targetpos - self.position
+      tgtDelta.y = - tgtDelta.y
+      angle = math.atan2(tgtDelta.y, tgtDelta.x)
+      if angle < -math.pi*3/4 then
+         direction = "left"
+      elseif angle < -math.pi/4 then
+         direction = "down"
+      elseif angle < math.pi/4 then
+         direction = "right"
+      elseif angle < math.pi*3/4 then
+         direction = "up"
+      else
+         direction = "left"
       end
    end
    if (self.happyDuration <= 0) then
@@ -68,6 +98,8 @@ function Saddie:giveHappiness(health, duration)
 end
 
 function Saddie:draw(time)
+   self.image = saddieImages[math.floor(time * 5) % 8 + 1]
+
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
    love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
@@ -162,7 +194,7 @@ function Saddie:calculateSadnessBarColors()
    if self.health > Constants.WARNING_SADNESS then
       percentage = 1
    elseif self.health > Constants.CRITICAL_SADNESS then
-      percentage = Util:percentageOfRange(
+      percentage = Util.percentageOfRange(
          Constants.WARNING_SADNESS,
          self.health,
          Constants.CRITICAL_SADNESS)
@@ -178,7 +210,7 @@ function Saddie:calculateSadnessBarColors()
    --                           |---------------|
    if self.health > Constants.WARNING_SADNESS then
       -- We use the inverse of the percentage because we're going from 0 to 1.
-      percentage = 1 - Util:percentageOfRange(
+      percentage = 1 - Util.percentageOfRange(
          Constants.PERFECT_SADNESS,
          self.health,
          Constants.WARNING_SADNESS)

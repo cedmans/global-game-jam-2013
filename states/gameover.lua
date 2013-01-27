@@ -1,10 +1,13 @@
 local Gamestate = require "hump.gamestate"
 local Constants = require "constants"
+local Hud = require "entities.hud"
+local Sound = require "sound"
 
 local gameOver = Gamestate.new()
+local hud = Hud()
 
 function gameOver:enter()
-
+   Sound.gameOver()
 end
 
 function gameOver:update(dt)
@@ -12,13 +15,7 @@ function gameOver:update(dt)
 end
 
 function gameOver:draw()
-   love.graphics.print("Game Over",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 2)
-
-   love.graphics.print("Press any key restart",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5)
+	hud:endDisplay()
 end
 
 function gameOver:keypressed(key, unicode)

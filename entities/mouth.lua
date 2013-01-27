@@ -3,21 +3,14 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 
 local Mouth = Class(function(self)
-   self.active = false
 end)
 
-function Mouth:toggleActive()
-   self.active = not self.active
-end
-
 function Mouth:drawEffectiveArea(center)
-   if (self.active) then
-      local oldr,oldg,oldb,olda = love.graphics.getColor()
-      local areaColor = Constants.EFFECTIVE_AREA_COLOR
-      love.graphics.setColor(areaColor.r,areaColor.g,areaColor.b,areaColor.a)
-      love.graphics.circle("fill",center.x,center.y,Constants.MOUTH_EFFECTIVE_RADIUS);
-      love.graphics.setColor(oldr,oldg,oldb,olda)
-   end
+   local oldr,oldg,oldb,olda = love.graphics.getColor()
+   local areaColor = Constants.EFFECTIVE_AREA_COLOR
+   love.graphics.setColor(areaColor.r,areaColor.g,areaColor.b,areaColor.a)
+   love.graphics.circle("fill",center.x,center.y,Constants.MOUTH_EFFECTIVE_RADIUS);
+   love.graphics.setColor(oldr,oldg,oldb,olda)
 end
 
 function Mouth:getAffectedSaddies(center,saddies)
