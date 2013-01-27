@@ -1,10 +1,12 @@
 local Gamestate = require "hump.gamestate"
 local Constants = require "constants"
+local Hud = require "entities.hud"
 
 local title = Gamestate.new()
 
 function title:enter()
-
+   hud = Hud()
+   hud:wipeScores()
 end
 
 function title:update(dt)

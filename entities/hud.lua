@@ -19,6 +19,12 @@ function Hud: load()
 	sadCount = 5
 end
 
+function Hud: wipeScores()
+   scoreList = {}
+end
+
+
+
 function Hud:draw(time)  
    love.graphics.setColor(0,0,0)
    love.graphics.rectangle("fill", 45,650,100,50)
