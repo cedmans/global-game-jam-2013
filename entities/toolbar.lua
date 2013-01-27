@@ -4,7 +4,7 @@ local Constants = require "constants"
 
 local toolURIs = {mouth = love.graphics.newImage("assets/images/Mouthtalking_icon.png"),
                   wave = love.graphics.newImage("assets/images/Wave_icon.png"),
-                  lovepotion = love.graphics.newImage("assets/images/lovePotion.png")}
+                  lovepotion = love.graphics.newImage("assets/images/LovePotion_icon.png")}
 
 local Toolbar = Class(function(self)
    self.active = false
