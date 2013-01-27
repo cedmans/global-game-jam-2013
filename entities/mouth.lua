@@ -3,7 +3,16 @@ local Vector = require "hump.vector"
 local Constants = require "constants"
 
 local Mouth = Class(function(self)
+   self.activateTime = 0
 end)
+
+function Mouth:activate()
+   self.activateTime = love.timer.getTime()
+end
+
+function Mouth:enabled()
+   return (love.timer.getTime() - self.activateTime) > Constants.MOUTH_COOLDOWN
+end
 
 function Mouth:drawEffectiveArea(center)
    local oldr,oldg,oldb,olda = love.graphics.getColor()

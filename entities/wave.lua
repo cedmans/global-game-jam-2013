@@ -5,7 +5,16 @@ local Collider = require "hardoncollider"
 local Shapes = require "hardoncollider.shapes"
 
 local Wave = Class(function(self)
+   self.activateTime = 0
 end)
+
+function Wave:activate()
+   self.activateTime = love.timer.getTime()
+end
+
+function Wave:enabled()
+   return (love.timer.getTime() - self.activateTime) > Constants.WAVE_COOLDOWN
+end
 
 function Wave:drawEffectiveArea(center)
    local oldr,oldg,oldb,olda = love.graphics.getColor()
