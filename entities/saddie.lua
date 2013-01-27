@@ -6,14 +6,46 @@ local Util = require "util"
 local staticSaddieImage =
    love.graphics.newImage("assets/images/npcside_frameidle.png")
 local saddieImages = {
-   love.graphics.newImage("assets/images/npcside_frame1.png"),
-   love.graphics.newImage("assets/images/npcside_frame2.png"),
-   love.graphics.newImage("assets/images/npcside_frame3.png"),
-   love.graphics.newImage("assets/images/npcside_frame4.png"),
-   love.graphics.newImage("assets/images/npcside_frame5.png"),
-   love.graphics.newImage("assets/images/npcside_frame6.png"),
-   love.graphics.newImage("assets/images/npcside_frame7.png"),
-   love.graphics.newImage("assets/images/npcside_frame8.png")
+   left = {
+      love.graphics.newImage("assets/images/npcside_frame1.png"),
+      love.graphics.newImage("assets/images/npcside_frame2.png"),
+      love.graphics.newImage("assets/images/npcside_frame3.png"),
+      love.graphics.newImage("assets/images/npcside_frame4.png"),
+      love.graphics.newImage("assets/images/npcside_frame5.png"),
+      love.graphics.newImage("assets/images/npcside_frame6.png"),
+      love.graphics.newImage("assets/images/npcside_frame7.png"),
+      love.graphics.newImage("assets/images/npcside_frame8.png")
+   },
+   right = {
+      love.graphics.newImage("assets/images/npcside_frame1.png"),
+      love.graphics.newImage("assets/images/npcside_frame2.png"),
+      love.graphics.newImage("assets/images/npcside_frame3.png"),
+      love.graphics.newImage("assets/images/npcside_frame4.png"),
+      love.graphics.newImage("assets/images/npcside_frame5.png"),
+      love.graphics.newImage("assets/images/npcside_frame6.png"),
+      love.graphics.newImage("assets/images/npcside_frame7.png"),
+      love.graphics.newImage("assets/images/npcside_frame8.png")
+   },
+   up = {
+      love.graphics.newImage("assets/images/npctop_frame1.png"),
+      love.graphics.newImage("assets/images/npctop_frame2.png"),
+      love.graphics.newImage("assets/images/npctop_frame3.png"),
+      love.graphics.newImage("assets/images/npctop_frame4.png"),
+      love.graphics.newImage("assets/images/npctop_frame5.png"),
+      love.graphics.newImage("assets/images/npctop_frame6.png"),
+      love.graphics.newImage("assets/images/npctop_frame7.png"),
+      love.graphics.newImage("assets/images/npctop_frame8.png")
+   },
+   down = {
+      love.graphics.newImage("assets/images/npcbot_frame1.png"),
+      love.graphics.newImage("assets/images/npcbot_frame2.png"),
+      love.graphics.newImage("assets/images/npcbot_frame3.png"),
+      love.graphics.newImage("assets/images/npcbot_frame4.png"),
+      love.graphics.newImage("assets/images/npcbot_frame5.png"),
+      love.graphics.newImage("assets/images/npcbot_frame6.png"),
+      love.graphics.newImage("assets/images/npcbot_frame7.png"),
+      love.graphics.newImage("assets/images/npcbot_frame8.png")
+   }
 }
 
 local Saddie = Class(function(self, position)
@@ -28,6 +60,8 @@ local Saddie = Class(function(self, position)
    self.happyDuration = 0
    self.healthIncrease = 0
    self.happinessLoopProgress = 0
+
+   self.directionWord = "left"
 end)
 
 function Saddie:update(dt)
@@ -55,15 +89,15 @@ function Saddie:update(dt)
       tgtDelta.y = - tgtDelta.y
       angle = math.atan2(tgtDelta.y, tgtDelta.x)
       if angle < -math.pi*3/4 then
-         direction = "left"
+         self.directionWord = "left"
       elseif angle < -math.pi/4 then
-         direction = "down"
+         self.directionWord = "down"
       elseif angle < math.pi/4 then
-         direction = "right"
+         self.directionWord = "right"
       elseif angle < math.pi*3/4 then
-         direction = "up"
+         self.directionWord = "up"
       else
-         direction = "left"
+         self.directionWord = "left"
       end
    end
    if (self.happyDuration <= 0) then
@@ -98,12 +132,26 @@ function Saddie:giveHappiness(health, duration)
 end
 
 function Saddie:draw(time)
-   self.image = saddieImages[math.floor(time * 5) % 8 + 1]
+   self.image = saddieImages[self.directionWord][math.floor(time * 5) % 8 + 1]
 
    -- Store colors for later resetting.
    r, g, b, a = love.graphics.getColor()
+
+   local scaleFactor
+   local offset = Vector.new()
+
+   if self.directionWord == "left" then
+      scaleFactor = -1
+      offset.x = Constants.SADDIE_WIDTH
+   else
+      scaleFactor = 1
+      offset.x = 0
+   end
+
+   offset.y = 0
+
    love.graphics.draw(self.image, self.position.x - Constants.SADDIE_WIDTH/2,
-    self.position.y - Constants.SADDIE_HEIGHT/2)
+    self.position.y - Constants.SADDIE_HEIGHT/2, 0, scaleFactor, 1, offset.x, offset.y)
 
    local red, green, blue = self:calculateSadnessBarColors()
    love.graphics.setColor(red, green, blue)
