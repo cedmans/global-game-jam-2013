@@ -1,6 +1,10 @@
 local Gamestate = require "hump.gamestate"
 local Sound = require "sound"
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> 3215ae6f50bd9b18d83fd961a3d05aa1e68c1d5b
 local Vector = require "hump.vector"
 local Player = require "entities.player"
 local Saddie = require "entities.saddie"
@@ -234,7 +238,11 @@ end
 
 
 
+<<<<<<< HEAD
 
+=======
+=======
+>>>>>>> 3215ae6f50bd9b18d83fd961a3d05aa1e68c1d5b
 
 -- Load game states.
 title = require "states.title"
@@ -247,4 +255,8 @@ function love.load()
    Gamestate.registerEvents()
    Gamestate.switch(title)
 end
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1719298c601a158462857f6480700ed23cf6e00b
+>>>>>>> 3215ae6f50bd9b18d83fd961a3d05aa1e68c1d5b
