@@ -30,10 +30,9 @@ local activeItem = {}
 local play = Gamestate.new()
 
 function play:enter()
-   Sound.load()
    self:reset()   
    r, g, b, a = love.graphics.getColor()
-   Sound.playMain()
+   Sound.playGameMusic()
 end
 
 function play:reset()

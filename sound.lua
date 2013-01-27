@@ -18,7 +18,7 @@ function sound.update(dt, time)
    heart:setVolume(volume)
 end
 
-function sound.playMain()
+function sound.playGameMusic()
    -- love.audio.play(music)
    -- love.audio.play(heart)
 end
