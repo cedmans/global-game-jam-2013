@@ -19,7 +19,9 @@ local startTime
 local hud = {}
 
 
-local counter, player, saddies, deadSaddies, time, startTime, action,
+player = {}
+
+local counter, saddies, deadSaddies, time, startTime, action,
       newSpawnTime, lives, gameEnded, toolbar
 
       
