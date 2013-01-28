@@ -39,6 +39,8 @@ function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
 end
 
 function sound.playGameMusic()
+   gameOver:stop()
+
    mainMusic:setVolume(2)
    mainMusic:rewind()
    mainMusic:play()
