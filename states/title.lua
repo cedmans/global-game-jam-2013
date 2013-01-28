@@ -16,36 +16,6 @@ end
 
 function title:draw()
    love.graphics.draw(titleBackground)
-
-   love.graphics.setFont(love.graphics.newFont(12))
-
-   love.graphics.print("SADDIES",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 2)
-
-   love.graphics.print("Press a letter for difficulty:",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5)
-
-   love.graphics.print("e: Easy",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5+12)
-
-   love.graphics.print("m: Medium",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5+24)
-
-   love.graphics.print("h: Hard",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5+36)
-
-   love.graphics.print("i: INSANE",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5+48)
-   
-   love.graphics.print("q: QUIT",
-    Constants.SCREEN_WIDTH / 2,
-    Constants.SCREEN_HEIGHT / 1.5+60)
 end
 
 function title:keypressed(key, unicode)
