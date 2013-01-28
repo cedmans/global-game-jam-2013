@@ -56,9 +56,6 @@ local Player = Class(function(self)
 end)
 
 function Player:update(dt)
-   for k, i in ipairs(playerImages) do
-      print('k = '..k..'; i = '..i)
-   end
    self.previousPosition = self.position
    -- equals() is a little bit fuzzy, so this allows us to avoid jitter.
    if not self.position:equals(self.targetpos) then

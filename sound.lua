@@ -77,18 +77,15 @@ function sound.gameOverUpdate(timeElapsed)
 end
 
 function sound.highFive()
-   highFive:rewind()
    highFive:play()
 end
 
 function sound.heartDown()
-   heartdown:rewind()
    heartdown:play()
 end
 
 function sound.heartUp()
-   heartup:rewind()
-   love.audio.play(heartup)
+   heartup:play()
 end
 
 return sound

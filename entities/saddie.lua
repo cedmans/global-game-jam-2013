@@ -1,4 +1,3 @@
-local Sound = require "sound"
 local Class = require "hump.class"
 local Vector = require "hump.vector"
 local Constants = require "constants"
@@ -127,7 +126,6 @@ function Saddie:addHealth(dh)
 end
 
 function Saddie:giveHappiness(health, duration)
-   Sound.heartUp()
    self.isHappy = true
    self.happyDuration = duration
    self.healthIncrease = health

@@ -105,15 +105,20 @@ function play:update(dt)
    
    self:addSaddies()
 
+   local anySaddiesDied = false
+
    for i, saddie in ipairs(saddies) do
       saddie:update(dt)
       if saddie.health < 0 then
-         Sound.heartDown()
+         anySaddiesDied = true
          table.insert(deadSaddies, DeadSaddie(saddie))
          table.remove(saddies,i)
          lives = lives - 1
          table.insert(explodingTexts, ExplodingText("LONELINESS"))
       end
+   end
+   if anySaddiesDied then
+      Sound.heartDown()
    end
    for i, saddie in ipairs(deadSaddies) do
       saddie:update(dt)
@@ -216,6 +221,10 @@ function play:performAction()
 
    for i, saddie in ipairs(affectedSaddies) do
       saddie:giveHappiness(health, duration)
+   end
+
+   if #affectedSaddies > 0 then
+      Sound.heartUp()
    end
 end
 
