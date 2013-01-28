@@ -40,7 +40,7 @@ function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
    volume = math.max(minBasedOnHealth, blended)
    volume = math.max(math.min(volume, 1), 0)
 
-   offBeat:setVolume(volume)
+   offBeat:setVolume(volume*2)
 end
 
 function sound.playGameMusic()
