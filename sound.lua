@@ -7,6 +7,8 @@ local mainBeat = {}
 local offBeat = {}
 local gameOver = {}
 local highFive = {}
+local heartdown = {}
+local heartup = {}
 
 function sound.load()
    mainMusic = love.audio.newSource("assets/sounds/main_music.ogg", "static")
@@ -26,6 +28,9 @@ function sound.load()
 
    highFive = love.audio.newSource("assets/sounds/high_five.ogg", "static")
    highFive:setVolume(1)
+
+   heartdown = love.audio.newSource("assets/sounds/heart-down.wav")
+   heartup = love.audio.newSource("assets/sounds/heart-up.wav")
 end
 
 function sound.update(averageSaddieHealthPercentage, percentLivesRemaining)
@@ -74,8 +79,15 @@ function sound.gameOverUpdate(timeElapsed)
 end
 
 function sound.highFive()
-   highFive:rewind()
    highFive:play()
+end
+
+function sound.heartDown()
+   heartdown:play()
+end
+
+function sound.heartUp()
+   heartup:play()
 end
 
 return sound
